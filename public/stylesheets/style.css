@@ -1,8 +1,103 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+/* bootstrap uses box-sizing, but sometimes there are problems and you have to use this command */
+.selector-for-some-widget{
+
+	box-sizing: content-box;
+
 }
 
-a {
-  color: #00B7FF;
+.navbar{
+
+	color: #c3c3c3;
+
+}
+
+.imprint{
+
+	color: black;
+
+}
+
+.jumbotron{
+
+	border-radius: 0;
+	background-color: #00bb00;
+	color: #FFFFFF;
+	display: flex;
+	align-items: center;
+	height: 200px;}
+
+.dropdown-item{
+
+	font-size: 14px;
+
+}
+
+
+
+/*footer*/
+/*see: https://bootsnipp.com/snippets/2eMK5 */
+
+.section{
+	font-size: 13px;
+	color: #FFFFFF;
+	margin-top: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.context-dark, .bg-gray-dark, .bg-primary {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.nav-list li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.nav-list li a:hover:before {
+    margin-left: 0;
+    opacity: 1;
+    visibility: visible;
+}
+
+ul, ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.social-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 23px;
+    font: 900 13px/1 "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    text-transform: uppercase;
+}
+.social-container .col {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.nav-list li a:before {
+    content: "\f14f";
+    font: 400 21px/1 "Material Design Icons";
+    display: inline-block;
+    vertical-align: baseline;
+    margin-left: -28px;
+    margin-right: 7px;
+    opacity: 0;
+    visibility: hidden;
+    transition: .22s ease;
+}
+
+.col-md-4{
+
+	color: #FFFFFF;
+
+}
+
+#link-footer{
+
+	color: #FFFFFF;
+
 }
