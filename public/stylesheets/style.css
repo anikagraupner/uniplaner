@@ -5,6 +5,11 @@
 
 }
 
+#map {
+	margin: 1em auto;
+	height:600px;
+	width: 90%;}
+
 .navbar{
 
 	color: #c3c3c3;
@@ -32,7 +37,11 @@
 
 }
 
+.col-lg-5{
 
+	overflow: auto;
+	padding: 15px;
+}
 
 /*footer*/
 /*see: https://bootsnipp.com/snippets/2eMK5 */
