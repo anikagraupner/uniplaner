@@ -13,3 +13,15 @@ L.control.layers({
   'Mapbox Light': L.mapbox.tileLayer('mapbox.light')
 
 }).addTo(map);
+
+var featureGroup = L.featureGroup().addTo(map);
+
+var drawControl = new L.Control.Draw({
+  edit: {
+    featureGroup: featureGroup
+  }
+}).addTo(map);
+
+map.on('draw:created', function(e) {
+    featureGroup.addLayer(e.layer);
+});
