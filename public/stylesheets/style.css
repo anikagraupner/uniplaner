@@ -1,14 +1,8 @@
-/* bootstrap uses box-sizing, but sometimes there are problems and you have to use this command */
-.selector-for-some-widget{
-
-	box-sizing: content-box;
-
-}
 
 #map {
 	margin: 1em auto;
 	height:600px;
-	width: 90%;}
+	width: 100%;}
 
 .navbar{
 
@@ -37,10 +31,18 @@
 
 }
 
-.col-lg-5{
+.col-lg-4{
 
 	overflow: auto;
 	padding: 15px;
+}
+
+h4 {
+
+	font-weight: bold;
+	font-size: 14px;
+	text-align: center;
+
 }
 
 /*footer*/

@@ -1,7 +1,7 @@
 doctype html
 // author: Anika Graupner (437401)
 // final task geosoftware I, summer 2018
-// startpage of the website
+// add an institute to the map by using different ways
 // marking the language
 html(lang='en')
   head
@@ -52,17 +52,28 @@ html(lang='en')
         h1 Add an institute!
         |  
         | &#x9;&#x9;&#x9;&#x9;
+        p.
+          On this page it is possible to add new institutes to the map and save them in a Database!
     .container-fluid
       .row
-        .col-lg-7
+        .col-lg-12
           // creating the map space
           #map
           // invoking the file with the map data
           script(src='/javascripts/map.js')
-        .col-lg-5
+      .row
+        .col-lg-4
           div
-            p.
-              haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaahuiiiiiiiiiiiiiiiih
+            h4.
+              Draw the contours of an institute in the map and add more informations in the textfields!
+        .col-lg-4
+          div
+            h4.
+              Load an institute from a textfield!
+        .col-lg-4
+          div
+            h4.
+              Load an institute from URL!
     // footer
     // see: https://bootsnipp.com/snippets/2eMK5
     footer.section.footer-classic.context-dark.bg-image.bg-dark(style='background: #2d3246;')

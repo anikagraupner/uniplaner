@@ -14,6 +14,8 @@ L.control.layers({
 
 }).addTo(map);
 
+// leaflet draw
+// see: https://www.mapbox.com/bites/00022/
 var featureGroup = L.featureGroup().addTo(map);
 
 var drawControl = new L.Control.Draw({
