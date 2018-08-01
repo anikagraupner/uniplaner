@@ -14,7 +14,7 @@ L.control.layers({
 
 }).addTo(map);
 
-// leaflet draw
+// leaflet draw plugin for mapbox
 // see: https://www.mapbox.com/bites/00022/
 var featureGroup = L.featureGroup().addTo(map);
 
@@ -27,3 +27,35 @@ var drawControl = new L.Control.Draw({
 map.on('draw:created', function(e) {
     featureGroup.addLayer(e.layer);
 });
+
+/**
+ * @desc upload function for geojson files from a textfield which then will be added to the map.
+ * @see https://www.w3schools.com/js/js_ajax_intro.asp
+ */
+function loadText(){
+
+  var textJSON = document.getElementById("text").value;
+  var inhalt = JSON.parse(textJSON);
+  console.log(inhalt);
+  L.geoJSON(inhalt).addTo(map);
+  
+}
+
+/**
+ * @desc upload function for geojson files from URL which then will be added to the map.
+ * @see https://www.w3schools.com/js/js_ajax_intro.asp
+ */
+function loadURL() {
+    var upload = document.getElementById("input").value;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var inhalt = this.responseText;
+            inhalt = JSON.parse(inhalt);
+            L.geoJSON(inhalt).addTo(map);
+        }
+
+    };
+    xhttp.open("GET", upload, true);
+    xhttp.send();
+}

@@ -66,14 +66,47 @@ html(lang='en')
           div
             h4.
               Draw the contours of an institute in the map and add more informations in the textfields!
+            |  
+            | &#x9;&#x9;&#x9;&#x9;
         .col-lg-4
           div
             h4.
               Load an institute from a textfield!
+            |  
+            | &#x9;&#x9;&#x9;&#x9;
+            p.
+              Write down a geoJSON conform text in the textfield!
+            |  
+            | &#x9;&#x9;&#x9;&#x9;
+            | &#x9;&#x9;&#x9;&#x9;
+            label(for='text')
+            form(action='textarea.html', method='post')
+              div
+                label(for='text')
+                  textarea#text(name='text', cols='50', rows='4')
+                br
+                button.btn.btn-outline-success.btn-sm(type='button', onclick='loadText()') Upload to the map!
+                br
+                br
+                button.btn.btn-outline-secondary.btn-sm(type='button', onclick='()') Save in Database!
         .col-lg-4
           div
             h4.
               Load an institute from URL!
+            |  
+            | &#x9;&#x9;&#x9;&#x9;
+            p.
+              Paste the appropriate URL in the field:
+            |  
+            | &#x9;&#x9;&#x9;&#x9;
+            br
+            label(for='url')
+              input#input.form-control(type='url')
+              br
+              button.btn.btn-outline-success.btn-sm(type='button', onclick='loadURL()') Upload to the map!
+              br
+              br
+              button.btn.btn-outline-secondary.btn-sm(type='button', onclick='()') Save in Database!
     // footer
     // see: https://bootsnipp.com/snippets/2eMK5
     footer.section.footer-classic.context-dark.bg-image.bg-dark(style='background: #2d3246;')
