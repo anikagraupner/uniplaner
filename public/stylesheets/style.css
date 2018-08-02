@@ -31,7 +31,14 @@
 
 }
 
-.col-lg-4{
+.col-lg-4 {
+
+	overflow: auto;
+	padding: 15px;
+	font-size: 12px;
+}
+
+.col-lg-6{
 
 	overflow: auto;
 	padding: 15px;

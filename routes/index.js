@@ -18,4 +18,9 @@ router.get('/institute', function(req, res) {
   res.render('institute', { title: 'Add an institute' });
 });
 
+/* GET subject. */
+router.get('/subject', function(req, res) {
+  res.render('subject', { title: 'Add the subject areas!' });
+});
+
 module.exports = router;

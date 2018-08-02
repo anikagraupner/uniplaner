@@ -1,0 +1,40 @@
+// author: Anika Graupner (437401)
+// final task geosoftware I, summer 2018
+// add new institutes by using different functions 
+extends layout
+  
+block content
+  // jumbotron
+  .jumbotron.jumbotron-fluid
+    .container
+      h1 Add the subject areas!
+      |  
+      | &#x9;&#x9;&#x9;&#x9;
+      p.
+        Every institute belongs to a subject area. These can be created and changed on this page!
+  .container-fluid
+    .row
+      .col-lg-6
+        form(action='', method='')
+          | Name:
+          br
+          input(type='text', name='name', value='', size="60")
+          br
+          br
+          | Shortcut:
+          br
+          input(type='text', name='shortcut', value='', size="60")
+          br
+          br
+          | Website:
+          br
+          input(type='url', name='img', value='', size="60")
+          br
+          br
+          | Institutes:
+          br
+          input(type='text', name='institutes', value='', size="60")
+      .col-lg-6
+        h4.
+          List with the subject areas:
+  

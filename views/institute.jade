@@ -26,6 +26,19 @@ block content
             Draw the contours of an institute in the map and add more informations in the textfields!
           |  
           | &#x9;&#x9;&#x9;&#x9;
+          p.
+            Enter a name and a URL of a picture for the institute in the textfields!
+          | &#x9;&#x9;&#x9;&#x9;
+          | &#x9;&#x9;&#x9;&#x9;
+          form(action='', method='')
+            | Name:
+            br
+            input(type='text', name='name', value='', size="60")
+            br
+            br
+            | Image URL:
+            br
+            input(type='url', name='img', value='', size="60")
       .col-lg-4
         div
           h4.
@@ -58,7 +71,6 @@ block content
             Paste the appropriate URL in the field:
           |  
           | &#x9;&#x9;&#x9;&#x9;
-          br
           label(for='url')
             input#input.form-control(type='url')
             br
