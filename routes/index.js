@@ -13,9 +13,9 @@ router.get('/imprint', function(req, res) {
   res.render('imprint', { title: 'Legal notice' });
 });
 
-/* GET map1. */
-router.get('/map1', function(req, res) {
-  res.render('map1', { title: 'map1' });
+/* GET institute. */
+router.get('/institute', function(req, res) {
+  res.render('institute', { title: 'Add an institute' });
 });
 
 module.exports = router;

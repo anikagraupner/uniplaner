@@ -1,154 +1,73 @@
-doctype html
 // author: Anika Graupner (437401)
 // final task geosoftware I, summer 2018
 // legal notice of the website
-// marking the language
-html(lang='en')
-  head
-    // charset attribute, specifies the character encoding for the HTML document
-    meta(charset='utf-8')
-    // viewport = users visible area of a web page
-    meta(name='viewport', content='width=device-width, initial-scale=1.0, shrink-to-fit=no')
-    // title of the webpage
-    title Startpage
-    // bootstrap stylesheet link (before all other links)
-    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css', integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO', crossorigin='anonymous')
-    // personal stylesheet
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  | &#x9;
-  body
-    // navbar
-    // see: https://www.w3schools.com/bootstrap4/bootstrap_navbar.asp
-    nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
-      // Brand
-      a.navbar-brand
-        img(src='/images/Logo_WWU_Münster.svg.png', alt='Logo WWU', style='width:90px;')
-      // Links
-      ul.navbar-nav
-        li.nav-item
-          a.nav-link(href='/') Home
-        // Dropdown
-        li.nav-item.dropdown
-          a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Maps
-          | &#x9;&#x9;&#x9;&#x9;&#x9;
-          .dropdown-menu
-            a.dropdown-item(href='map1') Add an institute!
-    // jumbotron
-    .jumbotron.jumbotron-fluid
-      .container
-        h1 Legal notice
-    // bootstrap container with columns (grid)
-    .container-fluid
-      #imprint.col-lg-12
-        | Westf&auml;lische Wilhelms-Universit&auml;t M&uuml;nster
-        br
-        | Institute for Geoinformatics
-        br
-        | Heisenbergstra&szlig;e 2
-        br
-        | 48149 M&uuml;nster
-        br
-        br
-        | &#x9;&#x9;&#x9;
-        h5 Represented by
-        | &#x9;&#x9;&#x9;Anika Graupner
-        br
-        br
-        | &#x9;&#x9;&#x9;
-        h5 Contact Information
-        | &#x9;&#x9;&#x9;Telephone: +49 251 83 33 08 3
-        br
-        | Fax: +49 251 83 39 76 3
-        br
-        | E-Mail: 
-        a(href='mailto:verwaltung@wwu.de') geoinformatik@uni-muenster.de
-        br
-        | Internet address: 
-        a(href='https://www.uni-muenster.de/Geoinformatics/', target='_blank') https://www.uni-muenster.de/Geoinformatics/
-        br
-        br
-        | &#x9;&#x9;&#x9;
-        h5 Graphics and Image Sources
-        | &#x9;&#x9;&#x9;https://www.designtagebuch.de/aus-westfaelische-wilhelms-universitaet-muenster-wird-wwu/
-        br
-        br
-        | &#x9;&#x9;&#x9;
-        h5 Disclaimer
-        | &#x9;&#x9;&#x9;Accountability for content
-        br
-        | &#x9;&#x9;&#x9;The contents of our pages have been created with the utmost care. However, we cannot guarantee the contents&apos;
-        | &#x9;&#x9;&#x9;accuracy, completeness or topicality. According to statutory provisions, we are furthermore responsible for 
-        | &#x9;&#x9;&#x9;our own content on these web pages. In this matter, please note that we are not obliged to monitor 
-        | &#x9;&#x9;&#x9;the transmitted or saved information of third parties, or investigate circumstances pointing to illegal activity. 
-        | &#x9;&#x9;&#x9;Our obligations to remove or block the use of information under generally applicable laws remain unaffected by this as per 
-        | &#x9;&#x9;&#x9;&sect;&sect; 8 to 10 of the Telemedia Act (TMG).
-        | &#x9;&#x9;&#x9;
-        br
-        br
-        | Accountability for links
-        br
-        | &#x9;&#x9;&#x9;Responsibility for the content of 
-        | &#x9;&#x9;&#x9;external links (to web pages of third parties) lies solely with the operators of the linked pages. No violations were 
-        | &#x9;&#x9;&#x9;evident to us at the time of linking. Should any legal infringement become known to us, we will remove the respective 
-        | &#x9;&#x9;&#x9;link immediately.
-        br
-        br
-        | Copyright
-        br
-        |  Our web pages and their contents are subject to German copyright law. Unless
-        | &#x9;&#x9;&#x9;expressly permitted by law, every form of utilizing, reproducing or processing
-        | &#x9;&#x9;&#x9;works subject to copyright protection on our web pages requires the prior consent of the respective owner of the rights.
-        | &#x9;&#x9;&#x9;Individual reproductions of a work are only allowed for private use.
-        | &#x9;&#x9;&#x9;The materials from these pages are copyrighted and any unauthorized use may violate copyright laws.
-    // footer
-    // see: https://bootsnipp.com/snippets/2eMK5
-    footer.section.footer-classic.context-dark.bg-image.bg-dark(style='background: #2d3246;')
-      .container
-        .row.row-30
-          .col-md-4.col-xl-5
-            .pr-xl-4
-              p
-                | This website was created and designed by Anika Graupner,
-                br
-                | student at the Institute of Geoinformatics.
-              // Rights
-              p.rights
-                span &copy;&nbsp; 
-                span.copyright-year 2018
-                span &nbsp;
-                span WWU - Institute for Geoinformatics
-                span .&nbsp;
-                span All Rights Reserved.
-          | &#x9;&#x9;&#x9;&#x9;&#x9;
-          .col-md-4
-            h6 Contacts
-            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-            dl.contact-list
-              dd Heisenbergstra&szlig;e 2, 41849 M&uuml;nster
-            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-            dl.contact-list
-              dd
-                a#link-footer(href='mailto:#') geoinformatik@uni-muenster.de
-            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-            dl.contact-list
-              dd
-                a#link-footer(href='tel:#') +49 251 - 83 33 08 3
-          | &#x9;&#x9;&#x9;&#x9;&#x9;
-          .col-md-4.col-xl-3
-            h6 Links
-            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-            ul.list
-              li
-                a#link-footer(href='imprint') Legal notice
-              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-              li
-                a#link-footer(href='https://www.uni-muenster.de/de/') WWU
-              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-              li
-                a#link-footer(href='https://www.uni-muenster.de/Geoinformatics/') ifgi
-    // jQuery first, then Popper.js, then Bootstrap JS (must be near the end of the body)
-    script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js', integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo', crossorigin='anonymous')
-    | &#x9;&#x9;
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js', integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49', crossorigin='anonymous')
-    | &#x9;&#x9;
-    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy', crossorigin='anonymous')
+extends layout
+
+block content 
+  // jumbotron
+  .jumbotron.jumbotron-fluid
+    .container
+      h1 Legal notice
+  // bootstrap container with columns (grid)
+  .container-fluid
+    #imprint.col-lg-12
+      | Westf&auml;lische Wilhelms-Universit&auml;t M&uuml;nster
+      br
+      | Institute for Geoinformatics
+      br
+      | Heisenbergstra&szlig;e 2
+      br
+      | 48149 M&uuml;nster
+      br
+      br
+      | &#x9;&#x9;&#x9;
+      h5 Represented by
+      | &#x9;&#x9;&#x9;Anika Graupner
+      br
+      br
+      | &#x9;&#x9;&#x9;
+      h5 Contact Information
+      | &#x9;&#x9;&#x9;Telephone: +49 251 83 33 08 3
+      br
+      | Fax: +49 251 83 39 76 3
+      br
+      | E-Mail: 
+      a(href='mailto:verwaltung@wwu.de') geoinformatik@uni-muenster.de
+      br
+      | Internet address: 
+      a(href='https://www.uni-muenster.de/Geoinformatics/', target='_blank') https://www.uni-muenster.de/Geoinformatics/
+      br
+      br
+      | &#x9;&#x9;&#x9;
+      h5 Graphics and Image Sources
+      | &#x9;&#x9;&#x9;https://www.designtagebuch.de/aus-westfaelische-wilhelms-universitaet-muenster-wird-wwu/
+      br
+      br
+      | &#x9;&#x9;&#x9;
+      h5 Disclaimer
+      | &#x9;&#x9;&#x9;Accountability for content
+      br
+      | &#x9;&#x9;&#x9;The contents of our pages have been created with the utmost care. However, we cannot guarantee the contents&apos;
+      | &#x9;&#x9;&#x9;accuracy, completeness or topicality. According to statutory provisions, we are furthermore responsible for 
+      | &#x9;&#x9;&#x9;our own content on these web pages. In this matter, please note that we are not obliged to monitor 
+      | &#x9;&#x9;&#x9;the transmitted or saved information of third parties, or investigate circumstances pointing to illegal activity. 
+      | &#x9;&#x9;&#x9;Our obligations to remove or block the use of information under generally applicable laws remain unaffected by this as per 
+      | &#x9;&#x9;&#x9;&sect;&sect; 8 to 10 of the Telemedia Act (TMG).
+      | &#x9;&#x9;&#x9;
+      br
+      br
+      | Accountability for links
+      br
+      | &#x9;&#x9;&#x9;Responsibility for the content of 
+      | &#x9;&#x9;&#x9;external links (to web pages of third parties) lies solely with the operators of the linked pages. No violations were 
+      | &#x9;&#x9;&#x9;evident to us at the time of linking. Should any legal infringement become known to us, we will remove the respective 
+      | &#x9;&#x9;&#x9;link immediately.
+      br
+      br
+      | Copyright
+      br
+      |  Our web pages and their contents are subject to German copyright law. Unless
+      | &#x9;&#x9;&#x9;expressly permitted by law, every form of utilizing, reproducing or processing
+      | &#x9;&#x9;&#x9;works subject to copyright protection on our web pages requires the prior consent of the respective owner of the rights.
+      | &#x9;&#x9;&#x9;Individual reproductions of a work are only allowed for private use.
+      | &#x9;&#x9;&#x9;The materials from these pages are copyrighted and any unauthorized use may violate copyright laws.

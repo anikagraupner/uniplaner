@@ -29,33 +29,42 @@ map.on('draw:created', function(e) {
 });
 
 /**
- * @desc upload function for geojson files from a textfield which then will be added to the map.
- * @see https://www.w3schools.com/js/js_ajax_intro.asp
+ * @desc upload function for geojson files from a textfield which then will be added to the map
+ *
  */
 function loadText(){
 
   var textJSON = document.getElementById("text").value;
-  var inhalt = JSON.parse(textJSON);
-  console.log(inhalt);
-  L.geoJSON(inhalt).addTo(map);
-  
+  if (textJSON == ""){
+    alert("Please enter a text!");
+  } else {
+    var inhalt = JSON.parse(textJSON);
+    console.log(inhalt);
+    L.geoJSON(inhalt).addTo(map); }
+
 }
 
 /**
- * @desc upload function for geojson files from URL which then will be added to the map.
- * @see https://www.w3schools.com/js/js_ajax_intro.asp
- */
-function loadURL() {
-    var upload = document.getElementById("input").value;
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var inhalt = this.responseText;
-            inhalt = JSON.parse(inhalt);
-            L.geoJSON(inhalt).addTo(map);
-        }
+*@desc function to load a geoJSON with and URL and upload it into the map
+*/
+function loadURL(){
 
-    };
-    xhttp.open("GET", upload, true);
-    xhttp.send();
+  var url = document.getElementById("input").value;
+  console.log(url);
+  $.ajax({
+    type: "GET",
+    url: url,
+    success: function(data){
+      console.log(data);
+      if(data == ""){
+        alert("The loaded file is empty");
+      } else {
+          var geoJSON = JSON.parse(data);
+          L.geoJSON(geoJSON).addTo(map);}
+
+    },
+    error: function(){
+      alert("Error loading the data! Check your URL!");
+    }
+  })
 }

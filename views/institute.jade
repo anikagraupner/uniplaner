@@ -1,0 +1,68 @@
+// author: Anika Graupner (437401)
+// final task geosoftware I, summer 2018
+// add new institutes by using different functions 
+extends layout
+  
+block content
+  // jumbotron
+  .jumbotron.jumbotron-fluid
+    .container
+      h1 Add an institute!
+      |  
+      | &#x9;&#x9;&#x9;&#x9;
+      p.
+        On this page it is possible to add new institutes to the map and save them in a Database!
+  .container-fluid
+    .row
+      .col-lg-12
+        // creating the map space
+        #map
+        // invoking the file with the map data
+        script(src='/javascripts/map.js')
+    .row
+      .col-lg-4
+        div
+          h4.
+            Draw the contours of an institute in the map and add more informations in the textfields!
+          |  
+          | &#x9;&#x9;&#x9;&#x9;
+      .col-lg-4
+        div
+          h4.
+            Load an institute from a textfield!
+          |  
+          | &#x9;&#x9;&#x9;&#x9;
+          p.
+            Write down a geoJSON conform text in the textfield!
+          |  
+          | &#x9;&#x9;&#x9;&#x9;
+          | &#x9;&#x9;&#x9;&#x9;
+          label(for='text')
+          form(action='textarea.html', method='post')
+            div
+              label(for='text')
+                textarea#text(name='text', cols='50', rows='4')
+              br
+              br
+              button.btn.btn-outline-success.btn-sm(type='button', onclick='loadText()') Upload to the map!
+              br
+              br
+              button.btn.btn-outline-secondary.btn-sm(type='button', onclick='()') Save in Database!
+      .col-lg-4
+        div
+          h4.
+            Load an institute from URL!
+          |  
+          | &#x9;&#x9;&#x9;&#x9;
+          p.
+            Paste the appropriate URL in the field:
+          |  
+          | &#x9;&#x9;&#x9;&#x9;
+          br
+          label(for='url')
+            input#input.form-control(type='url')
+            br
+            button.btn.btn-outline-success.btn-sm(type='button', onclick='loadURL()') Upload to the map!
+            br
+            br
+            button.btn.btn-outline-secondary.btn-sm(type='button', onclick='()') Save in Database!

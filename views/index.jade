@@ -1,107 +1,23 @@
-doctype html
 // author: Anika Graupner (437401)
 // final task geosoftware I, summer 2018
 // startpage of the website
-// marking the language
-html(lang='en')
-  head
-    // charset attribute, specifies the character encoding for the HTML document
-    meta(charset='utf-8')
-    // viewport = users visible area of a web page
-    meta(name='viewport', content='width=device-width, initial-scale=1.0, shrink-to-fit=no')
-    // title of the webpage
-    title Startpage
-    // bootstrap stylesheet link (before all other links)
-    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css', integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO', crossorigin='anonymous')
-    // personal stylesheet
-    link(rel='stylesheet', href='/stylesheets/style.css')
-  | &#x9;
-  body
-    // navbar
-    // see: https://www.w3schools.com/bootstrap4/bootstrap_navbar.asp
-    nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
-      // Brand
-      a.navbar-brand
-        img(src='/images/Logo_WWU_Münster.svg.png', alt='Logo WWU', style='width:90px;')
-      // Links
-      ul.navbar-nav
-        li.nav-item
-          a.nav-link(href='#') Home
-        // Dropdown
-        li.nav-item.dropdown
-          a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Maps
-          | &#x9;&#x9;&#x9;&#x9;&#x9;
-          .dropdown-menu
-            a.dropdown-item(href='map1') Add an institute!
-    // jumbotron
-    .jumbotron.jumbotron-fluid
-      .container
-        h1 Home
-        |  
-        | &#x9;&#x9;&#x9;&#x9;
-        p
-          | Welcome to the smart navigator of the WWU! True to the motto &quot;by students for students&quot; this website
-          | was created specifically for new students of the WWU!
-    // bootstrap container with columns (grid)
-    .container-fluid
-      .col-lg-12
-        p(style='font-size: 15px;')
-          span(style='font-size:20px; font-weight: bold;')  Welcome!
-          br
-          br
-        p
-    // footer
-    // see: https://bootsnipp.com/snippets/2eMK5
-    footer.section.footer-classic.context-dark.bg-image.bg-dark(style='background: #2d3246;')
-      .container
-        .row.row-30
-          .col-md-4.col-xl-5
-            .pr-xl-4
-              a.brand(href='index')
-                img.brand-logo-light(src='images/agency/logo-inverse-140x37.png', alt='', width='140', height='37', srcset='images/agency/logo-retina-inverse-280x74.png 2x')
-              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-              p
-                | This website was created and designed by Anika Graupner,
-                br
-                | student at the Institute of Geoinformatics.
-              // Rights
-              p.rights
-                span &copy;&nbsp; 
-                span.copyright-year 2018
-                span &nbsp;
-                span WWU - Institute for Geoinformatics
-                span .&nbsp;
-                span All Rights Reserved.
-          | &#x9;&#x9;&#x9;&#x9;&#x9;
-          .col-md-4
-            h6 Contacts
-            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-            dl.contact-list
-              dd Heisenbergstra&szlig;e 2, 41849 M&uuml;nster
-            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-            dl.contact-list
-              dd
-                a#link-footer(href='mailto:#') geoinformatik@uni-muenster.de
-            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-            dl.contact-list
-              dd
-                a#link-footer(href='tel:#') +49 251 - 83 33 08 3
-          | &#x9;&#x9;&#x9;&#x9;&#x9;
-          .col-md-4.col-xl-3
-            h6 Links
-            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-            ul.list
-              li
-                a#link-footer(href='imprint') Legal notice
-              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-              li
-                a#link-footer(href='https://www.uni-muenster.de/de/') WWU
-              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
-              li
-                a#link-footer(href='https://www.uni-muenster.de/Geoinformatics/') ifgi
-    // jQuery first, then Popper.js, then Bootstrap JS (must be near the end of the body)
-    script(src='https://code.jquery.com/jquery-3.3.1.slim.min.js', integrity='sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo', crossorigin='anonymous')
-    | &#x9;&#x9;
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js', integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49', crossorigin='anonymous')
-    | &#x9;&#x9;
-    script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy', crossorigin='anonymous')
+extends layout
+
+block content
+  // jumbotron
+  .jumbotron.jumbotron-fluid
+    .container
+      h1 Home
+      |  
+      | &#x9;&#x9;&#x9;&#x9;
+      p
+        | Welcome to the smart navigator of the WWU! True to the motto &quot;by students for students&quot; this website
+        | was created specifically for new students of the WWU!
+  // bootstrap container with columns (grid)
+  .container-fluid
+    .col-lg-12
+      p(style='font-size: 15px;')
+        span(style='font-size:20px; font-weight: bold;')  Welcome!
+        br
+        br
+      p
