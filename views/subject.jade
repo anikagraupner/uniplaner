@@ -1,6 +1,7 @@
 // author: Anika Graupner (437401)
 // final task geosoftware I, summer 2018
 // add new institutes by using different functions 
+// see: https://www.youtube.com/watch?v=ZKwrOXl5TDI, 
 extends layout
   
 block content
@@ -14,27 +15,22 @@ block content
         Every institute belongs to a subject area. These can be created and changed on this page!
   .container-fluid
     .row
-      .col-lg-6
-        form(action='', method='')
-          | Name:
-          br
-          input(type='text', name='name', value='', size="60")
-          br
-          br
-          | Shortcut:
-          br
-          input(type='text', name='shortcut', value='', size="60")
-          br
-          br
-          | Website:
-          br
-          input(type='url', name='img', value='', size="60")
-          br
-          br
-          | Institutes:
-          br
-          input(type='text', name='institutes', value='', size="60")
-      .col-lg-6
-        h4.
-          List with the subject areas:
-  
+      .col-lg-3.insert 
+          h4 Insert Data
+          form(action='/insert', method='post')
+            .input
+              label(for='name') Name
+              input#title(type='text', name='name')
+            .input
+              label(for='shortcut') Shortcut
+              input#content(type='text', name='shortcut')
+            .input
+              label(for='website') Website
+              input#author(type='url', name='website')
+            .input
+              label(for='institutes') Institutes
+              input#author(type='text', name='institutes')
+            button(type='submit') Save in the database!
+      .col-lg-3.get
+        h4 Get the saved data from the database!
+        a(href='/get-data') LOAD DATA
