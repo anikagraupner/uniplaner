@@ -19,18 +19,65 @@ block content
           h4 Insert Data
           form(action='/insert', method='post')
             .input
-              label(for='name') Name
-              input#title(type='text', name='name')
+              label(for='name') Name:
+              br
+              input#name(type='text', name='name')
+            br
             .input
-              label(for='shortcut') Shortcut
-              input#content(type='text', name='shortcut')
+              label(for='shortcut') Shortcut:
+              br
+              input#shortcut(type='text', name='shortcut')
+            br
             .input
-              label(for='website') Website
-              input#author(type='url', name='website')
+              label(for='website') Website:
+              br
+              input#website(type='url', name='website')
+            br
             .input
-              label(for='institutes') Institutes
-              input#author(type='text', name='institutes')
-            button(type='submit') Save in the database!
+              label(for='institutes') Institutes:
+              br
+              input#institutes(type='text', name='institutes')
+            br
+            button.btn.btn-outline-success.btn-sm(type='submit') Save in the database!
       .col-lg-3.get
         h4 Get the saved data from the database!
         a(href='/get-data') LOAD DATA
+        div
+      .col-lg-3.update
+        h4 Update/Change the data of a subject area!
+        form(action='/update', method='post')
+          .input
+            label(for='id') ID:
+            br
+            input#id(type='text', name='id')
+          br  
+          .input
+            label(for='name') Name:
+            br
+            input#name(type='text', name='name')
+          br  
+          .input
+            label(for='shortcut') Shortcut
+            br
+            input#shortcut(type='text', name='shortcut')
+          br  
+          .input
+            label(for='website') Website
+            br
+            input#website(type='url', name='website')
+          br  
+          .input
+            label(for='institutes') Institutes
+            br
+            input#institutes(type='text', name='institutes')
+          br  
+          button.btn.btn-outline-success.btn-sm(type='submit') Update data!
+      .col-lg-3.delete
+        h4 Delete data of a subject area!
+        form(action='/delete', method='post')
+          .input
+            label(for='id') ID
+            input#id(type='text', name='id')
+          br  
+          button.btn.btn-outline-success.btn-sm(type='submit') Delete data!
+          

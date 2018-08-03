@@ -35,14 +35,21 @@
 
 	overflow: auto;
 	padding: 15px;
-	font-size: 12px;
+	font-size: 13px;
 }
 
 .col-lg-6{
 
 	overflow: auto;
 	padding: 15px;
-	font-size: 12px;
+	font-size: 13px;
+}
+
+.col-lg-3{
+
+	overflow: auto;
+	padding: 15px;
+	font-size: 13px;
 }
 
 h4 {
