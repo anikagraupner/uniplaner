@@ -30,6 +30,7 @@ map.on('draw:created', function(e) {
 
 /**
  * @desc upload function for geojson files from a textfield which then will be added to the map
+ * with check of mistakes in the textfield input
  *
  */
 function loadText(){
@@ -41,13 +42,23 @@ function loadText(){
 
       try {
 
-        var textJSON = JSON.parse(this.inhalt);
+        var textJSON = JSON.parse(inhalt);
         console.log(textJSON);
-        L.geoJSON(textJSON).addTo(map);
+
+        if(typeof textJSON.features[0].properties.name== "undefined" || typeof textJSON.features[0].properties.img== "undefined"){
+
+          alert("Enter a name for your Institute or check the titles of your properties!");
+
+        } else{
+
+          L.geoJSON(textJSON).addTo(map);
+          console.log("Content of textfield is added to map!");
+
+        }
 
       } catch (e) {
 
-        alert("Your entry is not JSON conform!")
+        alert("Your entry is not JSON conform! Check your syntax and (geometry)types!")
 
       }
 
@@ -72,8 +83,31 @@ function loadURL(){
       if(data == ""){
         alert("The loaded file is empty");
       } else {
-          var geoJSON = JSON.parse(data);
-          L.geoJSON(geoJSON).addTo(map);}
+
+          try{
+
+             var urlJSON = JSON.parse(data);
+
+             console.log(urlJSON);
+
+             if(typeof urlJSON.features[0].properties.name== "undefined" || typeof urlJSON.features[0].properties.img== "undefined"){
+
+               alert("Your url input has wrong or missing attributes!");
+
+             } else{
+
+               L.geoJSON(urlJSON).addTo(map);
+               console.log("Content of the URL is added to map!");
+
+              }
+
+          } catch (e) {
+
+            alert("The content of the URL is not JSON conform! Check your syntax and (geometry)types!")
+
+          }
+
+      }
 
     },
     error: function(){
