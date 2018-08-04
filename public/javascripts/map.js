@@ -34,13 +34,26 @@ map.on('draw:created', function(e) {
  */
 function loadText(){
 
-  var textJSON = document.getElementById("text").value;
-  if (textJSON == ""){
-    alert("Please enter a text!");
+  var inhalt = document.getElementById("text").value;
+  if (inhalt == ""){
+    alert("Please enter your geojson!");
   } else {
-    var inhalt = JSON.parse(textJSON);
-    console.log(inhalt);
-    L.geoJSON(inhalt).addTo(map); }
+
+      try {
+
+        var textJSON = JSON.parse(this.inhalt);
+        console.log(textJSON);
+        L.geoJSON(textJSON).addTo(map);
+
+      } catch (e) {
+
+        alert("Your entry is not JSON conform!")
+
+      }
+
+
+  }
+
 
 }
 
@@ -67,19 +80,4 @@ function loadURL(){
       alert("Error loading the data! Check your URL!");
     }
   })
-}
-
-function loadSubjectAreas(){
-
-  console.log("ich mache was");
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("demo").innerHTML =
-      this.responseText;
-    }
-  };
-  xhttp.open("GET", "/get-data", true);
-  xhttp.send();
-
 }
