@@ -24,13 +24,13 @@ router.get('/institute', function(req, res) {
 });
 
 /* GET subject. */
-router.get('/subject', function(req, res) {
-  res.render('subject', { title: 'Add the subject areas!' });
+router.get('/faculty', function(req, res) {
+  res.render('faculty', { title: 'Add a faculty!' });
 });
 
 /* saved_subject_areas. */
-router.get('/saved_subject_areas', function(req, res) {
-  res.render('saved_subject_areas', { title: 'Saved subject areas!' });
+router.get('/saved_faculties', function(req, res) {
+  res.render('saved_faculties', { title: 'Saved faculties!' });
 });
 
 /* get the form-data from the subject areas from mongodb */
@@ -46,14 +46,14 @@ router.post('/insert', function(req, res, next) {
   console.log(item);
   mongo.connect(url, function(err, db) { // connect to the database
   assert.equal(null, err); // check if there is an error
-  db.db('uniplaner').collection('subject_areas').insertOne(item, function(err, result) { //name of the database-collection, one insert
+  db.db('uniplaner').collection('faculties').insertOne(item, function(err, result) { //name of the database-collection, one insert
     assert.equal(null, err); // check if there is an error
     console.log('Item inserted');
     db.close();
   });
 });
 
-res.redirect('subject'); // restart page
+res.redirect('faculty'); // restart page
 });
 
 /* GET geolist page. */
@@ -62,11 +62,11 @@ res.redirect('subject'); // restart page
 // page render
 router.get('/get-data', function(req, res) {
     var db = req.db;
-    var collection = db.get('subject_areas');// tells the app which collection should be used
+    var collection = db.get('faculties');// tells the app which collection should be used
     collection.find({},{},function(e,docs){// do a find
         console.log(docs);
-        res.render('saved_subject_areas', {// render of geolist, giving it the userlist variable to work with
-            "subject_areas" : docs// passing the database documents to that variable
+        res.render('saved_faculties', {// render of saved_faculties.jade
+            "faculty" : docs// passing the database documents to the variable faculty
         });
     });
 
@@ -85,12 +85,15 @@ router.post('/update', function(req, res, next) {
 
   mongo.connect(url, function(err, db) {
     assert.equal(null, err);
-    db.db('uniplaner').collection('subject_areas').updateOne({"_id": objectId(id)}, {$set: item}, function(err, result) {
+    db.db('uniplaner').collection('faculties').updateOne({"_id": objectId(id)}, {$set: item}, function(err, result) {
       assert.equal(null, err);
       console.log('Item updated');
       db.close();
     });
   });
+
+  res.redirect('faculty'); // restart page
+
 });
 
 /* get the form-data from the subject areas from mongodb */
@@ -100,12 +103,15 @@ router.post('/delete', function(req, res, next) {
 
   mongo.connect(url, function(err, db) {
     assert.equal(null, err);
-    db.db('uniplaner').collection('subject_areas').deleteOne({"_id": objectId(id)}, function(err, result) {
+    db.db('uniplaner').collection('faculties').deleteOne({"_id": objectId(id)}, function(err, result) {
       assert.equal(null, err);
       console.log('Item deleted');
       db.close();
     });
   });
+
+  res.redirect('faculty'); // restart page
+
 });
 
 module.exports = router;

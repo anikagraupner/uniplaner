@@ -14,13 +14,7 @@ block content
         On this page it is possible to add new institutes to the map and save them in a Database!
   .container-fluid
     .row
-      .col-lg-12
-        // creating the map space
-        #map
-        // invoking the file with the map data
-        script(src='/javascripts/map.js')
-    .row
-      .col-lg-4
+      .col-lg-6
         div
           h4.
             Draw the contours of an institute in the map and add more informations in the textfields!
@@ -28,18 +22,23 @@ block content
           | &#x9;&#x9;&#x9;&#x9;
           p.
             Enter a name and a URL of a picture for the institute in the textfields!
-          | &#x9;&#x9;&#x9;&#x9;
-          | &#x9;&#x9;&#x9;&#x9;
-          form(action='', method='')
+          label(for='text')
+          form(action='textarea.html', method='post')
             | Name:
             br
-            input(type='text', name='name', value='', size="60")
             br
+            input#input.form-control(type='text', name='name', value='')
             br
             | Image URL:
             br
-            input(type='url', name='img', value='', size="60")
-      .col-lg-4
+            br
+            input#input.form-control(type='url', name='img', value='')
+        div 
+          // creating the map space
+          #map
+          // invoking the file with the map data
+          script(src='/javascripts/map.js')
+      .col-lg-6
         div
           h4.
             Load an institute from a textfield!
@@ -54,14 +53,14 @@ block content
           form(action='textarea.html', method='post')
             div
               label(for='text')
-                textarea#text(name='text', cols='50', rows='4')
-              br
+                textarea#text.form-control(name='text', cols='50', rows='4')
               br
               button.btn.btn-outline-success.btn-sm(type='button', onclick='loadText()') Upload to the map!
               br
               br
               button.btn.btn-outline-secondary.btn-sm(type='button', onclick='()') Save in Database!
-      .col-lg-4
+              br
+              br
         div
           h4.
             Load an institute from URL!
@@ -72,7 +71,7 @@ block content
           |  
           | &#x9;&#x9;&#x9;&#x9;
           label(for='url')
-            input#input.form-control(type='url')
+            input#input.form-control(type='url', size='100%')
             br
             button.btn.btn-outline-success.btn-sm(type='button', onclick='loadURL()') Upload to the map!
             br

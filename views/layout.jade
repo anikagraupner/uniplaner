@@ -41,11 +41,20 @@ html(lang='en')
           a.nav-link(href='/') Home
         // Dropdown
         li.nav-item.dropdown
-          a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Maps
+          a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Faculties and institutes!
           | &#x9;&#x9;&#x9;&#x9;&#x9;
           .dropdown-menu
+            a.a.dropdown-item(href='faculty') Add and edit a faculty!
             a.dropdown-item(href='institute') Add an institute!
-            a.dropdown-item(href='subject') Add the subject areas!
+            a.dropdown-item(href='subject') Edit an institute!
+        li.nav-item.dropdown
+          a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Canteens!
+          | &#x9;&#x9;&#x9;&#x9;&#x9;
+          .dropdown-menu
+        li.nav-item.dropdown
+          a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Routing!
+          | &#x9;&#x9;&#x9;&#x9;&#x9;
+          .dropdown-menu
     block content
     // footer
     // see: https://bootsnipp.com/snippets/2eMK5

@@ -1,7 +1,7 @@
 
 #map {
 	margin: 1em auto;
-	height:600px;
+	height:400px;
 	width: 100%;}
 
 .navbar{
@@ -89,6 +89,13 @@ ul, ol {
     list-style: none;
     padding: 0;
     margin: 0;
+}
+
+.form-control{
+
+	font-size: 13px;
+	height: 30px;
+
 }
 
 .social-inner {

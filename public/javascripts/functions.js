@@ -3,7 +3,7 @@
 /**
 *@desc: ajax function that loads the data from the subjects areas into /subject
 */
-function loadSubjectAreas(){
+function loadFaculties(){
 
   console.log("ich mache was");
   var xhttp = new XMLHttpRequest();
