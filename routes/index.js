@@ -3,10 +3,11 @@
 var express = require('express'); //Express functionality
 var router = express.Router(); //attaching a router variable to Express's router method
 var mongo = require('mongodb'); //MongoDB
-var objectId = require('mongodb').ObjectID;
+var objectId = require('mongodb').ObjectID; //ID for DB
 var assert = require('assert'); //used to connect to database or for operations to check if everything is right
+var url = 'mongodb://localhost:27017/uniplaner'; // path for database
 
-var url = 'mongodb://localhost:27017/uniplaner';
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -33,14 +34,49 @@ router.get('/saved_faculties', function(req, res) {
   res.render('saved_faculties', { title: 'Saved faculties!' });
 });
 
+
+
+/* insert institutes with drawing in the map */
+router.post('/insertMap', function(req, res, next){
+
+  console.log("Jetzt gehts los!");
+  var mapfile = { // form in subject.jade
+    name: req.body.inputname,
+    img: req.body.img,
+    geometry:  req.body.draw
+  };
+
+  console.log(mapfile);
+  mongo.connect(url, function(err, db) { // connect to the database
+  assert.equal(null, err); // check if there is an error
+  db.db('uniplaner').collection('institutes').insertOne(mapfile, function(err, result) { //name of the database-collection, one insert
+    assert.equal(null, err); // check if there is an error
+    console.log('Item inserted');
+    db.close();
+  });
+});
+
+res.redirect('institute'); // restart page
+});
+
+
+/* insert institutes from textfield into the database collection "institutes"*/
 router.post('/insertText', function(req, res, next){
 
   console.log('yeah!');
-  var text = req.body.text;
+  var text = {geojson : req.body.text};
   console.log(text);
-  res.redirect('institute'); // restart page
-
+  mongo.connect(url, function(err, db) { // connect to the database
+  assert.equal(null, err); // check if there is an error
+  db.db('uniplaner').collection('institutes').insertOne(text, function(err, result) { //name of the database-collection, one insert
+    assert.equal(null, err); // check if there is an error
+    console.log('Text inserted');
+    db.close();
+  });
 });
+
+res.redirect('institute'); // restart page
+});;
 
 /*save the geojson from the URL input in the database*/
 /*npm install request save*/
@@ -54,12 +90,26 @@ router.post('/insertURL', function(req, res, next){
   request.get(url, function (error, response, body) {
     if (!error && response.statusCode == 200) { // if there is no error
         var txt = body;
-        console.log(txt);
+        var db = req.db;
+        var collection = db.get('institutes');
+        // Submit to the DB
+        collection.insert({
+        "geojson" : txt
+        }, function (err, doc) {
+          if (err) {
+            // If it failed, return error
+            res.send("There was a problem adding the file to the database.");
+          }
+          else {
+            // And forward to success page
+            res.redirect("institute");
+        }
+        });
+
     }
 });
 
 });
-
 
 /* save the form-data of the faculties to mongodb */
 /* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */

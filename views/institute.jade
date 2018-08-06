@@ -23,21 +23,23 @@ block content
           p.
             Enter a name and a URL of a picture for the institute in the textfields!
           label(for='text')
-          form(action='textarea.html', method='post')
+          form(action='/insertMap', method='post')
             | Name:
             br
             br
-            input#input.form-control(type='text', name='name', value='')
+            input#inputname.form-control(type='text', name='inputname', oninput="enableBtn()", value='')
             br
             | Image URL:
             br
             br
-            input#input.form-control(type='url', name='img', value='')
+            input#img.form-control(type='url', name='img', value='')
+            input#inputDraw(type="hidden", name ="draw", value="")
+            button#btn3.btn.btn-outline-success.btn-sm(oncklick='StringGeoJSON()', type='button', disabled) Save
+            button#btn3.btn.btn-outline-success.btn-sm(type='submit', disabled) Save in Database!
         div 
           // creating the map space
           #map
           // invoking the file with the map data
-          button.btn.btn-outline-success.btn-sm(type='submit') Save in Database!
       .col-lg-6
         div
           h4.
@@ -53,7 +55,7 @@ block content
           form(action='/insertText', method='post')
             div
               label(for='text')
-                textarea#text.form-control(name='text', cols='50', rows='4')
+                textarea#text.form-control(name='text', oninput="disableBtn()", cols='50', rows='4')
               br
               button.btn.btn-outline-danger.btn-sm(type='button', onclick='testText()') Check for mistakes!
               br
@@ -72,7 +74,7 @@ block content
           | &#x9;&#x9;&#x9;&#x9;
           form(action='/insertURL', method='post')
             label(for='url')
-              input#inputURL.form-control(name='inputurl', type='url', size='100%')
+              input#inputURL.form-control(name='inputurl', oninput="disableBtn()", type='url', size='100%')
               br
               button.btn.btn-outline-danger.btn-sm(type='button', onclick='testURL()') Check for mistakes!
               br

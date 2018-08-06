@@ -28,6 +28,19 @@ map.on('draw:created', function(e) {
     featureGroup.addLayer(e.layer);
 });
 
+
+/**
+ * function which assigns the value of the hidden field the drawn geometry from the map (GeoJSON)
+ */
+function StringGeoJSON() {
+
+    console.log("idrgidrhgidhrg");
+    console.log(JSON.stringify(e.layer));
+    document.getElementById("inputDraw").value = JSON.stringify(e.layer); // creates a String from the geojson object
+
+}
+
+
 /**
  * @desc upload function for geojson files from a textfield which then will be added to the map
  * with check of mistakes in the textfield input
@@ -117,4 +130,25 @@ function testURL(){
       alert("Error loading the data! Check your URL!");
     }
   })
+}
+
+function disableBtn(){
+
+  document.getElementById("btn1").disabled = true;
+  document.getElementById("btn2").disabled = true;
+
+}
+
+function enableBtn(){
+
+  if(document.getElementById("inputname").value == ""){
+
+    document.getElementById("btn3").disabled = true;
+
+  } else{
+
+    document.getElementById("btn3").disabled = false;
+
+  }
+
 }
