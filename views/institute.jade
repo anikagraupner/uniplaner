@@ -37,7 +37,7 @@ block content
           // creating the map space
           #map
           // invoking the file with the map data
-          script(src='/javascripts/map.js')
+          button.btn.btn-outline-success.btn-sm(type='submit') Save in Database!
       .col-lg-6
         div
           h4.
@@ -50,15 +50,15 @@ block content
           | &#x9;&#x9;&#x9;&#x9;
           | &#x9;&#x9;&#x9;&#x9;
           label(for='text')
-          form(action='textarea.html', method='post')
+          form(action='/insertText', method='post')
             div
               label(for='text')
                 textarea#text.form-control(name='text', cols='50', rows='4')
               br
-              button.btn.btn-outline-success.btn-sm(type='button', onclick='loadText()') Upload to the map!
+              button.btn.btn-outline-danger.btn-sm(type='button', onclick='testText()') Check for mistakes!
               br
               br
-              button.btn.btn-outline-secondary.btn-sm(type='button', onclick='()') Save in Database!
+              button#btn1.btn.btn-outline-success.btn-sm(type='submit', disabled) Save in Database!
               br
               br
         div
@@ -70,10 +70,15 @@ block content
             Paste the appropriate URL in the field:
           |  
           | &#x9;&#x9;&#x9;&#x9;
-          label(for='url')
-            input#input.form-control(type='url', size='100%')
-            br
-            button.btn.btn-outline-success.btn-sm(type='button', onclick='loadURL()') Upload to the map!
-            br
-            br
-            button.btn.btn-outline-secondary.btn-sm(type='button', onclick='()') Save in Database!
+          form(action='/insertURL', method='post')
+            label(for='url')
+              input#inputURL.form-control(name='inputurl', type='url', size='100%')
+              br
+              button.btn.btn-outline-danger.btn-sm(type='button', onclick='testURL()') Check for mistakes!
+              br
+              br
+              button#btn2.btn.btn-outline-success.btn-sm(type='submit', disabled) Save in Database!
+              br
+        div
+          #inputurl
+    script(src='/javascripts/map.js')

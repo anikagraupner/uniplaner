@@ -33,7 +33,35 @@ router.get('/saved_faculties', function(req, res) {
   res.render('saved_faculties', { title: 'Saved faculties!' });
 });
 
-/* get the form-data from the subject areas from mongodb */
+router.post('/insertText', function(req, res, next){
+
+  console.log('yeah!');
+  var text = req.body.text;
+  console.log(text);
+  res.redirect('institute'); // restart page
+
+});
+
+/*save the geojson from the URL input in the database*/
+/*npm install request save*/
+router.post('/insertURL', function(req, res, next){
+
+  var url = req.body.inputurl; //gets the url which is added on the webpage
+  console.log(url);
+  /* see: https://stackoverflow.com/questions/16482600/node-js-cannot-find-module-request*/
+  /* request to get the content of the file of the URL*/
+  var request = require('request');
+  request.get(url, function (error, response, body) {
+    if (!error && response.statusCode == 200) { // if there is no error
+        var txt = body;
+        console.log(txt);
+    }
+});
+
+});
+
+
+/* save the form-data of the faculties to mongodb */
 /* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
 router.post('/insert', function(req, res, next) {
   console.log('bis hier tuts!');

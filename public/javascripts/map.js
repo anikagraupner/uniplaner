@@ -33,7 +33,7 @@ map.on('draw:created', function(e) {
  * with check of mistakes in the textfield input
  *
  */
-function loadText(){
+function testText(){
 
   var inhalt = document.getElementById("text").value;
   if (inhalt == ""){
@@ -51,29 +51,30 @@ function loadText(){
 
         } else{
 
-          L.geoJSON(textJSON).addTo(map);
-          console.log("Content of textfield is added to map!");
+          document.getElementById("btn1").disabled = false;
+          alert("Your input is flawless! Push 'Save in Database'!");
 
         }
 
       } catch (e) {
 
-        alert("Your entry is not JSON conform! Check your syntax and (geometry)types!")
+        alert("Your entry is not JSON conform! Check your syntax and (geometry)types!");
 
       }
 
-
   }
 
-
 }
+
+//L.geoJSON(textJSON).addTo(map);
+
 
 /**
 *@desc function to load a geoJSON with and URL and upload it into the map
 */
-function loadURL(){
+function testURL(){
 
-  var url = document.getElementById("input").value;
+  var url = document.getElementById("inputURL").value;
   console.log(url);
   $.ajax({
     type: "GET",
@@ -96,14 +97,16 @@ function loadURL(){
 
              } else{
 
-               L.geoJSON(urlJSON).addTo(map);
-               console.log("Content of the URL is added to map!");
+               document.getElementById("inputurl").innerHTML = JSON.stringify(urlJSON);
+               document.getElementById("btn2").disabled = false;
+               console.log("It works!");
+               alert("Your input is flawless! Push 'Save in Database'!");
 
               }
 
           } catch (e) {
 
-            alert("The content of the URL is not JSON conform! Check your syntax and (geometry)types!")
+            alert("The content of the URL is not JSON conform! Check your syntax and (geometry)types!");
 
           }
 
