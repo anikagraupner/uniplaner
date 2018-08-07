@@ -34,6 +34,15 @@ router.get('/saved_faculties', function(req, res) {
   res.render('saved_faculties', { title: 'Saved faculties!' });
 });
 
+/* saved_subject_areas. */
+router.get('/edit_institute', function(req, res) {
+  res.render('edit_institute', { title: 'Edit an institute!' });
+});
+
+/* saved_subject_areas. */
+router.get('/saved_institutes', function(req, res) {
+  res.render('saved_institutes', { title: 'Saved institutes!' });
+});
 
 
 /* insert institutes with drawing in the map */
@@ -55,7 +64,6 @@ router.post('/insertMap', function(req, res, next){
 res.redirect('institute'); // restart page
 
 });
-
 
 /* insert institutes from textfield into the database collection "institutes"*/
 router.post('/insertText', function(req, res, next){
@@ -108,6 +116,21 @@ router.post('/insertURL', function(req, res, next){
 
 });
 
+// load the data from the institutes collection to edit_institute
+router.get('/get-datatwo', function(req, res) {
+    var db = req.db;
+    var collection = db.get('institutes');// tells the app which collection should be used
+    collection.find({},{},function(e,docs){// do a find
+        console.log(docs);
+        res.render('saved_institutes', {// render of saved_faculties.jade
+            "institute" : docs// passing the database documents to the variable faculty
+        });
+    });
+
+})
+
+
+
 /* save the form-data of the faculties to mongodb */
 /* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
 router.post('/insert', function(req, res, next) {
@@ -131,10 +154,7 @@ router.post('/insert', function(req, res, next) {
 res.redirect('faculty'); // restart page
 });
 
-/* GET geolist page. */
-// extracting db object which is passed to the http request
 // using that db connection to fill the docs variable with database documents
-// page render
 router.get('/get-data', function(req, res) {
     var db = req.db;
     var collection = db.get('faculties');// tells the app which collection should be used

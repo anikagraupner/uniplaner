@@ -5,3 +5,26 @@ extends layout
   
 block content
   
+  // jumbotron
+  .jumbotron.jumbotron-fluid
+    .container
+      h1 Edit an institute!
+      |  
+      | &#x9;&#x9;&#x9;&#x9;
+      p.
+        On this page it is possible to edit institutes!
+  .container-fluid
+    .row
+      .col-lg-6
+        div
+          #demo2
+          br
+        button.btn.btn-outline-success.btn-sm(onclick='loadInstitutes()') Load Data!
+      .col-lg-6
+        div
+          #map
+        div
+          h4 Edit an institute!
+          
+  script(src='/javascripts/functions.js')
+  script(src='/javascripts/map.js')

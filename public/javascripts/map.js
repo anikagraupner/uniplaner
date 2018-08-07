@@ -32,6 +32,15 @@ map.on('draw:created', function(e) {
 });
 
 
+function JSON2Map(geojson){
+
+    console.log(geojson);
+    L.geoJSON(geojson).addTo(map);
+
+}
+
+
+
 /**
 *@desc: jQuery Code to do this code first before the button submitted
 *assigns the value of the hidden field the new geojson file created from the formular and the map
