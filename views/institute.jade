@@ -23,7 +23,10 @@ block content
           p.
             Enter a name and a URL of a picture for the institute in the textfields!
           label(for='text')
-          form(action='/insertMap', method='post')
+          form#mapfile(action='/insertMap', method='post', onsubmit="return beforeSubmit()")
+            button#btn3.btn.btn-outline-success.btn-sm(type='submit', disabled) Save in Database!
+            br
+            br
             | Name:
             br
             br
@@ -34,8 +37,6 @@ block content
             br
             input#img.form-control(type='url', name='img', value='')
             input#inputDraw(type="hidden", name ="draw", value="")
-            button#btn3.btn.btn-outline-success.btn-sm(oncklick='StringGeoJSON()', type='button', disabled) Save
-            button#btn3.btn.btn-outline-success.btn-sm(type='submit', disabled) Save in Database!
         div 
           // creating the map space
           #map

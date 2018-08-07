@@ -24,22 +24,34 @@ var drawControl = new L.Control.Draw({
   }
 }).addTo(map);
 
+var json;
+
 map.on('draw:created', function(e) {
     featureGroup.addLayer(e.layer);
+    json = e.layer.toGeoJSON();
 });
 
 
 /**
- * function which assigns the value of the hidden field the drawn geometry from the map (GeoJSON)
- */
-function StringGeoJSON() {
+*@desc: jQuery Code to do this code first before the button submitted
+*assigns the value of the hidden field the new geojson file created from the formular and the map
+*/
+function beforeSubmit() {
 
-    console.log("idrgidrhgidhrg");
-    console.log(JSON.stringify(e.layer));
-    document.getElementById("inputDraw").value = JSON.stringify(e.layer); // creates a String from the geojson object
+  console.log(json);
+  var name = document.getElementById("inputname").value;
+  var img = document.getElementById("img").value;
+  var type = "FeatureCollection";
+  var features = [];
+  features.push(json);
+  console.log(features);
+  json.properties = {name, img};
+  var newjson = {type, features};
+  var stringjson = JSON.stringify(newjson);
+  console.log(stringjson);
+  document.getElementById("inputDraw").value = stringjson;
 
 }
-
 
 /**
  * @desc upload function for geojson files from a textfield which then will be added to the map

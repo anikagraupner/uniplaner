@@ -40,23 +40,20 @@ router.get('/saved_faculties', function(req, res) {
 router.post('/insertMap', function(req, res, next){
 
   console.log("Jetzt gehts los!");
-  var mapfile = { // form in subject.jade
-    name: req.body.inputname,
-    img: req.body.img,
-    geometry:  req.body.draw
-  };
-
+  var mapfile = {geojson : req.body.draw};
   console.log(mapfile);
   mongo.connect(url, function(err, db) { // connect to the database
   assert.equal(null, err); // check if there is an error
   db.db('uniplaner').collection('institutes').insertOne(mapfile, function(err, result) { //name of the database-collection, one insert
     assert.equal(null, err); // check if there is an error
-    console.log('Item inserted');
+    console.log('Mapfile inserted');
     db.close();
-  });
+});
+
 });
 
 res.redirect('institute'); // restart page
+
 });
 
 
