@@ -17,14 +17,43 @@ block content
     .row
       .col-lg-6
         div
+          h4 Click on one dataset of the acatual saved datasets and edit it!
+          form(action='/updateinst', method='post')
+            .input
+              label(for='id') ID:
+              br
+              input#outputid.form-control(type='text', name='id', readonly)
+            br  
+            .input
+              label(for='name') Name:
+              br
+              input#outputname.form-control(type='text', name='name')
+            br  
+            .input
+              label(for='img') Image URL:
+              br
+              input#outputimg.form-control(type='url', name='img')
+            br
+            div
+              #map
+            button.btn.btn-outline-success.btn-sm(type='submit') Update data!
+            br
+            br
+        div
+          h4 If you want to delete the whole dataset, click on the delete Button!
+          form(action='/deleteinst', method='post')
+            .input
+              label(for='id')
+              input#iddelete.form-control(type="hidden", name ="iddelete", value="")
+            button.btn.btn-outline-danger.btn-sm(type='submit') Delete data!
+          
+      .col-lg-6
+        div
+          h4 Actual saved datasets:
           #demo2
           br
         button.btn.btn-outline-success.btn-sm(onclick='loadInstitutes()') Load Data!
-      .col-lg-6
-        div
-          #map
-        div
-          h4 Edit an institute!
+        
           
   script(src='/javascripts/functions.js')
   script(src='/javascripts/map.js')

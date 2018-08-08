@@ -32,14 +32,27 @@ map.on('draw:created', function(e) {
 });
 
 
-function JSON2Map(geojson){
+/**
+*@desc: function which adds the geometry from the saved geojson file to the map
+* and makes it editable
+*/
+function JSON2Map(geojson, _id){
 
     console.log(geojson);
-    L.geoJSON(geojson).addTo(map);
+    console.log(_id);
+    document.getElementById("outputid").value = _id;
+    document.getElementById("iddelete").value = _id;
+    document.getElementById("outputname").value = geojson.features[0].properties.name;
+    document.getElementById("outputimg").value = geojson.features[0].properties.img;
 
+    // make the geometry editable
+    // see: https://stackoverflow.com/questions/23892981/load-geojson-in-mapbox-for-editing-with-leaflet-draw
+    L.geoJson(geojson, {
+      onEachFeature: function (feature, layer) {
+        featureGroup.addLayer(layer);
+      }
+    });
 }
-
-
 
 /**
 *@desc: jQuery Code to do this code first before the button submitted
@@ -62,8 +75,10 @@ function beforeSubmit() {
 
 }
 
+
+
 /**
- * @desc upload function for geojson files from a textfield which then will be added to the map
+ * @desc upload function for geojson files from a textfield
  * with check of mistakes in the textfield input
  *
  */
@@ -99,9 +114,6 @@ function testText(){
   }
 
 }
-
-//L.geoJSON(textJSON).addTo(map);
-
 
 /**
 *@desc function to load a geoJSON with and URL and upload it into the map
@@ -153,6 +165,10 @@ function testURL(){
   })
 }
 
+/**
+*@desc function which disable the "Save in Database" buttons
+* important, because the mistakes have to be checked first
+*/
 function disableBtn(){
 
   document.getElementById("btn1").disabled = true;
@@ -160,6 +176,10 @@ function disableBtn(){
 
 }
 
+/**
+*@desc function which disable or enable the "Save in Database" button of the map input
+* no saving without a name
+*/
 function enableBtn(){
 
   if(document.getElementById("inputname").value == ""){

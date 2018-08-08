@@ -1,9 +1,6 @@
 ul
   each docs, i in institute
     li
-      a(onclick="JSON2Map(docs)")= "- " + docs._id + "     " + docs.geojson
+      a(onclick="JSON2Map(" + docs.geojson + ", \""+docs._id+"\")")= "- ID: " + docs._id + ",     GeoJSON: " + docs.geojson
       br
       br
-
-      script(src='/javascripts/functions.js')
-      script(src='/javascripts/map.js')

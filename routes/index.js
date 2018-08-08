@@ -123,13 +123,31 @@ router.get('/get-datatwo', function(req, res) {
     collection.find({},{},function(e,docs){// do a find
         console.log(docs);
         res.render('saved_institutes', {// render of saved_faculties.jade
-            "institute" : docs// passing the database documents to the variable faculty
+            'institute' : docs// passing the database documents to the variable faculty
         });
     });
 
 })
 
+/* get the form-data from the subject areas from mongodb */
+/* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
+router.post('/deleteinst', function(req, res, next) {
+  var id = req.body.iddelete;
 
+  mongo.connect(url, function(err, db) {
+    assert.equal(null, err);
+    db.db('uniplaner').collection('institutes').deleteOne({"_id": objectId(id)}, function(err, result) {
+      assert.equal(null, err);
+      console.log('Institute deleted');
+      db.close();
+    });
+  });
+
+  res.redirect('edit_institute'); // restart page
+
+});
+
+module.exports = router;
 
 /* save the form-data of the faculties to mongodb */
 /* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
