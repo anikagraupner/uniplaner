@@ -18,11 +18,11 @@ block content
       .col-lg-6
         div
           h4 Click on one dataset of the acatual saved datasets and edit it!
-          form(action='/updateinst', method='post')
+          form(action='/updateinst', method='post', onsubmit="return beforeSubmitUpdateInst()")
             .input
               label(for='id') ID:
               br
-              input#outputid.form-control(type='text', name='id', readonly)
+              input#outputid.form-control(type='text', name='outputid', readonly)
             br  
             .input
               label(for='name') Name:
@@ -33,6 +33,11 @@ block content
               label(for='img') Image URL:
               br
               input#outputimg.form-control(type='url', name='img')
+            br
+            .input
+              label(for='img') 
+              br
+              input#updatejson.form-control(type='hidden', name='updatejson')
             br
             div
               #map

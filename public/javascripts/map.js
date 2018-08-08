@@ -31,6 +31,9 @@ map.on('draw:created', function(e) {
     json = e.layer.toGeoJSON();
 });
 
+map.on('draw:edited', function(e) {
+    json = e.layers.toGeoJSON();
+});
 
 /**
 *@desc: function which adds the geometry from the saved geojson file to the map
@@ -75,7 +78,18 @@ function beforeSubmit() {
 
 }
 
+/**
+*@desc edits the new geojson file with the edit data from the formular and the map
+*/
+function beforeSubmitUpdateInst() {
 
+  console.log(json);
+  json.features[0].properties.name = document.getElementById("outputname").value;
+  json.features[0].properties.img = document.getElementById("outputimg").value;
+  console.log(json);
+  document.getElementById("updatejson").value = JSON.stringify(json);
+  console.log(document.getElementById("updatejson").value);
+}
 
 /**
  * @desc upload function for geojson files from a textfield

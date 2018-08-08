@@ -45,6 +45,7 @@ router.get('/saved_institutes', function(req, res) {
 });
 
 
+
 /* insert institutes with drawing in the map */
 router.post('/insertMap', function(req, res, next){
 
@@ -128,6 +129,25 @@ router.get('/get-datatwo', function(req, res) {
     });
 
 })
+
+/* get the ID and the new geojson from the edited institutes
+/* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
+router.post('/updateinst', function(req, res, next) {
+  var updatefile = {geojson : req.body.updatejson};
+  var id = req.body.outputid;
+
+  mongo.connect(url, function(err, db) {
+    assert.equal(null, err);
+    db.db('uniplaner').collection('institutes').updateOne({"_id": objectId(id)}, {$set: updatefile}, function(err, result) {
+      assert.equal(null, err);
+      console.log('Institute updated');
+      db.close();
+    });
+  });
+
+  res.redirect('edit_institute'); // restart page
+
+});
 
 /* get the form-data from the subject areas from mongodb */
 /* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
