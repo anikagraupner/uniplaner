@@ -21,14 +21,27 @@ $.ajax({
         success: function(data){
         console.log(data);
 
-          for(var i = 0; i<=12; i++){
+          for(var i = 0; i<=11; i++){
 
             var lat = data[i].coordinates[0];
             console.log(lat);
             var lon = data[i].coordinates[1];
             console.log(lon);
             var marker = L.marker([lat, lon]).addTo(map);
-            marker.bindPopup(data[i].name);
+            marker.bindPopup(data[i].name + "<br>Closed today");
+            var id = data[i].id;
+            var url = "http://openmensa.org/api/v2/canteens/"+id+"/days/2018-08-14/meals";
+            $.ajax({
+                    type: "GET",
+                    url: url,
+                    async: false,
+                    success: function(meals){
+
+                      console.log(meals);
+                      marker.bindPopup(data[i].name + meals[0].name);
+                    }
+            });
+
 
           }
 
