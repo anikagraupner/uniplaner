@@ -28,7 +28,7 @@ $.ajax({
             var lon = data[i].coordinates[1];
             console.log(lon);
             var marker = L.marker([lat, lon]).addTo(map);
-            marker.bindPopup(data[i].name + "<br>Closed today");
+            marker.bindPopup(data[i].name+ ":" + "<br>Closed today");
             var id = data[i].id;
             var url = "http://openmensa.org/api/v2/canteens/"+id+"/days/2018-08-14/meals";
             $.ajax({
@@ -37,8 +37,46 @@ $.ajax({
                     async: false,
                     success: function(meals){
 
-                      console.log(meals);
-                      marker.bindPopup(data[i].name + meals[0].name);
+                      console.log(meals.length);
+
+                      if(meals.length == 4){
+
+                        marker.bindPopup("<b>" + data[i].name + "</b>" + "<br><br>" + meals[0].name + ":<br>" + "- Students: "
+                        + meals[0].prices.students + "<br>- Employees: " +  meals[0].prices.employees + "<br>- Pupils: " +  meals[0].prices.pupils
+                        + "<br>- Others: " +  meals[0].prices.others + "<br><br>" + meals[1].name + ":<br>"+ "- Students: "
+                        + meals[1].prices.students + "<br>- Employees: " +  meals[1].prices.employees + "<br>- Pupils: " +  meals[1].prices.pupils
+                        + "<br>- Others: " +  meals[1].prices.others  + "<br><br>" + meals[2].name + "<br>" + "- Students: "
+                        + meals[2].prices.students + "<br>- Employees: " +  meals[2].prices.employees + "<br>- Pupils: " +  meals[2].prices.pupils
+                        + "<br>- Others: " +  meals[2].prices.others + "<br><br>" + meals[3].name + "<br>" + "- Students: "
+                        + meals[3].prices.students + "<br>- Employees: " +  meals[3].prices.employees + "<br>- Pupils: " +  meals[3].prices.pupils
+                        + "<br>- Others: " +  meals[3].prices.others);
+
+                      } else if(meals.length == 3) {
+
+                        marker.bindPopup("<b>" + data[i].name + "</b>" + "<br><br>" + meals[0].name + ":<br>" + "- Students: "
+                        + meals[0].prices.students + "<br>- Employees: " +  meals[0].prices.employees + "<br>- Pupils: " +  meals[0].prices.pupils
+                        + "<br>- Others: " +  meals[0].prices.others + "<br><br>" + meals[1].name + ":<br>" + "- Students: "
+                        + meals[1].prices.students + "<br>- Employees: " +  meals[1].prices.employees + "<br>- Pupils: " +  meals[1].prices.pupils
+                        + "<br>- Others: " +  meals[1].prices.others  + "<br><br>" + meals[2].name + "<br>" + "- Students: "
+                        + meals[2].prices.students + "<br>- Employees: " +  meals[2].prices.employees + "<br>- Pupils: " +  meals[2].prices.pupils
+                        + "<br>- Others: " +  meals[2].prices.others);
+
+                      } else if(meals.length == 2) {
+
+                        marker.bindPopup("<b>" + data[i].name + "</b>" + "<br><br>" + meals[0].name + ":<br>" + "- Students: "
+                        + meals[0].prices.students + "<br>- Employees: " +  meals[0].prices.employees + "<br>- Pupils: " +  meals[0].prices.pupils
+                        + "<br>- Others: " +  meals[0].prices.others + "<br><br>" + meals[1].name + ":<br>" + "- Students: "
+                        + meals[1].prices.students + "<br>- Employees: " +  meals[1].prices.employees + "<br>- Pupils: " +  meals[1].prices.pupils
+                        + "<br>- Others: " +  meals[1].prices.others);
+
+                      } else {
+
+                        marker.bindPopup("<b>" + data[i].name + "</b>" + "<br><br>" + meals[0].name + ":<br>" + "- Students: "
+                        + meals[0].prices.students + "<br>- Employees: " +  meals[0].prices.employees + "<br>- Pupils: " +  meals[0].prices.pupils
+                        + "<br>- Others: " +  meals[0].prices.others);
+
+                      }
+
                     }
             });
 
