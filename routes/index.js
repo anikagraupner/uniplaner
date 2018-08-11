@@ -44,6 +44,11 @@ router.get('/saved_institutes', function(req, res) {
   res.render('saved_institutes', { title: 'Saved institutes!' });
 });
 
+/* saved_subject_areas. */
+router.get('/canteens', function(req, res) {
+  res.render('canteens', { title: 'Canteens!' });
+});
+
 
 
 /* insert institutes with drawing in the map */
