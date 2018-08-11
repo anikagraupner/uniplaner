@@ -17,7 +17,7 @@ block content
     .row
       .col-lg-6
         div
-          h4 Click on one dataset of the acatual saved datasets and edit it!
+          h4 Push the "Load Data" button and click on one of the institutes to change its data!
           form(action='/updateinst', method='post', onsubmit="return beforeSubmitUpdateInst()")
             .input
               label(for='id') ID:
@@ -33,28 +33,22 @@ block content
               label(for='img') Image URL:
               br
               input#outputimg.form-control(type='url', name='img')
-            br
             .input
               label(for='img') 
-              br
               input#updatejson.form-control(type='hidden', name='updatejson')
             br
             div
               #map
-            button.btn.btn-outline-success.btn-sm(type='submit') Update data!
-            br
-            br
-        div
-          h4 If you want to delete the whole dataset, click on the delete Button!
+            button.btn.btn-outline-success.btn-sm(type='submit') Update dataset!
           form(action='/deleteinst', method='post')
             .input
               label(for='id')
               input#iddelete.form-control(type="hidden", name ="iddelete", value="")
-            button.btn.btn-outline-danger.btn-sm(type='submit') Delete data!
+            button.btn.btn-outline-danger.btn-sm(type='submit') Delete dataset!
           
       .col-lg-6
         div
-          h4 Actual saved datasets:
+          h4 Currently stored data:
           #demo2
           br
         button.btn.btn-outline-success.btn-sm(onclick='loadInstitutes()') Load Data!

@@ -5,7 +5,6 @@
 extends layout
   
 block content
-  script(src='/javascripts/functions.js')
   // jumbotron
   .jumbotron.jumbotron-fluid
     .container
@@ -16,7 +15,7 @@ block content
         Every institute belongs to a subject area. These can be created and changed on this page!
   .container-fluid
     .row
-      .col-lg-2.insert 
+      .col-lg-3.insert 
           h4 Insert Data
           form(action='/insert', method='post')
             .input
@@ -40,49 +39,45 @@ block content
               input#institutes.form-control(type='text', name='institutes')
             br
             button.btn.btn-outline-success.btn-sm(type='submit') Save in the database!
-      .col-lg-2.update
-        h4 Update the data of a faculty!
+      .col-lg-3.update
+        h4 Push the "Load Data" button and click on one of the faculties to change its data!
         form(action='/update', method='post')
           .input
             label(for='id') ID:
             br
-            input#id.form-control(type='text', name='id')
+            input#idup.form-control(type='text', name='id', readonly)
           br  
           .input
             label(for='name') Name:
             br
-            input#name.form-control(type='text', name='name')
+            input#nameup.form-control(type='text', name='name')
           br  
           .input
             label(for='shortcut') Shortcut:
             br
-            input#shortcut.form-control(type='text', name='shortcut')
+            input#shortcutup.form-control(type='text', name='shortcut')
           br  
           .input
             label(for='website') Website:
             br
-            input#website.form-control(type='url', name='website')
+            input#websiteup.form-control(type='url', name='website')
           br  
           .input
             label(for='institutes') Institutes:
             br
-            input#institutes.form-control(type='text', name='institutes')
-          br 
-          p(style='color: #B22424;').
-            The ID must be the same. Note that otherwise all entries must be reentered. You can copy and paste from the "Loaded Data".
-          button.btn.btn-outline-success.btn-sm(type='submit') Update data!
-      .col-lg-2.delete
-        h4 Delete data of a faculty!
+            input#institutesup.form-control(type='text', name='institutes')
+            br
+          button.btn.btn-outline-success.btn-sm(type='submit') Update dataset!
         form(action='/delete', method='post')
           .input
-            label(for='id') ID
-            input#id.form-control(type='text', name='id')
-          br  
-          button.btn.btn-outline-danger.btn-sm(type='submit') Delete data!
-      .col-lg-6.get
-        h4 Saved data from the database!
+            label(for='id') 
+            input#iddelete.form-control(type='hidden', name='id', readonly)
+          button.btn.btn-outline-danger.btn-sm(type='submit') Delete dataset!
+      .col-lg-3.get
+        h4 Currently stored data:
         div
           #demo
           br
         button.btn.btn-outline-success.btn-sm(onclick='loadFaculties()') Load Data!
-          
+    script(src='/javascripts/functions.js')
+    script(src='/javascripts/map.js')

@@ -35,6 +35,22 @@ map.on('draw:edited', function(e) {
     json = e.layers.toGeoJSON();
 });
 
+
+function updateFaculty(name, shortcut, website, institutes, _id){
+
+  console.log(name);
+
+  document.getElementById("idup").value = _id;
+  document.getElementById("nameup").value = name;
+  document.getElementById("shortcutup").value = shortcut;
+  document.getElementById("websiteup").value = website;
+  document.getElementById("institutesup").value = institutes;
+  document.getElementById("iddelete").value = _id;
+
+
+}
+
+
 /**
 *@desc: function which adds the geometry from the saved geojson file to the map
 * and makes it editable
@@ -115,6 +131,7 @@ function testText(){
         } else{
 
           document.getElementById("btn1").disabled = false;
+          document.getElementById("nametext").value = textJSON.features[0].properties.name;
           alert("Your input is flawless! Push 'Save in Database'!");
 
         }
@@ -160,6 +177,8 @@ function testURL(){
                document.getElementById("inputurl").innerHTML = JSON.stringify(urlJSON);
                document.getElementById("btn2").disabled = false;
                console.log("It works!");
+               document.getElementById("nameurl").value = urlJSON.features[0].properties.name;
+               console.log(document.getElementById("nameurl").value);
                alert("Your input is flawless! Push 'Save in Database'!");
 
               }

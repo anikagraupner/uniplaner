@@ -24,9 +24,6 @@ block content
             Enter a name and a URL of a picture for the institute in the textfields!
           label(for='text')
           form#mapfile(action='/insertMap', method='post', onsubmit="return beforeSubmit()")
-            button#btn3.btn.btn-outline-success.btn-sm(type='submit', disabled) Save in Database!
-            br
-            br
             | Name:
             br
             br
@@ -37,10 +34,10 @@ block content
             br
             input#img.form-control(type='url', name='img', value='')
             input#inputDraw(type="hidden", name ="draw", value="")
-        div 
-          // creating the map space
-          #map
-          // invoking the file with the map data
+            div 
+              // creating the map space
+              #map
+            button#btn3.btn.btn-outline-success.btn-sm(type='submit', disabled) Save in Database!
       .col-lg-6
         div
           h4.
@@ -57,6 +54,7 @@ block content
             div
               label(for='text')
                 textarea#text.form-control(name='text', oninput="disableBtn()", cols='50', rows='4')
+              input#nametext(type="hidden", name ="name", value="")
               br
               button.btn.btn-outline-danger.btn-sm(type='button', onclick='testText()') Check for mistakes!
               br
@@ -82,6 +80,7 @@ block content
               br
               button#btn2.btn.btn-outline-success.btn-sm(type='submit', disabled) Save in Database!
               br
+              input#nameurl(type="hidden", name ="name", value="")
         div
           #inputurl
-    script(src='/javascripts/map.js')
+  script(src='/javascripts/map.js')

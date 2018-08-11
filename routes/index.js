@@ -50,7 +50,9 @@ router.get('/saved_institutes', function(req, res) {
 router.post('/insertMap', function(req, res, next){
 
   console.log("Jetzt gehts los!");
-  var mapfile = {geojson : req.body.draw};
+  var mapfile = {
+    name: req.body.inputname,
+    geojson : req.body.draw};
   console.log(mapfile);
   mongo.connect(url, function(err, db) { // connect to the database
   assert.equal(null, err); // check if there is an error
@@ -70,7 +72,9 @@ res.redirect('institute'); // restart page
 router.post('/insertText', function(req, res, next){
 
   console.log('yeah!');
-  var text = {geojson : req.body.text};
+  var text = {
+    name: req.body.name,
+    geojson : req.body.text};
   console.log(text);
   mongo.connect(url, function(err, db) { // connect to the database
   assert.equal(null, err); // check if there is an error
@@ -88,7 +92,9 @@ res.redirect('institute'); // restart page
 /*npm install request save*/
 router.post('/insertURL', function(req, res, next){
 
-  var url = req.body.inputurl; //gets the url which is added on the webpage
+  var url = {
+    name: req.body.name,
+    geojson : req.body.inputurl}; //gets the url which is added on the webpage
   console.log(url);
   /* see: https://stackoverflow.com/questions/16482600/node-js-cannot-find-module-request*/
   /* request to get the content of the file of the URL*/
@@ -115,6 +121,8 @@ router.post('/insertURL', function(req, res, next){
     }
 });
 
+res.redirect("institute");
+
 });
 
 // load the data from the institutes collection to edit_institute
@@ -128,7 +136,7 @@ router.get('/get-datatwo', function(req, res) {
         });
     });
 
-})
+});
 
 /* get the ID and the new geojson from the edited institutes
 /* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
@@ -167,7 +175,7 @@ router.post('/deleteinst', function(req, res, next) {
 
 });
 
-module.exports = router;
+
 
 /* save the form-data of the faculties to mongodb */
 /* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
@@ -199,7 +207,7 @@ router.get('/get-data', function(req, res) {
     collection.find({},{},function(e,docs){// do a find
         console.log(docs);
         res.render('saved_faculties', {// render of saved_faculties.jade
-            "faculty" : docs// passing the database documents to the variable faculty
+            'varfaculty' : docs// passing the database documents to the variable faculty
         });
     });
 

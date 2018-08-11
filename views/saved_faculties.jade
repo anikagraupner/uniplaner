@@ -1,3 +1,5 @@
 ul
-  each docs, i in faculty
-    li= "-" + " " + "Name: " + docs.name + ", " + "Shortcut: " + docs.shortcut + ", " + "Website: " + docs.website + ", " + "Institutes: " + docs.institutes + ", " + "ID: " + docs._id
+  each docs, i in varfaculty
+    li 
+      a(onclick="updateFaculty('#{docs.name}', '#{docs.shortcut}', '#{docs.website}', '#{docs.institutes}', \""+docs._id+"\")")= "- " + docs.name
+      
