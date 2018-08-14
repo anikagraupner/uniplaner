@@ -45,8 +45,13 @@ router.get('/saved_institutes', function(req, res) {
 });
 
 /* saved_subject_areas. */
-router.get('/canteens', function(req, res) {
-  res.render('canteens', { title: 'Canteens!' });
+router.get('/facilities', function(req, res) {
+  res.render('facilities', { title: 'Facilities of the WWU!' });
+});
+
+/* saved_subject_areas. */
+router.get('/search_institutes', function(req, res) {
+  res.render('search_institutes', { title: 'search_institutes' });
 });
 
 
@@ -142,6 +147,24 @@ router.get('/get-datatwo', function(req, res) {
     });
 
 });
+
+var array = [];
+
+// load the data from the institutes collection to edit_institute
+router.get('/get-datathree', function(req, res) {
+    var db = req.db;
+    var collection = db.get('institutes');// tells the app which collection should be used
+    collection.find({},{},function(e,docs){// do a find
+        console.log(docs);
+        res.render('search_institutes', {// render of saved_faculties.jade
+            'institute' : docs// passing the database documents to the variable faculty
+        });
+
+    });
+
+});
+
+
 
 /* get the ID and the new geojson from the edited institutes
 /* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */

@@ -22,6 +22,10 @@ html(lang='en')
     script(src='/javascripts/jquery-ui.js')
     script(src='/javascripts/jquery-ui.min.js')
     link(href='/stylesheets/jquery-ui.min.css', rel='stylesheet')
+    // jQuery easyAutocomplete
+    script(src='/javascripts/jquery.easy-autocomplete.min.js')
+    link(href='/stylesheets/easy-autocomplete.min.css', rel='stylesheet')
+    link(href='/stylesheets/easy-autocomplete.themes.min.css', rel='stylesheet')
     // link to tylesheet
     link(href='/stylesheets/style.css', rel='stylesheet')
     // leaflet draw 
@@ -48,13 +52,11 @@ html(lang='en')
             a.dropdown-item(href='institute') Add an institute!
             a.dropdown-item(href='edit_institute') Edit an institute!
         li.nav-item.dropdown
-          a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Canteens!
+          a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Data Visualization!
           | &#x9;&#x9;&#x9;&#x9;&#x9;
           .dropdown-menu
-        li.nav-item.dropdown
-          a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Routing!
-          | &#x9;&#x9;&#x9;&#x9;&#x9;
-          .dropdown-menu
+            a.a.dropdown-item(href='facilities') Facilities WWU!
+            a.a.dropdown-item(href='faculty') Routing!
     block content
     // footer
     // see: https://bootsnipp.com/snippets/2eMK5
