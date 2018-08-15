@@ -7,8 +7,6 @@ var objectId = require('mongodb').ObjectID; //ID for DB
 var assert = require('assert'); //used to connect to database or for operations to check if everything is right
 var url = 'mongodb://localhost:27017/uniplaner'; // path for database
 
-
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Startpage' });
@@ -148,8 +146,6 @@ router.get('/get-datatwo', function(req, res) {
 
 });
 
-var array = [];
-
 // load the data from the institutes collection to edit_institute
 router.get('/get-datathree', function(req, res) {
     var db = req.db;
@@ -159,7 +155,6 @@ router.get('/get-datathree', function(req, res) {
         res.render('search_institutes', {// render of saved_faculties.jade
             'institute' : docs// passing the database documents to the variable faculty
         });
-
     });
 
 });
@@ -282,5 +277,17 @@ router.post('/delete', function(req, res, next) {
   res.redirect('faculty'); // restart page
 
 });
+
+
+router.get('/load', function(req, res) {
+  var db = req.db;
+  var collection = db.get('institutes');
+  collection.find({},{},function(e,docs){
+
+    console.log(docs);
+    res.send({"institute": docs});
+  });
+});
+
 
 module.exports = router;

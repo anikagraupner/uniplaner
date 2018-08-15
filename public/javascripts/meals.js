@@ -128,3 +128,71 @@ $.ajax({
 
         }
 });
+
+$.ajax({
+    type: 'GET',
+    url: "./load",
+
+    success: function(result){
+      console.log(result.institute.length);
+      console.log(result.institute[0].name);
+      var namearray = [];
+      $.each(result.institute, function (i) {
+                namearray.push(result.institute[i].name);
+            });
+
+      console.log(namearray);
+      $( "#institute" ).autocomplete({
+      source: namearray});
+
+    }
+
+});
+
+var instituteIcon = L.icon({
+    iconUrl: '/images/institute.png',
+    iconSize: [40, 40]});
+
+
+$('#institute').on('autocompleteselect', function (e, ui) {
+
+  $.ajax({
+      type: 'GET',
+      url: "./load",
+      success: function(result){
+
+        $.each(result.institute, function (i) {
+
+          if(document.getElementById('institute').value == result.institute[i].name){
+
+            var b = JSON.parse(result.institute[i].geojson);
+            console.log(b);
+            L.geoJSON(b).addTo(map);
+            var c = JSON.parse(result.institute[i].geojson);
+            console.log(c);
+            console.log(c.features[0].properties.name);
+            var d = c.features[0].geometry.coordinates[0][0];
+            console.log(d);
+            var lat = d[1];
+            var lon = d[0];
+            var marker = L.marker([lat, lon], {icon: instituteIcon}).addTo(map);
+            var img = c.features[0].properties.img;
+            var name = c.features[0].properties.name;
+            console.log(img);
+            marker.bindPopup("<b>"+ name + "<b>:<br><img src='" + img + "'" + " class=popupImage " + "/>", {maxHeight: 250, maxWidth: "auto"});
+
+
+          } else {
+
+            i++;
+
+          }
+
+
+        });
+
+      }
+
+    });
+
+});
