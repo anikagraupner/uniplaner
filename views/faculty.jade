@@ -1,6 +1,6 @@
 // author: Anika Graupner (437401)
 // final task geosoftware I, summer 2018
-// add new institutes by using different functions 
+// add faculties to the database or edit them  
 // see: https://github.com/mschwarzmueller/nodejs-basics-tutorial 
 extends layout
   
@@ -8,76 +8,49 @@ block content
   // jumbotron
   .jumbotron.jumbotron-fluid
     .container
-      h1 Add or edit faculties!
+      h1 Faculties
       |  
       | &#x9;&#x9;&#x9;&#x9;
       p.
-        Every institute belongs to a subject area. These can be created and changed on this page!
+        Add a new faculty or edit an existing one!
   .container-fluid
     .row
-      .col-lg-3.insert 
-          h4 Insert Data
-          form(action='/insert', method='post')
-            .input
-              label(for='name') Name:
-              br
-              input#name.form-control(type='text', name='name')
+      .col-lg-6
+          h4 Insert a new faculty!
+          br
+          form
+            input#name.form-control(type='text', name='name', placeholder='name')
             br
-            .input
-              label(for='shortcut') Shortcut:
-              br
-              input#shortcut.form-control(type='text', name='shortcut')
+            input#shortcut.form-control(type='text', name='shortcut', placeholder='shortcut')
             br
-            .input
-              label(for='website') Website:
-              br
-              input#website.form-control(type='url', name='website')
+            input#website.form-control(type='url', name='website', placeholder='website/url')
             br
-            .input
-              label(for='institutes') Institutes:
-              br
-              input#institutes.form-control(type='text', name='institutes')
-            br
-            button.btn.btn-outline-success.btn-sm(type='submit') Save in the database!
-      .col-lg-3.update
-        h4 Push the "Load Data" button and click on one of the faculties to change its data!
-        form(action='/update', method='post')
-          .input
-            label(for='id') ID:
-            br
-            input#idup.form-control(type='text', name='id', readonly)
-          br  
-          .input
-            label(for='name') Name:
-            br
-            input#nameup.form-control(type='text', name='name')
-          br  
-          .input
-            label(for='shortcut') Shortcut:
-            br
-            input#shortcutup.form-control(type='text', name='shortcut')
-          br  
-          .input
-            label(for='website') Website:
-            br
-            input#websiteup.form-control(type='url', name='website')
-          br  
-          .input
-            label(for='institutes') Institutes:
-            br
-            input#institutesup.form-control(type='text', name='institutes')
-            br
-          button.btn.btn-outline-success.btn-sm(type='submit') Update dataset!
+            input#institutes.form-control(type='text', name='institutes', placeholder='institutes')
+          br
+          button.btn.btn-outline-success.btn-sm(onclick='saveFaculty()') Save in the database!
+      .col-lg-6
+        h4 Search for a faculty with name or shortcut an changes its data!
+        br
+        .ui-widget
+          input#searchfaculty.form-control(type='text', placeholder='Search...')
+        br
+        br
+        form
+          input#idup.form-control(type='text', name='id', readonly, placeholder='id')
+          br
+          input#nameup.form-control(type='text', name='name', placeholder='name')
+          br
+          input#shortcutup.form-control(type='text', name='shortcut', placeholder='shortcut')
+          br
+          input#websiteup.form-control(type='url', name='website', placeholder='website/url')
+          br
+          input#institutesup.form-control(type='text', name='institutes', placeholder='institutes')
+        br
+        button.btn.btn-outline-info.btn-sm(type='submit') Update dataset!
         form(action='/delete', method='post')
           .input
             label(for='id') 
             input#iddelete.form-control(type='hidden', name='id', readonly)
           button.btn.btn-outline-danger.btn-sm(type='submit') Delete dataset!
-      .col-lg-3.get
-        h4 Currently stored data:
-        div
-          #demo
-          br
-        button.btn.btn-outline-success.btn-sm(onclick='loadFaculties()') Load Data!
-    script(src='/javascripts/functions.js')
-    script(src='/javascripts/map.js')
+    // connection to script
+    script(src='/javascripts/faculty.js')

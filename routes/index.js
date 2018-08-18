@@ -3,54 +3,118 @@
 var express = require('express'); //Express functionality
 var router = express.Router(); //attaching a router variable to Express's router method
 var mongo = require('mongodb'); //MongoDB
-var objectId = require('mongodb').ObjectID; //ID for DB
+var objectId = require('mongodb').ObjectID; //object ID in DB
 var assert = require('assert'); //used to connect to database or for operations to check if everything is right
-var url = 'mongodb://localhost:27017/uniplaner'; // path for database
+
+/* see: https://github.com/Effizjens/Aufgabe_7/blob/master/routes/index.js */
+/* logging: */
+var JL = require('jsnlog').JL; //server
+var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs; //console
+var bodyParser = require('body-parser'); //parser
+
+var url = 'mongodb://localhost:27017/uniplaner'; //path database
+
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Startpage' });
+  res.render('index', { title: 'Startpage!' });
 });
 
 /* GET legal notice. */
 router.get('/imprint', function(req, res) {
-  res.render('imprint', { title: 'Legal notice' });
+  res.render('imprint', { title: 'Legal notice!' });
 });
 
 /* GET institute. */
 router.get('/institute', function(req, res) {
-  res.render('institute', { title: 'Add an institute' });
+  res.render('institute', { title: 'Add an institute!' });
 });
 
-/* GET subject. */
+/* GET faculty. */
 router.get('/faculty', function(req, res) {
-  res.render('faculty', { title: 'Add a faculty!' });
+  res.render('faculty', { title: 'Add or edit a faculty!' });
 });
 
-/* saved_subject_areas. */
-router.get('/saved_faculties', function(req, res) {
-  res.render('saved_faculties', { title: 'Saved faculties!' });
-});
-
-/* saved_subject_areas. */
+/* GET edit_institute */
 router.get('/edit_institute', function(req, res) {
   res.render('edit_institute', { title: 'Edit an institute!' });
 });
 
-/* saved_subject_areas. */
+/* GET saved_institutes. */
 router.get('/saved_institutes', function(req, res) {
   res.render('saved_institutes', { title: 'Saved institutes!' });
 });
 
-/* saved_subject_areas. */
+/* GET facilities. */
 router.get('/facilities', function(req, res) {
   res.render('facilities', { title: 'Facilities of the WWU!' });
 });
 
-/* saved_subject_areas. */
-router.get('/search_institutes', function(req, res) {
-  res.render('search_institutes', { title: 'search_institutes' });
+
+
+/*
+* request when clicking button in 'faculty' to save data in DB
+* sending the data to collection 'faculties'
+*/
+router.post('/insertFaculty', function(req, res){
+
+  var faculty = req.body
+  console.log(faculty);
+  mongo.connect(url, function(err, db) { // connect to the database
+    assert.equal(null, err); // check if there is an error
+    db.db('uniplaner').collection('faculties').insertOne(faculty, function(err, result) { //name of the database-collection, one insert
+      assert.equal(null, err); // check if there is an error
+      db.close();
+
+    });
+
+  });
+
+  res.redirect('faculty'); // restart page
+
 });
+
+/*
+* function to load the whole data from collection 'faculties' and send it to client side
+*/
+router.get('/loadFaculty', function(req, res) {
+
+  var db = req.db;
+  var collection = db.get('faculties');
+  collection.find({},{},function(e,docs){
+
+    res.send({"faculty": docs});
+  });
+});
+
+/*
+* function for changing the data of a faculty
+*/
+router.post('/updateFaculty', function(req, res, next) {
+  var item = {
+    name: req.body.name,
+    shortcut: req.body.shortcut,
+    website: req.body.website,
+    institutes: req.body.institutes
+  };
+  var id = req.body.id;
+
+  mongo.connect(url, function(err, db) {
+    assert.equal(null, err);
+    db.db('uniplaner').collection('faculties').updateOne({"_id": objectId(id)}, {$set: item}, function(err, result) {
+      assert.equal(null, err);
+      console.log('Item updated');
+      db.close();
+    });
+  });
+
+  res.redirect('faculty'); // restart page
+
+});
+
+
+
 
 
 
@@ -200,29 +264,6 @@ router.post('/deleteinst', function(req, res, next) {
 
 
 
-/* save the form-data of the faculties to mongodb */
-/* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
-router.post('/insert', function(req, res, next) {
-  console.log('bis hier tuts!');
-  var item = { // form in subject.jade
-    name: req.body.name,
-    shortcut: req.body.shortcut,
-    website: req.body.website,
-    institutes: req.body.institutes
-  };
-  console.log(item);
-  mongo.connect(url, function(err, db) { // connect to the database
-  assert.equal(null, err); // check if there is an error
-  db.db('uniplaner').collection('faculties').insertOne(item, function(err, result) { //name of the database-collection, one insert
-    assert.equal(null, err); // check if there is an error
-    console.log('Item inserted');
-    db.close();
-  });
-});
-
-res.redirect('faculty'); // restart page
-});
-
 // using that db connection to fill the docs variable with database documents
 router.get('/get-data', function(req, res) {
     var db = req.db;
@@ -236,29 +277,7 @@ router.get('/get-data', function(req, res) {
 
 });
 
-/* get the form-data from the subject areas from mongodb */
-/* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
-router.post('/update', function(req, res, next) {
-  var item = {
-    name: req.body.name,
-    shortcut: req.body.shortcut,
-    website: req.body.website,
-    institutes: req.body.institutes
-  };
-  var id = req.body.id;
 
-  mongo.connect(url, function(err, db) {
-    assert.equal(null, err);
-    db.db('uniplaner').collection('faculties').updateOne({"_id": objectId(id)}, {$set: item}, function(err, result) {
-      assert.equal(null, err);
-      console.log('Item updated');
-      db.close();
-    });
-  });
-
-  res.redirect('faculty'); // restart page
-
-});
 
 /* get the form-data from the subject areas from mongodb */
 /* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
@@ -287,6 +306,21 @@ router.get('/load', function(req, res) {
     console.log(docs);
     res.send({"institute": docs});
   });
+});
+
+
+
+// source: https://github.com/Effizjens/Aufgabe_7/blob/master/routes/index.js
+
+// Ensure that the JSON objects received from the client get parsed correctly.
+router.use(bodyParser.json())
+
+// jsnlog.js on the client by default sends log messages to /jsnlog.logger, using POST.
+router.post('*.logger', function (req, res) {
+    jsnlog_nodejs(JL, req.body);
+
+    // Send empty response. This is ok, because client side jsnlog does not use response from server.
+    res.send('');
 });
 
 
