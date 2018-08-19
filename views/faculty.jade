@@ -34,7 +34,8 @@ block content
         .ui-widget
           input#searchfaculty.form-control(type='text', placeholder='Search...')
         br
-        br
+        p.
+          Dataset of the desired faculty:
         form
           input#idup.form-control(type='text', name='id', readonly, placeholder='id')
           br
@@ -46,11 +47,8 @@ block content
           br
           input#institutesup.form-control(type='text', name='institutes', placeholder='institutes')
         br
-        button.btn.btn-outline-info.btn-sm(type='submit') Update dataset!
-        form(action='/delete', method='post')
-          .input
-            label(for='id') 
-            input#iddelete.form-control(type='hidden', name='id', readonly)
-          button.btn.btn-outline-danger.btn-sm(type='submit') Delete dataset!
+        button.btn.btn-outline-success.btn-sm(onclick='updateFaculty()') Update dataset!
+        | &nbsp;
+        button.btn.btn-outline-danger.btn-sm(onclick='deleteFaculty()') Delete dataset!
     // connection to script
     script(src='/javascripts/faculty.js')

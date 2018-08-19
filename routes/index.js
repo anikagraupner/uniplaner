@@ -56,23 +56,21 @@ router.get('/facilities', function(req, res) {
 /*
 * request when clicking button in 'faculty' to save data in DB
 * sending the data to collection 'faculties'
+* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial
 */
 router.post('/insertFaculty', function(req, res){
 
+  // save sent data in a variable
   var faculty = req.body
   console.log(faculty);
+
   mongo.connect(url, function(err, db) { // connect to the database
     assert.equal(null, err); // check if there is an error
     db.db('uniplaner').collection('faculties').insertOne(faculty, function(err, result) { //name of the database-collection, one insert
       assert.equal(null, err); // check if there is an error
-      db.close();
-
+      db.close(); // close DB
     });
-
   });
-
-  res.redirect('faculty'); // restart page
-
 });
 
 /*
@@ -80,41 +78,64 @@ router.post('/insertFaculty', function(req, res){
 */
 router.get('/loadFaculty', function(req, res) {
 
-  var db = req.db;
-  var collection = db.get('faculties');
-  collection.find({},{},function(e,docs){
+  var db = req.db; // connection to database
+  var collection = db.get('faculties');  // choosing collection
+  collection.find({},{},function(e,docs){ // find all elements in the collection
 
-    res.send({"faculty": docs});
+    res.send({"faculty": docs}); // send them to client side
   });
 });
 
 /*
 * function for changing the data of a faculty
+* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial
 */
 router.post('/updateFaculty', function(req, res, next) {
-  var item = {
+
+  // save sent data in a variable
+  var changedData = {
     name: req.body.name,
     shortcut: req.body.shortcut,
     website: req.body.website,
     institutes: req.body.institutes
   };
-  var id = req.body.id;
+  console.log(changedData);
 
-  mongo.connect(url, function(err, db) {
-    assert.equal(null, err);
-    db.db('uniplaner').collection('faculties').updateOne({"_id": objectId(id)}, {$set: item}, function(err, result) {
-      assert.equal(null, err);
-      console.log('Item updated');
-      db.close();
+  // save object id in a special variable
+  var id = req.body.id;
+  console.log(id);
+
+  mongo.connect(url, function(err, db) { // connect to the database
+    assert.equal(null, err); // check if there is an error
+    // name of the database-collection, update the data of the element wich has the same id
+    db.db('uniplaner').collection('faculties').updateOne({"_id": objectId(id)}, {$set: changedData}, function(err, result) {
+      assert.equal(null, err); // check if there is an error
+      console.log('Data was changed.');
+      db.close(); // close DB
     });
   });
-
-  res.redirect('faculty'); // restart page
-
 });
 
+/*
+* delete a faculty in the database collection faculties
+* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial
+*/
+router.post('/deleteFaculty', function(req, res, next) {
 
+  // save id from the selected faculty on client side to a server side variable
+  var id = req.body.id;
+  console.log(id);
 
+  mongo.connect(url, function(err, db) { // connect to the database
+    assert.equal(null, err); // check if there is an error
+    // name of the database-collection, delete the data of the element wich has the same id
+    db.db('uniplaner').collection('faculties').deleteOne({"_id": objectId(id)}, function(err, result) {
+      assert.equal(null, err); // check if there is an error
+      console.log('Faculty deleted');
+      db.close(); // close DB
+    });
+  });
+});
 
 
 
@@ -210,21 +231,6 @@ router.get('/get-datatwo', function(req, res) {
 
 });
 
-// load the data from the institutes collection to edit_institute
-router.get('/get-datathree', function(req, res) {
-    var db = req.db;
-    var collection = db.get('institutes');// tells the app which collection should be used
-    collection.find({},{},function(e,docs){// do a find
-        console.log(docs);
-        res.render('search_institutes', {// render of saved_faculties.jade
-            'institute' : docs// passing the database documents to the variable faculty
-        });
-    });
-
-});
-
-
-
 /* get the ID and the new geojson from the edited institutes
 /* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
 router.post('/updateinst', function(req, res, next) {
@@ -279,23 +285,7 @@ router.get('/get-data', function(req, res) {
 
 
 
-/* get the form-data from the subject areas from mongodb */
-/* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
-router.post('/delete', function(req, res, next) {
-  var id = req.body.id;
 
-  mongo.connect(url, function(err, db) {
-    assert.equal(null, err);
-    db.db('uniplaner').collection('faculties').deleteOne({"_id": objectId(id)}, function(err, result) {
-      assert.equal(null, err);
-      console.log('Item deleted');
-      db.close();
-    });
-  });
-
-  res.redirect('faculty'); // restart page
-
-});
 
 
 router.get('/load', function(req, res) {
@@ -310,12 +300,14 @@ router.get('/load', function(req, res) {
 
 
 
-// source: https://github.com/Effizjens/Aufgabe_7/blob/master/routes/index.js
+/* serverside logging with javascript
+* source: https://github.com/Effizjens/Aufgabe_7/blob/master/routes/index.js
+*/
 
 // Ensure that the JSON objects received from the client get parsed correctly.
 router.use(bodyParser.json())
 
-// jsnlog.js on the client by default sends log messages to /jsnlog.logger, using POST.
+/* jsnlog.js on the client by default sends log messages to /jsnlog.logger, using POST. */
 router.post('*.logger', function (req, res) {
     jsnlog_nodejs(JL, req.body);
 

@@ -29,6 +29,7 @@ function saveFaculty(){
     JL("mylogger").info("Data was sent to database.");
     alert("New faculty was sucessfully saved!");
 
+    // dataType and contentType important for right sending of the json
     $.ajax({
       type: 'POST',
       data: data,
@@ -39,6 +40,8 @@ function saveFaculty(){
     });
 
   }
+
+  setTimeout(function(){ location.reload(true); }, 1000);
 
 }
 
@@ -91,8 +94,6 @@ $('#searchfaculty').on('autocompleteselect', function (e, ui) {
             // searching for name or shortcut
             if(document.getElementById('searchfaculty').value == response.faculty[i].name || document.getElementById('searchfaculty').value == response.faculty[i].shortcut){
 
-              console.log("hallo");
-
               document.getElementById('idup').value = response.faculty[i]._id;
               document.getElementById('nameup').value = response.faculty[i].name;
               document.getElementById('shortcutup').value = response.faculty[i].shortcut;
@@ -115,3 +116,100 @@ $('#searchfaculty').on('autocompleteselect', function (e, ui) {
     });
 
 });
+
+
+/**
+* function to update a faculty in the database (collection: faculties)
+*/
+function updateFaculty(){
+
+  // get the input values from the site (faculty.jade)
+  var id = document.getElementById('idup').value;
+  var name = document.getElementById('nameup').value;
+  var shortcut = document.getElementById('shortcutup').value;
+  var website = document.getElementById('websiteup').value;
+  var institutes = document.getElementById('institutesup').value;
+
+  // create json form the input values
+  var upFaculty = {"id":id, "name":name, "shortcut":shortcut, "website":website, "institutes":institutes};
+  console.log(upFaculty);
+
+  if(upFaculty.id == ""){
+
+    JL("mylogger").error("No data to send to the database.");
+    alert("Error: Please select a dataset with the search function!")
+
+  }
+  // no saving without a name
+  else if(upFaculty.name == ""){
+
+    JL("mylogger").error("Changed data was not send to database.");
+    alert("Error: Please enter a name!")
+
+  // send changed data of the faculty to the server
+  } else {
+
+    var data = JSON.stringify(upFaculty);
+    console.log(data);
+    JL("mylogger").info("Changed data was sent to database.");
+    alert("The changes were taken over in the database!");
+
+    // dataType and contentType important for right sending of the json
+    $.ajax({
+      type: 'POST',
+      data: data,
+      dataType: "json",
+      contentType: 'application/json',
+      url: "./updateFaculty",
+
+    });
+
+  }
+
+  setTimeout(function(){ location.reload(true); }, 1000);
+
+}
+
+
+function deleteFaculty(){
+
+  var txt;
+  var r = confirm("Are you sure you want to delete the selected faculty?");
+  if (r == false) {
+      alert("Faculty was NOT deleted!")
+  } else {
+
+      var id = document.getElementById('idup').value;
+      var delFaculty = {"id":id}
+
+      // id is needed to delete the dataset
+      if(delFaculty.id == ""){
+
+        JL("mylogger").error("No data to send to the database.");
+        alert("Error: Please select a dataset with the search function!")
+
+      // send the id of the selected faculty to the server
+      } else {
+
+        var data = JSON.stringify(delFaculty);
+        console.log(data);
+        JL("mylogger").info("Data was sent to database to delete the dataset.");
+        alert("The selected faculty was deleted!");
+
+        // dataType and contentType important for right sending of the json
+        $.ajax({
+          type: 'POST',
+          data: data,
+          dataType: "json",
+          contentType: 'application/json',
+          url: "./deleteFaculty",
+
+        });
+
+      }
+
+    }
+
+    setTimeout(function(){ location.reload(true); }, 1000);
+
+}
