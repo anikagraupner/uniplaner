@@ -1,0 +1,54 @@
+// author: Anika Graupner (437401)
+// final task geosoftware I, summer 2018
+// add new institutes by using different functions 
+extends layout
+  
+block content
+  // jumbotron
+  .jumbotron.jumbotron-fluid
+    .container
+      h1 Add an institute!
+      |  
+      | &#x9;&#x9;&#x9;&#x9;
+      p.
+        On this page it is possible to add new institutes to the map and save them in a Database!
+  .container-fluid
+    .row
+      .col-lg-6
+        div
+          h4.
+            Add a new institute by writing the information in the input fields and drawing the geometry in the map!
+          br
+          form
+            input#inputname.form-control(type='text', name='inputname', placeholder='name')
+            br
+            input#img.form-control(type='url', name='img', placeholder='image/url')
+            br
+            p.
+              Draw the geometry of the institute into the map:
+          div 
+            // creating the map space
+            #map.map1
+          button#btn3.btn.btn-outline-success.btn-sm(onclick='insertInstMap()') Save in Database!
+      .col-lg-6
+        div
+          h4.
+            Add a new institute by enter a geojson in the textfield!
+          br
+          form
+            textarea#text.form-control(name='text', cols='50', rows='4', placeholder='Enter a geoJSON conform text!')
+          button#btn1.btn.btn-outline-success.btn-sm(onclick='insertInstText()') Save in Database!
+          br
+          br
+          br
+        div
+          h4.
+            Add a new institute by enter a URL in the field which contains a geojson!
+          br
+          form
+            input#inputURL.form-control(name='inputurl', type='url', size='100%', placeholder='URL')
+          button#btn2.btn.btn-outline-success.btn-sm(onclick='insertInstURL()') Save in Database!
+        br
+        div
+          #inputurl
+  script(src='/javascripts/institute.js')

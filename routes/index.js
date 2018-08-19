@@ -27,8 +27,8 @@ router.get('/imprint', function(req, res) {
 });
 
 /* GET institute. */
-router.get('/institute', function(req, res) {
-  res.render('institute', { title: 'Add an institute!' });
+router.get('/add_institute', function(req, res) {
+  res.render('add_institute', { title: 'Add an institute!' });
 });
 
 /* GET faculty. */
@@ -39,11 +39,6 @@ router.get('/faculty', function(req, res) {
 /* GET edit_institute */
 router.get('/edit_institute', function(req, res) {
   res.render('edit_institute', { title: 'Edit an institute!' });
-});
-
-/* GET saved_institutes. */
-router.get('/saved_institutes', function(req, res) {
-  res.render('saved_institutes', { title: 'Saved institutes!' });
 });
 
 /* GET facilities. */
@@ -139,97 +134,41 @@ router.post('/deleteFaculty', function(req, res, next) {
 
 
 
-/* insert institutes with drawing in the map */
-router.post('/insertMap', function(req, res, next){
+/*
+* request when clicking button in 'institute' to save data in DB
+* sending the data to collection 'institutes'
+* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial
+*/
+router.post('/insertInstitute', function(req, res, next){
 
-  console.log("Jetzt gehts los!");
-  var mapfile = {
-    name: req.body.inputname,
-    geojson : req.body.draw};
-  console.log(mapfile);
+  // save sent data in a variable
+  var institute = req.body;
+  console.log(institute);
+
   mongo.connect(url, function(err, db) { // connect to the database
   assert.equal(null, err); // check if there is an error
-  db.db('uniplaner').collection('institutes').insertOne(mapfile, function(err, result) { //name of the database-collection, one insert
-    assert.equal(null, err); // check if there is an error
-    console.log('Mapfile inserted');
-    db.close();
-});
-
-});
-
-res.redirect('institute'); // restart page
-
-});
-
-/* insert institutes from textfield into the database collection "institutes"*/
-router.post('/insertText', function(req, res, next){
-
-  console.log('yeah!');
-  var text = {
-    name: req.body.name,
-    geojson : req.body.text};
-  console.log(text);
-  mongo.connect(url, function(err, db) { // connect to the database
-  assert.equal(null, err); // check if there is an error
-  db.db('uniplaner').collection('institutes').insertOne(text, function(err, result) { //name of the database-collection, one insert
-    assert.equal(null, err); // check if there is an error
-    console.log('Text inserted');
-    db.close();
+    db.db('uniplaner').collection('institutes').insertOne(institute, function(err, result) { //name of the database-collection, one insert
+      assert.equal(null, err); // check if there is an error
+      console.log('Institute inserted');
+      db.close(); // close DB
+    });
   });
 });
 
-res.redirect('institute'); // restart page
-});;
+/*
+* function to load the whole data from collection 'institutes' and send it to client side
+*/
+router.get('/loadInstitute', function(req, res) {
+  
+  var db = req.db; // connection to database
+  var collection = db.get('institutes'); // collection institutes
+  collection.find({},{},function(e,docs){ // find all elements in the collection
 
-/*save the geojson from the URL input in the database*/
-/*npm install request save*/
-router.post('/insertURL', function(req, res, next){
-
-  var url = {
-    name: req.body.name,
-    geojson : req.body.inputurl}; //gets the url which is added on the webpage
-  console.log(url);
-  /* see: https://stackoverflow.com/questions/16482600/node-js-cannot-find-module-request*/
-  /* request to get the content of the file of the URL*/
-  var request = require('request');
-  request.get(url, function (error, response, body) {
-    if (!error && response.statusCode == 200) { // if there is no error
-        var txt = body;
-        var db = req.db;
-        var collection = db.get('institutes');
-        // Submit to the DB
-        collection.insert({
-        "geojson" : txt
-        }, function (err, doc) {
-          if (err) {
-            // If it failed, return error
-            res.send("There was a problem adding the file to the database.");
-          }
-          else {
-            // And forward to success page
-            res.redirect("institute");
-        }
-        });
-
-    }
+    console.log(docs);
+    res.send({"institute": docs}); // send them to client side
+  });
 });
 
-res.redirect("institute");
-
-});
-
-// load the data from the institutes collection to edit_institute
-router.get('/get-datatwo', function(req, res) {
-    var db = req.db;
-    var collection = db.get('institutes');// tells the app which collection should be used
-    collection.find({},{},function(e,docs){// do a find
-        console.log(docs);
-        res.render('saved_institutes', {// render of saved_faculties.jade
-            'institute' : docs// passing the database documents to the variable faculty
-        });
-    });
-
-});
 
 /* get the ID and the new geojson from the edited institutes
 /* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
@@ -270,33 +209,8 @@ router.post('/deleteinst', function(req, res, next) {
 
 
 
-// using that db connection to fill the docs variable with database documents
-router.get('/get-data', function(req, res) {
-    var db = req.db;
-    var collection = db.get('faculties');// tells the app which collection should be used
-    collection.find({},{},function(e,docs){// do a find
-        console.log(docs);
-        res.render('saved_faculties', {// render of saved_faculties.jade
-            'varfaculty' : docs// passing the database documents to the variable faculty
-        });
-    });
-
-});
 
 
-
-
-
-
-router.get('/load', function(req, res) {
-  var db = req.db;
-  var collection = db.get('institutes');
-  collection.find({},{},function(e,docs){
-
-    console.log(docs);
-    res.send({"institute": docs});
-  });
-});
 
 
 

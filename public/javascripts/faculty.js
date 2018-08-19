@@ -18,7 +18,7 @@ function saveFaculty(){
   // no saving without a name
   if(newFaculty.name == ""){
 
-    JL("mylogger").error("Data was not send to database.");
+    JL("mylogger").error("Data of the faculty was not send to database.");
     alert("Error: Please enter a name!")
 
   // send new faculty to the server
@@ -26,7 +26,7 @@ function saveFaculty(){
 
     var data = JSON.stringify(newFaculty);
     console.log(data);
-    JL("mylogger").info("Data was sent to database.");
+    JL("mylogger").info("Data of the faculty was sent to database.");
     alert("New faculty was sucessfully saved!");
 
     // dataType and contentType important for right sending of the json
@@ -36,13 +36,10 @@ function saveFaculty(){
       dataType: "json",
       contentType: 'application/json',
       url: "./insertFaculty",
-
     });
-
   }
-
+  // setTimeout, because direct reloading causes the new faculty to not yet be displayed in the search field
   setTimeout(function(){ location.reload(true); }, 1000);
-
 }
 
 /*
@@ -56,9 +53,10 @@ $.ajax({
 
     success: function(result){
 
-      JL("mylogger").info("Data was sent to client side.");
+      JL("mylogger").info("Data of the faculty was sent to client side.");
       console.log(result);
 
+      // create an array with the names and the shortcuts of the objects as the source for jquery autocomplete
       var faArray = [];
       $.each(result.faculty, function (i) {
                 faArray.push(result.faculty[i].name);
@@ -66,11 +64,11 @@ $.ajax({
             });
 
       console.log(faArray);
+
+      // jquery autocomplete
       $( "#searchfaculty" ).autocomplete({
       source: faArray});
-
     }
-
 });
 
 /*
@@ -91,9 +89,10 @@ $('#searchfaculty').on('autocompleteselect', function (e, ui) {
 
           $.each(response.faculty, function (i) {
 
-            // searching for name or shortcut
+            // searching for name or shortcut and compare them with the input of the jquery autocomplete search bar
             if(document.getElementById('searchfaculty').value == response.faculty[i].name || document.getElementById('searchfaculty').value == response.faculty[i].shortcut){
 
+              // if name or shortcut are the same as the input, the data of the faculty is filled in the input fields
               document.getElementById('idup').value = response.faculty[i]._id;
               document.getElementById('nameup').value = response.faculty[i].name;
               document.getElementById('shortcutup').value = response.faculty[i].shortcut;
@@ -105,16 +104,10 @@ $('#searchfaculty').on('autocompleteselect', function (e, ui) {
               i++;
 
             }
-
-
           });
-
         });
-
       }
-
     });
-
 });
 
 
@@ -134,6 +127,7 @@ function updateFaculty(){
   var upFaculty = {"id":id, "name":name, "shortcut":shortcut, "website":website, "institutes":institutes};
   console.log(upFaculty);
 
+  // id is needed to change the data, the faculty must be selected with the search bar
   if(upFaculty.id == ""){
 
     JL("mylogger").error("No data to send to the database.");
@@ -143,7 +137,7 @@ function updateFaculty(){
   // no saving without a name
   else if(upFaculty.name == ""){
 
-    JL("mylogger").error("Changed data was not send to database.");
+    JL("mylogger").error("Changed data of the faculty was not send to database.");
     alert("Error: Please enter a name!")
 
   // send changed data of the faculty to the server
@@ -151,7 +145,7 @@ function updateFaculty(){
 
     var data = JSON.stringify(upFaculty);
     console.log(data);
-    JL("mylogger").info("Changed data was sent to database.");
+    JL("mylogger").info("Changed data of the faculty was sent to database.");
     alert("The changes were taken over in the database!");
 
     // dataType and contentType important for right sending of the json
@@ -193,7 +187,7 @@ function deleteFaculty(){
 
         var data = JSON.stringify(delFaculty);
         console.log(data);
-        JL("mylogger").info("Data was sent to database to delete the dataset.");
+        JL("mylogger").info("Data of the faculty was sent to database to delete the dataset.");
         alert("The selected faculty was deleted!");
 
         // dataType and contentType important for right sending of the json
@@ -205,11 +199,8 @@ function deleteFaculty(){
           url: "./deleteFaculty",
 
         });
-
       }
-
     }
-
+    // setTimeout, because direct reloading causes the new faculty to not yet be displayed in the search field
     setTimeout(function(){ location.reload(true); }, 1000);
-
 }

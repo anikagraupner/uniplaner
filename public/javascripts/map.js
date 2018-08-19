@@ -1,39 +1,3 @@
-"use strict";
-
-// creating map by using mapbox
-L.mapbox.accessToken = 'pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA';
-  var map = L.mapbox.map('map').setView([51.95, 7.61], 11);
-
-// adding different layers to the map
-L.control.layers({
-
-  'Mapbox Streets': L.mapbox.tileLayer('mapbox.streets-basic').addTo(map),
-  'Mapbox Satellite': L.mapbox.tileLayer('mapbox.satellite'),
-  'Mapbox Dark': L.mapbox.tileLayer('mapbox.dark'),
-  'Mapbox Light': L.mapbox.tileLayer('mapbox.light')
-
-}).addTo(map);
-
-// leaflet draw plugin for mapbox
-// see: https://www.mapbox.com/bites/00022/
-var featureGroup = L.featureGroup().addTo(map);
-
-var drawControl = new L.Control.Draw({
-  edit: {
-    featureGroup: featureGroup
-  }
-}).addTo(map);
-
-var json;
-
-map.on('draw:created', function(e) {
-    featureGroup.addLayer(e.layer);
-    json = e.layer.toGeoJSON();
-});
-
-map.on('draw:edited', function(e) {
-    json = e.layers.toGeoJSON();
-});
 
 
 function updateFaculty(name, shortcut, website, institutes, _id){
@@ -73,26 +37,6 @@ function JSON2Map(geojson, _id){
     });
 }
 
-/**
-*@desc: jQuery Code to do this code first before the button submitted
-*assigns the value of the hidden field the new geojson file created from the formular and the map
-*/
-function beforeSubmit() {
-
-  console.log(json);
-  var name = document.getElementById("inputname").value;
-  var img = document.getElementById("img").value;
-  var type = "FeatureCollection";
-  var features = [];
-  features.push(json);
-  console.log(features);
-  json.properties = {name, img};
-  var newjson = {type, features};
-  var stringjson = JSON.stringify(newjson);
-  console.log(stringjson);
-  document.getElementById("inputDraw").value = stringjson;
-
-}
 
 /**
 *@desc edits the new geojson file with the edit data from the formular and the map
@@ -105,45 +49,6 @@ function beforeSubmitUpdateInst() {
   console.log(json);
   document.getElementById("updatejson").value = JSON.stringify(json);
   console.log(document.getElementById("updatejson").value);
-}
-
-/**
- * @desc upload function for geojson files from a textfield
- * with check of mistakes in the textfield input
- *
- */
-function testText(){
-
-  var inhalt = document.getElementById("text").value;
-  if (inhalt == ""){
-    alert("Please enter your geojson!");
-  } else {
-
-      try {
-
-        var textJSON = JSON.parse(inhalt);
-        console.log(textJSON);
-
-        if(typeof textJSON.features[0].properties.name== "undefined" || typeof textJSON.features[0].properties.img== "undefined"){
-
-          alert("Enter a name for your Institute or check the titles of your properties!");
-
-        } else{
-
-          document.getElementById("btn1").disabled = false;
-          document.getElementById("nametext").value = textJSON.features[0].properties.name;
-          alert("Your input is flawless! Push 'Save in Database'!");
-
-        }
-
-      } catch (e) {
-
-        alert("Your entry is not JSON conform! Check your syntax and (geometry)types!");
-
-      }
-
-  }
-
 }
 
 /**
@@ -196,33 +101,4 @@ function testURL(){
       alert("Error loading the data! Check your URL!");
     }
   })
-}
-
-/**
-*@desc function which disable the "Save in Database" buttons
-* important, because the mistakes have to be checked first
-*/
-function disableBtn(){
-
-  document.getElementById("btn1").disabled = true;
-  document.getElementById("btn2").disabled = true;
-
-}
-
-/**
-*@desc function which disable or enable the "Save in Database" button of the map input
-* no saving without a name
-*/
-function enableBtn(){
-
-  if(document.getElementById("inputname").value == ""){
-
-    document.getElementById("btn3").disabled = true;
-
-  } else{
-
-    document.getElementById("btn3").disabled = false;
-
-  }
-
 }

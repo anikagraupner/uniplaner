@@ -1,7 +1,6 @@
 // author: Anika Graupner (437401)
 // final task geosoftware I, summer 2018
 // add faculties to the database or edit them  
-// see: https://github.com/mschwarzmueller/nodejs-basics-tutorial 
 extends layout
   
 block content
@@ -18,7 +17,8 @@ block content
       .col-lg-6
           h4 Insert a new faculty!
           br
-          form
+          // form input fields and button for saving a new faculty 
+          form 
             input#name.form-control(type='text', name='name', placeholder='name')
             br
             input#shortcut.form-control(type='text', name='shortcut', placeholder='shortcut')
@@ -29,11 +29,14 @@ block content
           br
           button.btn.btn-outline-success.btn-sm(onclick='saveFaculty()') Save in the database!
       .col-lg-6
-        h4 Search for a faculty with name or shortcut an changes its data!
+        h4 Search for a faculty with name or shortcut and changes its data!
         br
+        // jquery autocomplete search bar to search for a faculty with name or shortcut
         .ui-widget
           input#searchfaculty.form-control(type='text', placeholder='Search...')
         br
+        // form input fields and button for changing or deleting the data of a faculty
+        // fields are automatically filled by using the jquery autocomplete search bar
         p.
           Dataset of the desired faculty:
         form
@@ -48,6 +51,7 @@ block content
           input#institutesup.form-control(type='text', name='institutes', placeholder='institutes')
         br
         button.btn.btn-outline-success.btn-sm(onclick='updateFaculty()') Update dataset!
+        | &nbsp;
         | &nbsp;
         button.btn.btn-outline-danger.btn-sm(onclick='deleteFaculty()') Delete dataset!
     // connection to script

@@ -16,43 +16,30 @@ block content
   .container-fluid
     .row
       .col-lg-6
-        div
-          h4 Push the "Load Data" button and click on one of the institutes to change its data!
-          form(action='/updateinst', method='post', onsubmit="return beforeSubmitUpdateInst()")
-            .input
-              label(for='id') ID:
-              br
-              input#outputid.form-control(type='text', name='outputid', readonly)
-            br  
-            .input
-              label(for='name') Name:
-              br
-              input#outputname.form-control(type='text', name='name')
-            br  
-            .input
-              label(for='img') Image URL:
-              br
-              input#outputimg.form-control(type='url', name='img')
-            .input
-              label(for='img') 
-              input#updatejson.form-control(type='hidden', name='updatejson')
-            br
-            div
-              #map
-            button.btn.btn-outline-success.btn-sm(type='submit') Update dataset!
-          form(action='/deleteinst', method='post')
-            .input
-              label(for='id')
-              input#iddelete.form-control(type="hidden", name ="iddelete", value="")
-            button.btn.btn-outline-danger.btn-sm(type='submit') Delete dataset!
-          
+        h4 Search for an institute with its name and changes its data!
+        .ui-widget
+          input#searchinstitute.form-control(type='text', placeholder='Search...')
+      .col-lg-6
+    .row
+      .col-lg-6
+        p.
+          Change name or image of the institute:
+        form
+          input#outputid.form-control(type='text', name='outputid', readonly, placeholder='id')
+          br  
+          input#outputname.form-control(type='text', name='name', placeholder='name')
+          br  
+          input#outputimg.form-control(type='url', name='img', placeholder='image/url')
+        br
+        button.btn.btn-outline-success.btn-sm(type='submit') Update dataset!
+        | &nbsp;
+        | &nbsp;
+        button.btn.btn-outline-danger.btn-sm(type='submit') Delete dataset!
       .col-lg-6
         div
-          h4 Currently stored data:
-          #demo2
-          br
-        button.btn.btn-outline-success.btn-sm(onclick='loadInstitutes()') Load Data!
-        
+          p.
+            Edit the geometry with the edit button in the map!
+          // map space
+          #map.map2
           
-  script(src='/javascripts/functions.js')
-  script(src='/javascripts/map.js')
+  script(src='/javascripts/institute.js')
