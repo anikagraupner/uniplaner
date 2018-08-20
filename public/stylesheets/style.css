@@ -6,7 +6,7 @@
 
 .map2 {
 	margin: 1em auto;
-	height:400px;
+	height:350px;
 	width: 100%;}
 
 #routmap{
@@ -40,6 +40,11 @@
 
 	font-size: 14px;
 
+}
+
+.btnblock{
+
+	text-align: right;
 }
 
 .col-lg-4 {

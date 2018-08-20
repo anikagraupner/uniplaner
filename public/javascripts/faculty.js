@@ -74,6 +74,7 @@ $.ajax({
 /*
 * function which gets the data of the faculties from the server
 * load the values to the input fields on 'faculty.jade'
+* when the name or the shortcut of a faculty is selected with jquery autocomplete
 */
 $('#searchfaculty').on('autocompleteselect', function (e, ui) {
 
@@ -164,9 +165,12 @@ function updateFaculty(){
 
 }
 
-
+/*
+* function to delete a faculty (only id is needed)
+*/
 function deleteFaculty(){
 
+  // security question before deleting the dataset
   var txt;
   var r = confirm("Are you sure you want to delete the selected faculty?");
   if (r == false) {
@@ -187,7 +191,7 @@ function deleteFaculty(){
 
         var data = JSON.stringify(delFaculty);
         console.log(data);
-        JL("mylogger").info("Data of the faculty was sent to database to delete the dataset.");
+        JL("mylogger").info("Data of the faculty was sent to server to delete the dataset.");
         alert("The selected faculty was deleted!");
 
         // dataType and contentType important for right sending of the json
@@ -199,8 +203,8 @@ function deleteFaculty(){
           url: "./deleteFaculty",
 
         });
+        // setTimeout, because direct reloading causes the old faculty to yet be displayed in the search field
+        setTimeout(function(){ location.reload(true); }, 1000);
       }
     }
-    // setTimeout, because direct reloading causes the new faculty to not yet be displayed in the search field
-    setTimeout(function(){ location.reload(true); }, 1000);
 }

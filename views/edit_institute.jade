@@ -1,6 +1,6 @@
 // author: Anika Graupner (437401)
 // final task geosoftware I, summer 2018
-// add new institutes by using different functions 
+// edit institutes which are already saved in the database
 extends layout
   
 block content
@@ -17,6 +17,7 @@ block content
     .row
       .col-lg-6
         h4 Search for an institute with its name and changes its data!
+        // jquery autocomplete search bar to search for an institute with name 
         .ui-widget
           input#searchinstitute.form-control(type='text', placeholder='Search...')
       .col-lg-6
@@ -24,6 +25,8 @@ block content
       .col-lg-6
         p.
           Change name or image of the institute:
+        // form input fields and button for changing or deleting the data of a faculty
+        // fields are automatically filled by using the jquery autocomplete search bar
         form
           input#outputid.form-control(type='text', name='outputid', readonly, placeholder='id')
           br  
@@ -31,15 +34,17 @@ block content
           br  
           input#outputimg.form-control(type='url', name='img', placeholder='image/url')
         br
-        button.btn.btn-outline-success.btn-sm(type='submit') Update dataset!
-        | &nbsp;
-        | &nbsp;
-        button.btn.btn-outline-danger.btn-sm(type='submit') Delete dataset!
       .col-lg-6
         div
           p.
-            Edit the geometry with the edit button in the map!
+            Edit the geometry with the edit button or draw a complete new polygon in the map!
           // map space
           #map.map2
-          
+    .row 
+      .col-lg-12.btnblock
+        button.btn.btn-outline-success.btn-sm(onclick='updateInstitute()') Update dataset!
+        | &nbsp;
+        | &nbsp;
+        button.btn.btn-outline-danger.btn-sm(onclick='deleteInstitute()') Delete dataset!
+  // connection to script        
   script(src='/javascripts/institute.js')

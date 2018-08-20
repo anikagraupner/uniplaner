@@ -142,7 +142,7 @@ router.post('/deleteFaculty', function(req, res, next) {
 router.post('/insertInstitute', function(req, res, next){
 
   // save sent data in a variable
-  var institute = req.body;
+  var institute = {geojson: req.body};
   console.log(institute);
 
   mongo.connect(url, function(err, db) { // connect to the database
@@ -159,7 +159,7 @@ router.post('/insertInstitute', function(req, res, next){
 * function to load the whole data from collection 'institutes' and send it to client side
 */
 router.get('/loadInstitute', function(req, res) {
-  
+
   var db = req.db; // connection to database
   var collection = db.get('institutes'); // collection institutes
   collection.find({},{},function(e,docs){ // find all elements in the collection
@@ -170,47 +170,46 @@ router.get('/loadInstitute', function(req, res) {
 });
 
 
-/* get the ID and the new geojson from the edited institutes
-/* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
-router.post('/updateinst', function(req, res, next) {
-  var updatefile = {geojson : req.body.updatejson};
-  var id = req.body.outputid;
+/*
+* function for changing the data of a institute
+* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial
+*/
+router.post('/updateInstitute', function(req, res, next) {
+
+  // save the sent data in variables
+  var updateInst = {geojson : req.body.geojson};
+  var id = req.body.id;
 
   mongo.connect(url, function(err, db) {
     assert.equal(null, err);
-    db.db('uniplaner').collection('institutes').updateOne({"_id": objectId(id)}, {$set: updatefile}, function(err, result) {
+    // name of the database-collection, update the data of the element wich has the same id
+    db.db('uniplaner').collection('institutes').updateOne({"_id": objectId(id)}, {$set: updateInst}, function(err, result) {
       assert.equal(null, err);
       console.log('Institute updated');
       db.close();
     });
   });
-
-  res.redirect('edit_institute'); // restart page
-
 });
 
-/* get the form-data from the subject areas from mongodb */
-/* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial */
-router.post('/deleteinst', function(req, res, next) {
-  var id = req.body.iddelete;
+/*
+* delete an institute in the database collection institutes
+* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial
+*/
+router.post('/deleteInstitute', function(req, res, next) {
+
+  // save the sent data in variable
+  var id = req.body.id;
 
   mongo.connect(url, function(err, db) {
     assert.equal(null, err);
+    // name of the database-collection, delete the data of the element wich has the same id
     db.db('uniplaner').collection('institutes').deleteOne({"_id": objectId(id)}, function(err, result) {
       assert.equal(null, err);
       console.log('Institute deleted');
       db.close();
     });
   });
-
-  res.redirect('edit_institute'); // restart page
-
 });
-
-
-
-
-
 
 
 

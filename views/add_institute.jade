@@ -19,6 +19,7 @@ block content
           h4.
             Add a new institute by writing the information in the input fields and drawing the geometry in the map!
           br
+          // form input fields and button for saving a new institute by also drawing in the map
           form
             input#inputname.form-control(type='text', name='inputname', placeholder='name')
             br
@@ -35,6 +36,7 @@ block content
           h4.
             Add a new institute by enter a geojson in the textfield!
           br
+          // textfield for adding an institute with a finished geojson
           form
             textarea#text.form-control(name='text', cols='50', rows='4', placeholder='Enter a geoJSON conform text!')
           button#btn1.btn.btn-outline-success.btn-sm(onclick='insertInstText()') Save in Database!
@@ -45,10 +47,13 @@ block content
           h4.
             Add a new institute by enter a URL in the field which contains a geojson!
           br
+          // url input field for adding an institute with a finished geojson
           form
             input#inputURL.form-control(name='inputurl', type='url', size='100%', placeholder='URL')
           button#btn2.btn.btn-outline-success.btn-sm(onclick='insertInstURL()') Save in Database!
         br
-        div
+        // shows the actual content of the url
+        div 
           #inputurl
+  // connection to script
   script(src='/javascripts/institute.js')
