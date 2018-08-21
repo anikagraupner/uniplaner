@@ -213,6 +213,17 @@ router.post('/deleteInstitute', function(req, res, next) {
 
 
 
+router.get('/loadPerm'), function(req, res){
+
+  var db = req.db;
+  var collection = db.get('institutes');
+  collection.find({"_id": req.query._id},{},function(e,docs){
+
+    console.log(docs);
+  })
+}
+
+
 /* serverside logging with javascript
 * source: https://github.com/Effizjens/Aufgabe_7/blob/master/routes/index.js
 */

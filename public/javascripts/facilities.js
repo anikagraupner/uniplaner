@@ -19,6 +19,31 @@ var canteenIcon = L.icon({
     iconUrl: '/images/canteen_icon.jpg',
     iconSize: [40, 40]});
 
+
+window.onload = function(){
+  console.log("hallo");
+  var url = new URL(window.location.href);
+  if(url.searchParams.get("_id") != null){
+    loadFromDatabase(url.searchParams.get("_id"));
+  }
+}
+
+function loadFromDatabase(idVonObjekt){
+
+  $.ajax({
+    type: 'GET',
+    data: {"_id":idVonObjekt},
+    url: "./loadPerm",
+    sucess: function(result){
+      console.log(result);
+    }
+  })
+
+}
+
+
+
+
 $.ajax({
         type: "GET",
         url: "http://openmensa.org/api/v2/canteens/?near[lat]=51.954522&near[lng]=7.614505&near[dist]=15",
@@ -144,6 +169,8 @@ $.ajax({
       console.log(namearray);
       $( "#institute" ).autocomplete({
       source: namearray});
+
+
 
     }
 

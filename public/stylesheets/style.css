@@ -15,6 +15,16 @@
 	height:600px;
 	width: 100%;}
 
+#home{
+
+	color: black;
+}
+
+.center {
+
+	text-align: center;
+}
+
 .navbar{
 
 	color: #c3c3c3;
@@ -51,7 +61,7 @@
 
 	overflow: auto;
 	padding: 15px;
-	font-size: 13px;
+	font-size: 15px;
 }
 
 .col-lg-6{
@@ -92,6 +102,14 @@ h4 {
 
 	height: 170px;
 
+
+}
+
+#homepic{
+
+	height: 80%;
+  width: 300px;
+	float: right;
 
 }
 
@@ -161,6 +179,15 @@ ul, ol {
 .col-md-4{
 
 	color: #FFFFFF;
+
+}
+
+.img-responsive{
+
+	display: block;
+    margin-left: auto;
+    margin-right: auto
+
 
 }
 

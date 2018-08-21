@@ -12,12 +12,51 @@ block content
       | &#x9;&#x9;&#x9;&#x9;
       p
         | Welcome to the smart navigator of the WWU! True to the motto &quot;by students for students&quot; this website
-        | was created specifically for new students of the WWU!
+        | was created specifically for new geoinformatic students of the WWU!
   // bootstrap container with columns (grid)
   .container-fluid
-    .col-lg-12
-      p(style='font-size: 15px;')
-        span(style='font-size:20px; font-weight: bold;')  Welcome!
-        br
-        br
-      p
+    .row
+      .col-lg-12
+        p(style='font-size: 15px;')
+          span(style='font-size:20px; font-weight: bold;')  Enjoy!
+    .row
+      .col-lg-4
+        p
+          | This page offers you several ways to find your way around your new environment. 
+          | Your personal interests and concerns will be taken into account to create the best individual maps for you.
+          br
+          br 
+          | At the same time, you can already extend your own knowledge of data formats, web services and online mapping. 
+          | This website is an example of what awaits you in the study of Geoinformatics. We hope it awakens your curiosity about the upcoming 
+          | content and the interest in developing your own similar applications in the near future.
+          br
+          br
+          | Have fun discovering the different functionalities. 
+      .col-lg-4
+        img.img-responsive(src='/images/schloss.jpg' alt='palace' width='100%')
+      .col-lg-4.center
+          p
+            | Add and edit data under Datamanagement
+            | .
+            br
+            br
+            | You can save data of 
+            b 
+              a#home(href='add_institute') institutes, 
+              a#home(href='faculty') faculties 
+            | and 
+            b routes
+            |.
+            br
+            br
+            | Hungry? At  
+            b 
+              a#home(href='facilities') Facilities 
+            | look for food offer of every canteen or bistro in Münster.
+            br 
+            br 
+            | It is also possible to create routes under 
+            b Routing 
+            | , for example to the nearest canteen of your institute.          
+      
+        
