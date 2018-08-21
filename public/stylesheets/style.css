@@ -12,7 +12,7 @@
 #routmap{
 
 	margin: 1em auto;
-	height:600px;
+	height:500px;
 	width: 100%;}
 
 #home{
@@ -78,7 +78,7 @@
 	font-size: 13px;
 }
 
-.col-lg-3{
+.col-lg-3, .col-lg-5, .col-lg-7{
 
 	overflow: auto;
 	padding: 15px;
@@ -92,7 +92,7 @@ h4 {
 
 }
 
-#searchfaculty, #searchinstitute{
+#searchfaculty, #searchinstitute, #institute{
 
 	border-radius: 0;
 
