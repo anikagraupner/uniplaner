@@ -187,94 +187,101 @@ function insertInstText(){
 */
 function insertInstURL(){
 
-  // jquery ajax function to load the content of the url
-  var url = document.getElementById("inputURL").value;
-  console.log(url);
-  $.ajax({
-    type: "GET",
-    url: url, // url from the input field
-    success: function(content){
+  if(document.getElementById("inputURL").value == ""){
 
-      console.log(content);
-      // shows the content on the document
-      document.getElementById('inputurl').innerHTML = content;
+    JL("mylogger").error("Data of the institute was not send to database.");
+    alert("Please enter a URL!");
 
-      // content of the url must not be empty
-      if (content == ""){
+  } else{
+    // jquery ajax function to load the content of the url
+    var url = document.getElementById("inputURL").value;
+    console.log(url);
+    $.ajax({
+      type: "GET",
+      url: url, // url from the input field
+      success: function(content){
 
-        alert("Your input is empty!");
-        JL("mylogger").error("Data of the institute was not send to database.");
+        console.log(content);
+        // shows the content on the document
+        document.getElementById('inputurl').innerHTML = content;
 
-      } else {
+        // content of the url must not be empty
+        if (content == ""){
 
-          try {
+          JL("mylogger").error("Data of the institute was not send to database.");
+          alert("Your input is empty!");
 
-            // when the input from the url could not be parsed --> catch
-            var textJSON = JSON.parse(content);
-            console.log(textJSON);
+        } else {
 
-            // needs a name attribute
-            if(typeof textJSON.features[0].properties.name== "undefined"){
+            try {
+
+              // when the input from the url could not be parsed --> catch
+              var textJSON = JSON.parse(content);
+              console.log(textJSON);
+
+              // needs a name attribute
+              if(typeof textJSON.features[0].properties.name== "undefined"){
+
+                JL("mylogger").error("Data of the institute was not send to database.");
+                alert("Enter a property name or check the title of your name property!");
+
+                // name must not be null
+              } else if(textJSON.features[0].properties.name== ""){
+
+                JL("mylogger").error("Data of the institute was not send to database.");
+                alert("Enter a name for your institute!");
+
+                // needs a img attribute
+              } else if(typeof textJSON.features[0].properties.img== "undefined"){
+
+                JL("mylogger").error("Data of the institute was not send to database.");
+                alert("Enter a property 'img' (for image url) for your Institute or check the title of your url property!");
+
+                // img must not be null
+              } else if(textJSON.features[0].properties.img== ""){
+
+                JL("mylogger").error("Data of the institute was not send to database.");
+                alert("Enter a image url for your Institute!");
+
+                // geometry type must be a Polygon
+              } else if(textJSON.features[0].geometry.type !== "Polygon"){
+
+                JL("mylogger").error("Data of the institute was not send to database.");
+                alert("Your geometry type is wrong. Change it to Polygon!");
+
+                // if everything is correct, data is send to database
+              } else{
+
+                  var data = JSON.stringify(textJSON);
+                  console.log(data);
+
+                  JL("mylogger").info("Data was sent to database.");
+                  alert("New institute was sucessfully saved!");
+
+                  // dataType and contentType important for right sending of the json
+                  $.ajax({
+                    type: 'POST',
+                    data: data,
+                    dataType: "json",
+                    contentType: 'application/json',
+                    url: "./insertInstitute",
+                  });
+                }
+
+              // alerted if json.parse does not work, so the input is all in all not json conform
+            } catch (e) {
 
               JL("mylogger").error("Data of the institute was not send to database.");
-              alert("Enter a property name or check the title of your name property!");
-
-              // name must not be null
-            } else if(textJSON.features[0].properties.name== ""){
-
-              JL("mylogger").error("Data of the institute was not send to database.");
-              alert("Enter a name for your institute!");
-
-              // needs a img attribute
-            } else if(typeof textJSON.features[0].properties.img== "undefined"){
-
-              JL("mylogger").error("Data of the institute was not send to database.");
-              alert("Enter a property 'img' (for image url) for your Institute or check the title of your url property!");
-
-              // img must not be null
-            } else if(textJSON.features[0].properties.img== ""){
-
-              JL("mylogger").error("Data of the institute was not send to database.");
-              alert("Enter a image url for your Institute!");
-
-              // geometry type must be a Polygon
-            } else if(textJSON.features[0].geometry.type !== "Polygon"){
-
-              JL("mylogger").error("Data of the institute was not send to database.");
-              alert("Your geometry type is wrong. Change it to Polygon!");
-
-              // if everything is correct, data is send to database
-            } else{
-
-                var data = JSON.stringify(textJSON);
-                console.log(data);
-
-                JL("mylogger").info("Data was sent to database.");
-                alert("New institute was sucessfully saved!");
-
-                // dataType and contentType important for right sending of the json
-                $.ajax({
-                  type: 'POST',
-                  data: data,
-                  dataType: "json",
-                  contentType: 'application/json',
-                  url: "./insertInstitute",
-                });
-              }
-
-            // alerted if json.parse does not work, so the input is all in all not json conform
-          } catch (e) {
-
-            JL("mylogger").error("Data of the institute was not send to database.");
-            alert("Your entry is not JSON conform! Check your syntax and (geometry)types!");
-          }
+              alert("Your entry is not JSON conform! Check your syntax and (geometry)types!");
+            }
+        }
+      },
+      // error if the url is not correct
+      error: function(){
+        alert("Error loading the data! Check your URL!");
       }
-    },
-    // error if the url is not correct
-    error: function(){
-      alert("Error loading the data! Check your URL!");
-    }
-  })
+    })
+  }
 }
 
 
@@ -361,63 +368,45 @@ $('#searchinstitute').on('autocompleteselect', function (e, ui) {
 */
 function updateInstitute(){
 
-  // no saving without a name
-  if(document.getElementById("outputname").value == ""){
-
+  // when the button is clicked without any content 
+  if(document.getElementById("outputid").value == ""){
     JL("mylogger").error("Data of the institute was not send to database.");
-    alert("Error: Please enter a name!");
+    alert("Error: Please select an institute with the search bar!");
+  } else{
 
-    // no saving without an url
-  } else if(document.getElementById("outputimg").value == ""){
-
-      JL("mylogger").error("Data of the institute was not send to database.");
-      alert("Error: Please enter a picture url!");
-
-    // no saving without a geometry
-  } else if(json == undefined){
+    // no saving without a name
+    if(document.getElementById("outputname").value == ""){
 
       JL("mylogger").error("Data of the institute was not send to database.");
-      alert("Error: Please draw the geometry of the institute!");
+      alert("Error: Please enter a name!");
 
-    // if somebody deletes the old geometry and draws a new one (same procedure than insertInstitute())
-  } else if(json.features == undefined){
+      // no saving without an url
+    } else if(document.getElementById("outputimg").value == ""){
 
-    // creating a json conform object with the data input field and the geometry
-    console.log(json);
-    var name = document.getElementById("outputname").value;
-    var img = document.getElementById("outputimg").value;
-    var id = document.getElementById("outputid").value;
-    var newInstitute = {type:"FeatureCollection", features:[
-      json
-    ]};
-    newInstitute.features[0].properties = {name, img};
-    console.log(newInstitute);
-    var object = {id, geojson: newInstitute};
-    var data = JSON.stringify(object);
-    console.log(data);
-    JL("mylogger").info("Data was sent to database.");
-    alert("New institute was sucessfully saved!");
+        JL("mylogger").error("Data of the institute was not send to database.");
+        alert("Error: Please enter a picture url!");
 
-    // dataType and contentType important for right sending of the json
-    $.ajax({
-      type: 'POST',
-      data: data,
-      dataType: "json",
-      contentType: 'application/json',
-      url: "./updateInstitute",
-    });
+      // no saving without a geometry
+    } else if(json == undefined){
 
-  // send new institute to the server, if the old geometry was onl edited with the edit button in the map
-  } else {
+        JL("mylogger").error("Data of the institute was not send to database.");
+        alert("Error: Please draw the geometry of the institute!");
 
-      // creating a json conform object with the data inputs and the geometry from institute.jade
+      // if somebody deletes the old geometry and draws a new one (same procedure than insertInstitute())
+    } else if(json.features == undefined){
+
+      // creating a json conform object with the data input field and the geometry
       console.log(json);
+      var name = document.getElementById("outputname").value;
+      var img = document.getElementById("outputimg").value;
       var id = document.getElementById("outputid").value;
-      json.features[0].properties.name = document.getElementById("outputname").value;
-      json.features[0].properties.img = document.getElementById("outputimg").value;
-      var newJson = {id, geojson: json};
-
-      var data = JSON.stringify(newJson);
+      var newInstitute = {type:"FeatureCollection", features:[
+        json
+      ]};
+      newInstitute.features[0].properties = {name, img};
+      console.log(newInstitute);
+      var object = {id, geojson: newInstitute};
+      var data = JSON.stringify(object);
       console.log(data);
       JL("mylogger").info("Data was sent to database.");
       alert("New institute was sucessfully saved!");
@@ -430,9 +419,34 @@ function updateInstitute(){
         contentType: 'application/json',
         url: "./updateInstitute",
       });
-    }
-    // setTimeout, because direct reloading causes the new institute to not yet be displayed in the search field
-    setTimeout(function(){ location.reload(true); }, 1000);
+
+    // send new institute to the server, if the old geometry was onl edited with the edit button in the map
+    } else {
+
+        // creating a json conform object with the data inputs and the geometry from institute.jade
+        console.log(json);
+        var id = document.getElementById("outputid").value;
+        json.features[0].properties.name = document.getElementById("outputname").value;
+        json.features[0].properties.img = document.getElementById("outputimg").value;
+        var newJson = {id, geojson: json};
+
+        var data = JSON.stringify(newJson);
+        console.log(data);
+        JL("mylogger").info("Data was sent to database.");
+        alert("New institute was sucessfully saved!");
+
+        // dataType and contentType important for right sending of the json
+        $.ajax({
+          type: 'POST',
+          data: data,
+          dataType: "json",
+          contentType: 'application/json',
+          url: "./updateInstitute",
+        });
+      }
+      // setTimeout, because direct reloading causes the new institute to not yet be displayed in the search field
+      setTimeout(function(){ location.reload(true); }, 1000);
+  }
 }
 
 /*

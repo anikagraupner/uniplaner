@@ -26,14 +26,14 @@ router.get('/imprint', function(req, res) {
   res.render('imprint', { title: 'Legal notice!' });
 });
 
-/* GET institute. */
-router.get('/add_institute', function(req, res) {
-  res.render('add_institute', { title: 'Add an institute!' });
-});
-
 /* GET faculty. */
 router.get('/faculty', function(req, res) {
   res.render('faculty', { title: 'Add or edit a faculty!' });
+});
+
+/* GET add_institute. */
+router.get('/add_institute', function(req, res) {
+  res.render('add_institute', { title: 'Add an institute!' });
 });
 
 /* GET edit_institute */
@@ -44,6 +44,11 @@ router.get('/edit_institute', function(req, res) {
 /* GET facilities. */
 router.get('/facilities', function(req, res) {
   res.render('facilities', { title: 'Facilities of the WWU!' });
+});
+
+/* GET routing. */
+router.get('/routing', function(req, res) {
+  res.render('routing', { title: 'Routing!' });
 });
 
 
@@ -210,6 +215,38 @@ router.post('/deleteInstitute', function(req, res, next) {
     });
   });
 });
+
+
+
+router.post('/insertRoute', function(req, res, next){
+
+  // save sent data in a variable
+  var route = {route: req.body};
+  console.log(route);
+
+  mongo.connect(url, function(err, db) { // connect to the database
+  assert.equal(null, err); // check if there is an error
+    db.db('uniplaner').collection('routes').insertOne(route, function(err, result) { //name of the database-collection, one insert
+      assert.equal(null, err); // check if there is an error
+      console.log('Route inserted');
+      db.close(); // close DB
+    });
+  });
+});
+
+/*
+* function to load the whole data from collection 'routes' and send it to client side
+*/
+router.get('/loadRoute', function(req, res) {
+
+  var db = req.db; // connection to database
+  var collection = db.get('routes'); // collection routes
+  collection.find({},{},function(e,docs){ // find all elements in the collection
+
+    res.send({"route": docs}); // send them to client side
+  });
+});
+
 
 
 /* serverside logging with javascript

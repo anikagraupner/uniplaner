@@ -15,12 +15,6 @@ block content
         In addition, all canteens and bistros in Münster are shown with their current daily specials on the map!
   .container-fluid
     .row
-      .col-lg-7
-        h4 Click on the canteens and institutes markers in the map!
-        br
-        // mapspace
-        div
-          #routmap
       .col-lg-5
         div
           h4 Select an institute with the search bar (per name) to add it to the map and get 
@@ -33,6 +27,12 @@ block content
           // div for information of the faculty
           div
             #faculty
+      .col-lg-7
+        h4 Click on the canteens and institutes markers in the map!
+        br
+        // mapspace
+        div
+          #map.map3
   // connection to script        
   script(src='/javascripts/facilities.js')
   

@@ -2,7 +2,7 @@
 
 // creating map by using mapbox
 L.mapbox.accessToken = 'pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA';
-  var map = L.mapbox.map('routmap').setView([51.96, 7.61], 13);
+  var map = L.mapbox.map('map').setView([51.96, 7.61], 13);
 
 // adding different layers to the map
 L.control.layers({

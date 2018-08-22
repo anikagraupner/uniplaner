@@ -131,14 +131,14 @@ function updateFaculty(){
   // id is needed to change the data, the faculty must be selected with the search bar
   if(upFaculty.id == ""){
 
-    JL("mylogger").error("No data to send to the database.");
+    JL("mylogger").error("No data to sent to the database.");
     alert("Error: Please select a dataset with the search function!")
 
   }
   // no saving without a name
   else if(upFaculty.name == ""){
 
-    JL("mylogger").error("Changed data of the faculty was not send to database.");
+    JL("mylogger").error("Changed data of the faculty was not sent to database.");
     alert("Error: Please enter a name!")
 
   // send changed data of the faculty to the server

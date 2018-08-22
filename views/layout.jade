@@ -17,6 +17,12 @@ html(lang='en')
     // mapbox
     script(src='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js')
     link(href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet')
+    // leaflet, leaflet roting machine
+    link(rel='stylesheet' href='https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css')
+    script(src='https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js')
+    // Geocoder
+    link(rel='stylesheet' href='https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css')
+    script(src='https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js')
     // jQuery library
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
     // jQuery
@@ -58,7 +64,7 @@ html(lang='en')
           | &#x9;&#x9;&#x9;&#x9;&#x9;
           .dropdown-menu
             a.a.dropdown-item(href='facilities') Facilities!
-            a.a.dropdown-item(href='faculty') Routing!
+            a.a.dropdown-item(href='routing') Routing!
     block content
     // footer
     // see: https://bootsnipp.com/snippets/2eMK5
