@@ -17,27 +17,36 @@ block content
         div
           #map.map4
       .col-lg-3
-        h4 Save your created route in the Database!
+        h4 Enter startpoint and endpoint of your route in the fields in the map and save your created route in the database!
         br
         button#btn1.btn.btn-outline-success.btn-sm(onclick='insertRoute()') Save in Database!
         br
         br
         br
+        h4 You can also search for an institute and route automatically to the nearest canteen and save this route in the database!
+        br
+        // jquery autocomplete search bar for institutes name
+        .ui-widget
+          input#loadinstitute.form-control(type='text', placeholder='Search for institute name...', oninput='disableInputs()')
+        br
+        div
+          #canteen
+        br
+        br
+        br
         h4 Search for routes (with name, startpoint or endpoint) you have already saved to add them to the map and maybe change their data or delete them!
         br
-        // jquery autocomplete search bar to search for a route with name, startpoint or endpoint 
+        // jquery autocomplete search bar to search for a route with name, startpoint or endpoint
         .ui-widget
           input#routename.form-control(type='text', placeholder='Search for name...', oninput='disableInputs()')
-          | or
+          br
           input#routestart.form-control(type='text', placeholder='Search for startpoint...', oninput='disableInputs()')
-          | or
+          br
           input#routeend.form-control(type='text', placeholder='Search for endpoint...', oninput='disableInputs()')
         br
         button#btn2.btn.btn-outline-success.btn-sm(onclick='updateRoute()', disabled) Update!
         | &nbsp;
         | &nbsp;
         button#btn3.btn.btn-outline-danger.btn-sm(onclick='deleteRoute()', disabled) Delete!
-          
-  // connection to script        
+  // connection to script
   script(src='/javascripts/routing.js')
-      

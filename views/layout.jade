@@ -2,6 +2,7 @@
 // final task geosoftware I, summer 2018
 // layout
 // marking the language
+doctype html
 html(lang='en')
   head
     // charset attribute, specifies the character encoding for the HTML document
@@ -23,6 +24,8 @@ html(lang='en')
     // Geocoder
     link(rel='stylesheet' href='https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css')
     script(src='https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js')
+    // Leaflet knn
+    script(src='javascripts/leaflet-knn.min.js')
     // jQuery library
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
     // jQuery
@@ -36,7 +39,7 @@ html(lang='en')
     link(href='/stylesheets/easy-autocomplete.themes.min.css', rel='stylesheet')
     // link to tylesheet
     link(href='/stylesheets/style.css', rel='stylesheet')
-    // leaflet draw 
+    // leaflet draw
     link(href='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.css' rel='stylesheet')
     script(src='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.js')
   | &#x9;
@@ -79,7 +82,7 @@ html(lang='en')
                 | student at the Institute of Geoinformatics.
               // Rights
               p.rights
-                span &copy;&nbsp; 
+                span &copy;&nbsp;
                 span.copyright-year 2018
                 span &nbsp;
                 span WWU - Institute for Geoinformatics - Anika Graupner

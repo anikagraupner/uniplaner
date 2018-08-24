@@ -16,6 +16,7 @@
     "jade": "~1.11.0",
     "jsnlog": "^2.28.0",
     "jsnlog-nodejs": "^2.28.0",
+    "leaflet-knn": "^0.1.0",
     "mongodb": "^3.0.5",
     "mongoose": "^5.2.8",
     "monk": "^6.0.5",

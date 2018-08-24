@@ -199,28 +199,41 @@ $.ajax({
       }
 });
 
+/*
+* function to enable and diable the input search fields to guarantee that the user types in only one field
+*/
 function disableInputs(){
 
   if(document.getElementById("routename").value != ""){
 
     document.getElementById("routestart").disabled = true;
     document.getElementById("routeend").disabled = true;
+    document.getElementById("loadinstitute").disabled = true;
 
   } else if (document.getElementById("routestart").value != "") {
 
       document.getElementById("routename").disabled = true;
       document.getElementById("routeend").disabled = true;
+      document.getElementById("loadinstitute").disabled = true;
 
   } else if (document.getElementById("routeend").value != "") {
 
     document.getElementById("routestart").disabled = true;
     document.getElementById("routename").disabled = true;
+    document.getElementById("loadinstitute").disabled = true;
+
+  } else if (document.getElementById("loadinstitute").value != "") {
+
+    document.getElementById("routestart").disabled = true;
+    document.getElementById("routename").disabled = true;
+    document.getElementById("routeend").disabled = true;
 
   } else{
 
     document.getElementById("routename").disabled = false;
     document.getElementById("routestart").disabled = false;
     document.getElementById("routeend").disabled = false;
+    document.getElementById("loadinstitute").disabled = false;
   }
 }
 
@@ -282,3 +295,130 @@ $.ajax({
   }
 });
 });
+
+
+/*
+* function which gets the data of the institutes from the server
+* creates an array with name of institutes
+* source for jquery autocomplete
+*/
+$.ajax({
+    type: 'GET',
+    url: "./loadInstitute",
+
+    success: function(result){
+      console.log(result);
+      console.log(result.institute[0].geojson.features[0].properties.name);
+
+      // create an array with the names of the saved institutes
+      var namearray = [];
+      $.each(result.institute, function (i) {
+                namearray.push(result.institute[i].geojson.features[0].properties.name);
+            });
+
+      console.log(namearray);
+
+      // jquery autocomplete
+      $( "#loadinstitute" ).autocomplete({
+      source: namearray});
+    }
+});
+
+
+var newGeojson;
+
+$('#loadinstitute').on('autocompleteselect', function (e, ui) {
+
+  $.ajax({
+      type: 'GET',
+      url: "http://openmensa.org/api/v2/canteens/?near[lat]=51.954522&near[lng]=7.614505&near[dist]=15",
+      async: false,
+      success: function(data){
+
+        createGeoJson(data);
+      },
+      error: function (data) {
+        handleError(data);
+      }
+  });
+
+  console.log(newGeojson);
+
+  $.ajax({
+      type: 'GET',
+      url: "./loadInstitute",
+      success: function(result){
+
+        $.each(result.institute, function (i) {
+
+          if(document.getElementById('loadinstitute').value == result.institute[i].geojson.features[0].properties.name){
+
+            var d = result.institute[i].geojson.features[0].geometry.coordinates[0][0];
+            var lat = d[1];
+            console.log(lat);
+            var lon = d[0];
+            console.log(lon);
+            var gj = L.geoJson(newGeojson);
+            var nearest = leafletKnn(gj).nearest([lon, lat], 15);
+            console.log(nearest);
+            var latS = d[1];
+            var lngS = d[0];
+            var latE = nearest[0].lat;
+            var lngE = nearest[0].lon;
+
+              map.removeControl(control);
+
+              L.Routing.control({
+    createMarker: function(i, wp, nWps) {
+        return L.marker(wp.latLng)
+            .bindPopup('I\'m waypoint ' + i);
+    },
+    ...
+}
+
+              var control2 = L.Routing.control({
+                      router: new L.routing.mapbox('pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA'),
+                      waypoints: [
+                       L.latLng(latS, lngS),
+                       L.latLng(latE, lngE)
+                   ],
+                      routeWhileDragging: false,
+                      geocoder: L.Control.Geocoder.nominatim()
+                  })
+                  .on('routeselected', function(e) {
+                      route = e.route;
+                  })
+                  .addTo(map);
+
+        } else{
+            i++;
+        }
+      });
+    }
+  });
+
+});
+
+function createGeoJson(data){
+
+  var features = [];
+
+  for(var i=0; i < data.length; i++){
+
+    console.log(data);
+    var lat = data[i].coordinates[0];
+    var lon = data[i].coordinates[1];
+    var latlon = [];
+    latlon.push(lon);
+    latlon.push(lat);
+    console.log(latlon);
+    var newFeature = {"type":"Feature", "geometry":{"type":"Point", "coordinates": latlon}};
+    features.push(newFeature);
+
+  }
+
+  newGeojson = {"type":"FeatureCollection", "features":features};
+  console.log(newGeojson);
+  document.getElementById('canteen').innerHTML = "The nearest canteen to your institute is: " + data[0].name;
+
+}
