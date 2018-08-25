@@ -1,15 +1,13 @@
 // author: Anika Graupner (437401)
 // final task geosoftware I, summer 2018
-// add new institutes by using different functions 
+// add new institutes by using different functions
 extends layout
-  
+
 block content
   // jumbotron
   .jumbotron.jumbotron-fluid
     .container
       h1 Add an institute!
-      |  
-      | &#x9;&#x9;&#x9;&#x9;
       p.
         On this page it is possible to add new institutes to the map and save them in a Database!
   .container-fluid
@@ -27,7 +25,7 @@ block content
             br
             p.
               Draw the geometry of the institute into the map:
-          div 
+          div
             // creating the map space
             #map.map1
           button#btn3.btn.btn-outline-success.btn-sm(onclick='insertInstMap()') Save in Database!
@@ -39,6 +37,7 @@ block content
           // textfield for adding an institute with a finished geojson
           form
             textarea#text.form-control(name='text', cols='50', rows='4', placeholder='Enter a geoJSON conform text!')
+            br
           button#btn1.btn.btn-outline-success.btn-sm(onclick='insertInstText()') Save in Database!
           br
           br
@@ -50,10 +49,11 @@ block content
           // url input field for adding an institute with a finished geojson
           form
             input#inputURL.form-control(name='inputurl', type='url', size='100%', placeholder='URL')
+            br
           button#btn2.btn.btn-outline-success.btn-sm(onclick='insertInstURL()') Save in Database!
         br
         // shows the actual content of the url
-        div 
+        div
           #inputurl
   // connection to script
   script(src='/javascripts/institute.js')

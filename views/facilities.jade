@@ -1,26 +1,24 @@
 // author: Anika Graupner (437401)
 // final task geosoftware I, summer 2018
-// add institutes to the map, get their faculty and look for meals with the canteen markers 
+// add institutes to the map, get their faculty and look for meals with the canteen markers
 extends layout
-  
+
 block content
   // jumbotron
   .jumbotron.jumbotron-fluid
     .container
       h1 Facilities!
-      |  
-      | &#x9;&#x9;&#x9;&#x9;
       p.
-        Here you can retrieve your saved data from the database! 
+        Here you can retrieve your saved data from the database!
         In addition, all canteens and bistros in Münster are shown with their current daily specials on the map!
   .container-fluid
     .row
       .col-lg-5
         div
-          h4 Select an institute with the search bar (per name) to add it to the map and get 
+          h4 Select an institute with the search bar (per name) to add it to the map and
               to get the information about the faculty to which it belongs:
           br
-          // jquery autocomplete search bar to search for an institute with name 
+          // jquery autocomplete search bar to search for an institute with name
           .ui-widget
             input#institute.form-control(type='text', placeholder='Search...')
           br
@@ -33,10 +31,5 @@ block content
         // mapspace
         div
           #map.map3
-  // connection to script        
+  // connection to script
   script(src='/javascripts/facilities.js')
-  
-
-
-
- 

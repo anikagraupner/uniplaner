@@ -1,11 +1,5 @@
 "use strict";
 
-// because of the fact, that the adresses should be saved in the database and not the coordinates,
-// the saved markers and the loaded markers are not exactly the same beacause of the geocoding
-// but when a marker is dragged in the map, it has no more a start or an endadress, so that it is
-// necessary to gecode the coordinates to adress to save a route and to reverse geocode the address to
-// coordinates to upload them again to the map
-
 // creating map by using mapbox
 L.mapbox.accessToken = 'pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA';
   var map = L.mapbox.map('map').setView([51.96, 7.61], 13);
@@ -38,93 +32,122 @@ var control = L.Routing.control({
     .addTo(map);
 
 
+
 /*
 * function which send the name, the startpoint and the endpoint of a route to the server
 * to save it in the Database
 */
 function insertRoute(){
 
+  console.log(route);
   // if no route was created
   if(route == undefined){
     JL("mylogger").error("Data was not sent to the database.");
     alert("Error: Please create a route!");
   } else{
 
-      // some necessary variables
-      var name = document.getElementById('name').value;
-      var i = route.waypoints.length;
-      var start = route.waypoints[0].latLng;
-      var lat = start.lat;
-      var lon = start.lng;
-      var end = route.waypoints[i-1].latLng;
-      var lat2 = end.lat;
-      var lon2 = end.lng;
+    var i = route.waypoints.length;
+    var name = document.getElementById('name').value;
+    var start = route.waypoints[0].latLng;
+    var end = route.waypoints[i-1].latLng;
 
-      // no name
-      if(name == "" || name == undefined){
+    // no name
+    if(name == "" || name == undefined){
 
-        JL("mylogger").error("Data was not sent to the database.");
-        alert("Please enter a name in the input field!");
+      JL("mylogger").error("Data was not sent to the database.");
+      alert("Please enter a name in the input field!");
 
-      // no startpoint
-      } else if(start == "" || start == undefined){
+    // no startpoint
+    } else if(start == "" || start == undefined){
 
-        JL("mylogger").error("Data was not sent to the database.");
-        alert("Error: Something went wrong. Your route has no startpoint! Please create the route again!");
-        location.reload(true);
+      JL("mylogger").error("Data was not sent to the database.");
+      alert("Error: Something went wrong. Your route has no startpoint! Please create the route again!");
+      location.reload(true);
 
-      // no endpoint
-      } else if(end == "" || end == undefined){
+    // no endpoint
+    } else if(end == "" || end == undefined){
 
-        JL("mylogger").error("Data was not sent to the database.");
-        alert("Error: Something went wrong. Your route has no endpoint! Please create the route again!");
-        location.reload(true);
+      JL("mylogger").error("Data was not sent to the database.");
+      alert("Error: Something went wrong. Your route has no endpoint! Please create the route again!");
+      location.reload(true);
 
-      } else{
+    } else{
 
-        // it was necessary to use reverse geocoding, because when a marker is moved, this waypoint has no more name
-        // instead the coordinates are stored in variables and correspondingly geocoded in reverse
-        // see: view-source:http://bl.ocks.org/ThomasG77/raw/26e61508217ba86a04c19a67cbda0e99/
+        // some necessary variables
+        var lat = start.lat;
+        var lon = start.lng;
+        var lat2 = end.lat;
+        var lon2 = end.lng;
 
-        // startpoint
-        fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
-          return response.json();
-        }).then(function(json) {
+        if(document.getElementById('start').value != "" && document.getElementById('end').value != ""){
 
-            console.log(json);
-            var adressS = json.display_name;
-            console.log(adressS);
+          var adressS = document.getElementById('start').value;
+          var adressE = document.getElementById('end').value;
 
-          // endpoint
-          fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon2 + '&lat=' + lat2).then(function(response) {
+          var newRoute = {"name":name, "startpoint":{"name":adressS, "coordinates":[lat, lon]}, "endpoint":{"name":adressE, "coordinates":[lat2, lon2]}};
+          console.log(newRoute);
+          var data = JSON.stringify(newRoute);
+          console.log(data);
+          JL("mylogger").info("Data of the route was sent to the database.");
+          alert("Your route was succesfully saved!");
+
+          // dataType and contentType important for right sending of the json
+          $.ajax({
+            type: 'POST',
+            data: data,
+            dataType: "json",
+            contentType: 'application/json',
+            url: "./insertRoute",
+
+          });
+          // setTimeout, because direct reloading causes the old faculty to yet be displayed in the search field
+          setTimeout(function(){ location.reload(true); }, 1000);
+
+        } else{
+
+          // it was necessary to use reverse geocoding, because when a marker is moved, this waypoint has no more name
+          // instead the coordinates are stored in variables and correspondingly geocoded in reverse
+          // see: view-source:http://bl.ocks.org/ThomasG77/raw/26e61508217ba86a04c19a67cbda0e99/
+
+          // startpoint
+          fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
             return response.json();
           }).then(function(json) {
 
               console.log(json);
-              var adressE = json.display_name;
-              console.log(adressE);
+              var adressS = json.display_name;
+              console.log(adressS);
 
-              var newRoute = {"name":name, "startpoint":adressS, "endpoint":adressE};
-                console.log(newRoute);
-                var data = JSON.stringify(newRoute);
-                console.log(data);
-                JL("mylogger").info("Data of the route was sent to the database.");
-                alert("Your route was succesfully saved!");
+            // endpoint
+            fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon2 + '&lat=' + lat2).then(function(response) {
+              return response.json();
+            }).then(function(json) {
 
-                // dataType and contentType important for right sending of the json
-                $.ajax({
-                  type: 'POST',
-                  data: data,
-                  dataType: "json",
-                  contentType: 'application/json',
-                  url: "./insertRoute",
+                console.log(json);
+                var adressE = json.display_name;
+                console.log(adressE);
 
-                });
-          // setTimeout, because direct reloading causes the old faculty to yet be displayed in the search field
-          setTimeout(function(){ location.reload(true); }, 1000);
+                  var newRoute = {"name":name, "startpoint":{"name":adressS, "coordinates":[lat, lon]}, "endpoint":{"name":adressE, "coordinates":[lat2, lon2]}};
+                  console.log(newRoute);
+                  var data = JSON.stringify(newRoute);
+                  console.log(data);
+                  JL("mylogger").info("Data of the route was sent to the database.");
+                  alert("Your route was succesfully saved!");
 
+                  // dataType and contentType important for right sending of the json
+                  $.ajax({
+                    type: 'POST',
+                    data: data,
+                    dataType: "json",
+                    contentType: 'application/json',
+                    url: "./insertRoute",
+
+                  });
+            // setTimeout, because direct reloading causes the old faculty to yet be displayed in the search field
+            setTimeout(function(){ location.reload(true); }, 1000);
           });
-        })
+          });
+        }
   }
 }
 }
@@ -169,7 +192,7 @@ $.ajax({
       // create an array with the names of the saved institutes
       var startarray = [];
       $.each(result.route, function (i) {
-            startarray.push(result.route[i].route.startpoint);
+            startarray.push(result.route[i].route.startpoint.name);
       });
 
       // jquery autocomplete
@@ -194,7 +217,7 @@ $.ajax({
       // create an array with the names of the saved institutes
       var endarray = [];
       $.each(result.route, function (i) {
-            endarray.push(result.route[i].route.endpoint);
+            endarray.push(result.route[i].route.endpoint.name);
       });
 
       // jquery autocomplete
@@ -262,6 +285,12 @@ $('#routename, #routestart, #routeend').on('autocompleteselect', function (e, ui
 document.getElementById("btn3").disabled = false; // delete
 document.getElementById("btn2").disabled = false; // update
 document.getElementById("btn1").disabled = true; // save in DB
+document.getElementById("updateend").disabled = false;
+document.getElementById("updatestart").disabled = false;
+document.getElementById("updatename").disabled = false;
+document.getElementById("end").disabled = true;
+document.getElementById("start").disabled = true;
+document.getElementById("name").disabled = true;
 
 // load the route data with request to the server
 $.ajax({
@@ -273,32 +302,12 @@ $.ajax({
 
       // compare input (select bar) with the names in result
       if(document.getElementById('routename').value == result.route[i].route.name ||
-         document.getElementById('routestart').value == result.route[i].route.startpoint ||
-         document.getElementById('routeend').value == result.route[i].route.endpoint){
+         document.getElementById('routestart').value == result.route[i].route.startpoint.name ||
+         document.getElementById('routeend').value == result.route[i].route.endpoint.name){
 
          document.getElementById('id').value = result.route[i]._id;
-         document.getElementById('updatename').value = result.route[i].route.name;
          document.getElementById('updatename').disabled = false;
          document.getElementById('name').disabled = true;
-
-
-        // the startpoint and endpoint are addresses and have to be gecode to coordinates to add the route to the map again
-        var s = result.route[i].route.startpoint;
-        console.log(s);
-        var e = result.route[i].route.endpoint;
-        var geocoder = new L.Control.Geocoder.Nominatim();
-
-        // nominatim geocoder
-        // https://stackoverflow.com/questions/30934341/leaflet-geosearch-get-lon-lat-from-address
-        // geocode startpoint
-        geocoder.geocode(s, function(results) {
-        var latLngS= new L.LatLng(results[0].center.lat, results[0].center.lng);
-        console.log(latLngS);
-
-          // geocode endpoint
-          geocoder.geocode(e, function(results) {
-          var latLngE= new L.LatLng(results[0].center.lat, results[0].center.lng);
-          console.log(latLngE);
 
           // remove control from a new route (inputfields)
           map.removeControl(control);
@@ -307,8 +316,8 @@ $.ajax({
           control2 = L.Routing.control({
                   router: new L.routing.mapbox('pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA'),
                   waypoints: [
-                   L.latLng(latLngS.lat,latLngS.lng),
-                   L.latLng(latLngE.lat,latLngE.lng)
+                   L.latLng(result.route[i].route.startpoint.coordinates),
+                   L.latLng(result.route[i].route.endpoint.coordinates)
                ],
                   routeWhileDragging: false,
                   geocoder: L.Control.Geocoder.nominatim()
@@ -317,8 +326,6 @@ $.ajax({
                   route = e.route;
               })
               .addTo(map);
-          });
-        });
 
         } else {
 
@@ -495,88 +502,117 @@ function createGeoJson(data){
 */
 function updateRoute(){
 
+  console.log(route);
   // if no route was created
   if(route == undefined){
     JL("mylogger").error("Data was not sent to the database.");
     alert("Error: Please create a route!");
   } else{
 
-      // some necessary variables
-      var name = document.getElementById('updatename').value;
-      var i = route.waypoints.length;
-      var start = route.waypoints[0].latLng;
-      var lat = start.lat;
-      var lon = start.lng;
-      var end = route.waypoints[i-1].latLng;
-      var lat2 = end.lat;
-      var lon2 = end.lng;
+    var i = route.waypoints.length;
+    var name = document.getElementById('updatename').value;
+    var start = route.waypoints[0].latLng;
+    var end = route.waypoints[i-1].latLng;
 
-      // no name
-      if(name == "" || name == undefined){
+    // no name
+    if(name == "" || name == undefined){
 
-        JL("mylogger").error("Data was not sent to the database.");
-        alert("Please enter a name in the input field!");
+      JL("mylogger").error("Data was not sent to the database.");
+      alert("Please enter a name in the input field!");
 
-      // no startpoint
-      } else if(start == "" || start == undefined){
+    // no startpoint
+    } else if(start == "" || start == undefined){
 
-        JL("mylogger").error("Data was not sent to the database.");
-        alert("Error: Something went wrong. Your route has no startpoint! Please create the route again!");
-        location.reload(true);
+      JL("mylogger").error("Data was not sent to the database.");
+      alert("Error: Something went wrong. Your route has no startpoint! Please create the route again!");
+      location.reload(true);
 
-      // no endpoint
-      } else if(end == "" || end == undefined){
+    // no endpoint
+    } else if(end == "" || end == undefined){
 
-        JL("mylogger").error("Data was not sent to the database.");
-        alert("Error: Something went wrong. Your route has no endpoint! Please create the route again!");
-        location.reload(true);
+      JL("mylogger").error("Data was not sent to the database.");
+      alert("Error: Something went wrong. Your route has no endpoint! Please create the route again!");
+      location.reload(true);
 
-      } else{
+    } else{
 
-        // it was necessary to use reverse geocoding, because when a marker is moved, this waypoint has no more name
-        // instead the coordinates are stored in variables and correspondingly geocoded in reverse
-        // see: view-source:http://bl.ocks.org/ThomasG77/raw/26e61508217ba86a04c19a67cbda0e99/
+        // some necessary variables
+        var lat = start.lat;
+        var lon = start.lng;
+        var lat2 = end.lat;
+        var lon2 = end.lng;
 
-        // startpoint
-        fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
-          return response.json();
-        }).then(function(json) {
+        if(document.getElementById('updatestart').value != "" && document.getElementById('updateend').value != ""){
 
-            console.log(json);
-            var adressS = json.display_name;
-            console.log(adressS);
+          var adressS = document.getElementById('updatestart').value;
+          var adressE = document.getElementById('updateend').value;
 
-          // endpoint
-          fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon2 + '&lat=' + lat2).then(function(response) {
+          var id = document.getElementById("id").value;
+          var newRoute = {"id":id, "route":{"name":name, "startpoint":{"name":adressS, "coordinates":[lat, lon]}, "endpoint":{"name":adressE, "coordinates":[lat2, lon2]}}};
+          console.log(newRoute);
+          var data = JSON.stringify(newRoute);
+          console.log(data);
+          JL("mylogger").info("Data of the route was sent to the database.");
+          alert("Your route was succesfully saved!");
+
+          // dataType and contentType important for right sending of the json
+          $.ajax({
+            type: 'POST',
+            data: data,
+            dataType: "json",
+            contentType: 'application/json',
+            url: "./updateRoute",
+
+          });
+          // setTimeout, because direct reloading causes the old faculty to yet be displayed in the search field
+          setTimeout(function(){ location.reload(true); }, 1000);
+
+        } else{
+
+          // it was necessary to use reverse geocoding, because when a marker is moved, this waypoint has no more name
+          // instead the coordinates are stored in variables and correspondingly geocoded in reverse
+          // see: view-source:http://bl.ocks.org/ThomasG77/raw/26e61508217ba86a04c19a67cbda0e99/
+
+          // startpoint
+          fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
             return response.json();
           }).then(function(json) {
 
               console.log(json);
-              var adressE = json.display_name;
-              console.log(adressE);
+              var adressS = json.display_name;
+              console.log(adressS);
 
-                var id = document.getElementById('id').value;
-                var newRoute = {"id":id, "route":{"name":name, "startpoint":adressS, "endpoint":adressE}};
-                console.log(newRoute);
-                var data = JSON.stringify(newRoute);
-                console.log(data);
-                JL("mylogger").info("Data of the route was sent to the database.");
-                alert("Changes of the route were saved!");
+            // endpoint
+            fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon2 + '&lat=' + lat2).then(function(response) {
+              return response.json();
+            }).then(function(json) {
 
-                // dataType and contentType important for right sending of the json
-                $.ajax({
-                  type: 'POST',
-                  data: data,
-                  dataType: "json",
-                  contentType: 'application/json',
-                  url: "./updateRoute",
+                console.log(json);
+                var adressE = json.display_name;
+                console.log(adressE);
 
-                });
-          // setTimeout, because direct reloading causes the old route to yet be displayed in the search field
-          setTimeout(function(){ location.reload(true); }, 1000);
+                var id = document.getElementById("id").value;
+                var newRoute = {"id":id, "route":{"name":name, "startpoint":{"name":adressS, "coordinates":[lat, lon]}, "endpoint":{"name":adressE, "coordinates":[lat2, lon2]}}};
+                  console.log(newRoute);
+                  var data = JSON.stringify(newRoute);
+                  console.log(data);
+                  JL("mylogger").info("Data of the route was sent to the database.");
+                  alert("Your route was succesfully saved!");
 
+                  // dataType and contentType important for right sending of the json
+                  $.ajax({
+                    type: 'POST',
+                    data: data,
+                    dataType: "json",
+                    contentType: 'application/json',
+                    url: "./updateRoute",
+
+                  });
+            // setTimeout, because direct reloading causes the old faculty to yet be displayed in the search field
+            setTimeout(function(){ location.reload(true); }, 1000);
           });
-        })
+          });
+        }
   }
 }
 }

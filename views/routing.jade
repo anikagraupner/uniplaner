@@ -19,7 +19,8 @@ block content
       .col-lg-5
         h4 Enter startpoint and endpoint of your route in the fields in the map and save your created route in the database! (you must press enter in both entries to get autocomplete suggestions)
         br
-        h4 You can also search for an institute and route automatically to the nearest canteen and save this route in the database!
+        | You can also search for an institute and route automatically to the nearest canteen and save this route in the database:
+        br
         br
         // jquery autocomplete search bar for institutes name
         .ui-widget
@@ -30,6 +31,14 @@ block content
         br
         form
           input#name.form-control(type='text', name='name', placeholder='Enter a routename!')
+          br
+          | You can add shorter adresses than they in the map to save them in the database if you want to:
+          br
+          br
+          input#start.form-control(type='text', name='name', placeholder='Enter startpoint!')
+          br
+          input#end.form-control(type='text', name='name', placeholder='Enter endpoint!')
+
         br
         button#btn1.btn.btn-outline-success.btn-sm(onclick='insertRoute()') Save in Database!
         br
@@ -51,6 +60,10 @@ block content
           input#id.form-control(type='text', name='name', placeholder='id', readonly)
           br
           input#updatename.form-control(type='text', name='name', placeholder='Update a routename!', disabled)
+          br
+          input#updatestart.form-control(type='text', name='name', placeholder='Enter startpoint! (optional)', disabled)
+          br
+          input#updateend.form-control(type='text', name='name', placeholder='Enter endpoint! (optional)', disabled)
         br
         button#btn2.btn.btn-outline-success.btn-sm(onclick='updateRoute()', disabled) Update!
         | &nbsp;

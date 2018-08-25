@@ -2,22 +2,20 @@
 // final task geosoftware I, summer 2018
 // edit institutes which are already saved in the database
 extends layout
-  
+
 block content
-  
+
   // jumbotron
   .jumbotron.jumbotron-fluid
     .container
       h1 Edit an institute!
-      |  
-      | &#x9;&#x9;&#x9;&#x9;
       p.
         On this page it is possible to edit institutes!
   .container-fluid
     .row
       .col-lg-6
         h4 Search for an institute with its name and changes its data!
-        // jquery autocomplete search bar to search for an institute with name 
+        // jquery autocomplete search bar to search for an institute with name
         .ui-widget
           input#searchinstitute.form-control(type='text', placeholder='Search...')
       .col-lg-6
@@ -29,9 +27,9 @@ block content
         // fields are automatically filled by using the jquery autocomplete search bar
         form
           input#outputid.form-control(type='text', name='outputid', readonly, placeholder='id')
-          br  
+          br
           input#outputname.form-control(type='text', name='name', placeholder='name')
-          br  
+          br
           input#outputimg.form-control(type='url', name='img', placeholder='image/url')
         br
       .col-lg-6
@@ -40,11 +38,11 @@ block content
             Edit the geometry with the edit button or draw a complete new polygon in the map!
           // map space
           #map.map2
-    .row 
+    .row
       .col-lg-12.btnblock
         button.btn.btn-outline-success.btn-sm(onclick='updateInstitute()') Update dataset!
         | &nbsp;
         | &nbsp;
         button.btn.btn-outline-danger.btn-sm(onclick='deleteInstitute()') Delete dataset!
-  // connection to script        
+  // connection to script
   script(src='/javascripts/institute.js')

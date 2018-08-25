@@ -1,15 +1,13 @@
 // author: Anika Graupner (437401)
 // final task geosoftware I, summer 2018
-// add faculties to the database or edit them  
+// add faculties to the database or edit them
 extends layout
-  
+
 block content
   // jumbotron
   .jumbotron.jumbotron-fluid
     .container
       h1 Faculties
-      |  
-      | &#x9;&#x9;&#x9;&#x9;
       p.
         Add a new faculty or edit an existing one!
   .container-fluid
@@ -17,8 +15,8 @@ block content
       .col-lg-6
           h4 Insert a new faculty!
           br
-          // form input fields and button for saving a new faculty 
-          form 
+          // form input fields and button for saving a new faculty
+          form
             input#name.form-control(type='text', name='name', placeholder='name')
             br
             input#shortcut.form-control(type='text', name='shortcut', placeholder='shortcut')

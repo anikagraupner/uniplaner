@@ -42,7 +42,6 @@ html(lang='en')
     // leaflet draw
     link(href='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.css' rel='stylesheet')
     script(src='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.js')
-  | &#x9;
   body
     // navbar
     // see: https://www.w3schools.com/bootstrap4/bootstrap_navbar.asp
@@ -57,14 +56,12 @@ html(lang='en')
         // Dropdown
         li.nav-item.dropdown
           a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Data Management!
-          | &#x9;&#x9;&#x9;&#x9;&#x9;
           .dropdown-menu
             a.a.dropdown-item(href='faculty') Add/edit a faculty!
             a.dropdown-item(href='add_institute') Add an institute!
             a.dropdown-item(href='edit_institute') Edit an institute!
         li.nav-item.dropdown
           a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Data Visualization!
-          | &#x9;&#x9;&#x9;&#x9;&#x9;
           .dropdown-menu
             a.a.dropdown-item(href='facilities') Facilities!
             a.a.dropdown-item(href='routing') Routing!
@@ -88,7 +85,6 @@ html(lang='en')
                 span WWU - Institute for Geoinformatics - Anika Graupner
                 span .&nbsp;
                 span All Rights Reserved.
-          | &#x9;&#x9;&#x9;&#x9;&#x9;
           .col-md-4
             h6 Contacts
             dl.contact-list
@@ -99,20 +95,15 @@ html(lang='en')
             dl.contact-list
               dd
                 a#link-footer(href='tel:#') +49 251 - 83 33 08 3
-          | &#x9;&#x9;&#x9;&#x9;&#x9;
           .col-md-4.col-xl-3
             h6 Links
-            | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
             ul.list
               li
                 a#link-footer(href='imprint') Legal notice
-              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
               li
                 a#link-footer(href='https://www.uni-muenster.de/de/') WWU
-              | &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;
               li
                 a#link-footer(href='https://www.uni-muenster.de/Geoinformatics/') ifgi
     // jQuery first, then Popper.js, then Bootstrap JS (must be near the end of the body)
     script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js', integrity='sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49', crossorigin='anonymous')
-    | &#x9;&#x9;
     script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', integrity='sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy', crossorigin='anonymous')

@@ -15,7 +15,7 @@
 
 .map4{
 	margin: 1em auto;
-	height:700px;
+	height:900px;
 	width: 100%;}
 
 #home{
@@ -59,7 +59,8 @@ h4 {
 	font-size: 14px;}
 
 #searchfaculty, #searchinstitute, #institute, #loadinstitute, #routeend, #routestart, #routename{
-	border-radius: 0;}
+	border-radius: 0;
+	border-color: #F7BE81;}
 
 .popupImage{
 	height: 170px;}
