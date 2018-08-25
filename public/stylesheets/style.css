@@ -58,7 +58,7 @@ h4 {
 	font-weight: bold;
 	font-size: 14px;}
 
-#searchfaculty, #searchinstitute, #institute{
+#searchfaculty, #searchinstitute, #institute, #loadinstitute, #routeend, #routestart, #routename{
 	border-radius: 0;}
 
 .popupImage{

@@ -13,15 +13,11 @@ block content
   // bootstrap container with columns (grid)
   .container-fluid
     .row
-      .col-lg-9
+      .col-lg-7
         div
           #map.map4
-      .col-lg-3
-        h4 Enter startpoint and endpoint of your route in the fields in the map and save your created route in the database!
-        br
-        button#btn1.btn.btn-outline-success.btn-sm(onclick='insertRoute()') Save in Database!
-        br
-        br
+      .col-lg-5
+        h4 Enter startpoint and endpoint of your route in the fields in the map and save your created route in the database! (you must press enter in both entries to get autocomplete suggestions)
         br
         h4 You can also search for an institute and route automatically to the nearest canteen and save this route in the database!
         br
@@ -31,6 +27,13 @@ block content
         br
         div
           #canteen
+        br
+        form
+          input#name.form-control(type='text', name='name', placeholder='Enter a routename!')
+        br
+        button#btn1.btn.btn-outline-success.btn-sm(onclick='insertRoute()') Save in Database!
+        br
+        br
         br
         br
         h4 Search for routes (with name, startpoint or endpoint) you have already saved to add them to the map and maybe change their data or delete them!
@@ -42,6 +45,12 @@ block content
           input#routestart.form-control(type='text', placeholder='Search for startpoint...', oninput='disableInputs()')
           br
           input#routeend.form-control(type='text', placeholder='Search for endpoint...', oninput='disableInputs()')
+        br
+        br
+        form
+          input#id.form-control(type='text', name='name', placeholder='id', readonly)
+          br
+          input#updatename.form-control(type='text', name='name', placeholder='Update a routename!', disabled)
         br
         button#btn2.btn.btn-outline-success.btn-sm(onclick='updateRoute()', disabled) Update!
         | &nbsp;

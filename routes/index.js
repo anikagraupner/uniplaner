@@ -247,6 +247,49 @@ router.get('/loadRoute', function(req, res) {
   });
 });
 
+/*
+* function for changing the data of a route
+* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial
+*/
+router.post('/updateRoute', function(req, res, next) {
+
+  // save the sent data in variables
+  var updateroute = {route: req.body.route};
+  console.log(updateroute);
+  var id = req.body.id;
+  console.log(id);
+
+  mongo.connect(url, function(err, db) {
+    assert.equal(null, err);
+    // name of the database-collection, update the data of the element wich has the same id
+    db.db('uniplaner').collection('routes').updateOne({"_id": objectId(id)}, {$set: updateroute}, function(err, result) {
+      assert.equal(null, err);
+      console.log('Route updated');
+      db.close();
+    });
+  });
+});
+
+/*
+* delete a route in the database collection routes
+* see: https://github.com/mschwarzmueller/nodejs-basics-tutorial
+*/
+router.post('/deleteRoute', function(req, res, next) {
+
+  // save the sent data in variable
+  var id = req.body.id;
+
+  mongo.connect(url, function(err, db) {
+    assert.equal(null, err);
+    // name of the database-collection, delete the data of the element wich has the same id
+    db.db('uniplaner').collection('routes').deleteOne({"_id": objectId(id)}, function(err, result) {
+      assert.equal(null, err);
+      console.log('Route deleted');
+      db.close();
+    });
+  });
+});
+
 
 
 /* serverside logging with javascript

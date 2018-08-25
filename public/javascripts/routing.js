@@ -1,5 +1,11 @@
 "use strict";
 
+// because of the fact, that the adresses should be saved in the database and not the coordinates,
+// the saved markers and the loaded markers are not exactly the same beacause of the geocoding
+// but when a marker is dragged in the map, it has no more a start or an endadress, so that it is
+// necessary to gecode the coordinates to adress to save a route and to reverse geocode the address to
+// coordinates to upload them again to the map
+
 // creating map by using mapbox
 L.mapbox.accessToken = 'pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA';
   var map = L.mapbox.map('map').setView([51.96, 7.61], 13);
@@ -45,7 +51,7 @@ function insertRoute(){
   } else{
 
       // some necessary variables
-      var name = route.name;
+      var name = document.getElementById('name').value;
       var i = route.waypoints.length;
       var start = route.waypoints[0].latLng;
       var lat = start.lat;
@@ -58,8 +64,7 @@ function insertRoute(){
       if(name == "" || name == undefined){
 
         JL("mylogger").error("Data was not sent to the database.");
-        alert("Error: Something went wrong. Your route has no name! Please create the route again!");
-        location.reload(true);
+        alert("Please enter a name in the input field!");
 
       // no startpoint
       } else if(start == "" || start == undefined){
@@ -234,6 +239,7 @@ function disableInputs(){
     document.getElementById("routestart").disabled = false;
     document.getElementById("routeend").disabled = false;
     document.getElementById("loadinstitute").disabled = false;
+    document.getElementById("name").disabled = false;
   }
 }
 
@@ -270,6 +276,12 @@ $.ajax({
          document.getElementById('routestart').value == result.route[i].route.startpoint ||
          document.getElementById('routeend').value == result.route[i].route.endpoint){
 
+         document.getElementById('id').value = result.route[i]._id;
+         document.getElementById('updatename').value = result.route[i].route.name;
+         document.getElementById('updatename').disabled = false;
+         document.getElementById('name').disabled = true;
+
+
         // the startpoint and endpoint are addresses and have to be gecode to coordinates to add the route to the map again
         var s = result.route[i].route.startpoint;
         console.log(s);
@@ -292,7 +304,7 @@ $.ajax({
           map.removeControl(control);
 
           // add a new control / the searched route to the map
-          var control2 = L.Routing.control({
+          control2 = L.Routing.control({
                   router: new L.routing.mapbox('pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA'),
                   waypoints: [
                    L.latLng(latLngS.lat,latLngS.lng),
@@ -357,6 +369,7 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
   document.getElementById("btn3").disabled = true; // update
   document.getElementById("btn2").disabled = true; // delete
   document.getElementById("btn1").disabled = false; // save
+  document.getElementById("name").disabled = false; // name
 
   // deletes a route in a map before adding a next one
   if(control2 != undefined){
@@ -474,4 +487,140 @@ function createGeoJson(data){
   newGeojson = {"type":"FeatureCollection", "features":features};
   console.log(newGeojson);
 
+}
+
+
+/*
+* function to update a route with changed data
+*/
+function updateRoute(){
+
+  // if no route was created
+  if(route == undefined){
+    JL("mylogger").error("Data was not sent to the database.");
+    alert("Error: Please create a route!");
+  } else{
+
+      // some necessary variables
+      var name = document.getElementById('updatename').value;
+      var i = route.waypoints.length;
+      var start = route.waypoints[0].latLng;
+      var lat = start.lat;
+      var lon = start.lng;
+      var end = route.waypoints[i-1].latLng;
+      var lat2 = end.lat;
+      var lon2 = end.lng;
+
+      // no name
+      if(name == "" || name == undefined){
+
+        JL("mylogger").error("Data was not sent to the database.");
+        alert("Please enter a name in the input field!");
+
+      // no startpoint
+      } else if(start == "" || start == undefined){
+
+        JL("mylogger").error("Data was not sent to the database.");
+        alert("Error: Something went wrong. Your route has no startpoint! Please create the route again!");
+        location.reload(true);
+
+      // no endpoint
+      } else if(end == "" || end == undefined){
+
+        JL("mylogger").error("Data was not sent to the database.");
+        alert("Error: Something went wrong. Your route has no endpoint! Please create the route again!");
+        location.reload(true);
+
+      } else{
+
+        // it was necessary to use reverse geocoding, because when a marker is moved, this waypoint has no more name
+        // instead the coordinates are stored in variables and correspondingly geocoded in reverse
+        // see: view-source:http://bl.ocks.org/ThomasG77/raw/26e61508217ba86a04c19a67cbda0e99/
+
+        // startpoint
+        fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
+          return response.json();
+        }).then(function(json) {
+
+            console.log(json);
+            var adressS = json.display_name;
+            console.log(adressS);
+
+          // endpoint
+          fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon2 + '&lat=' + lat2).then(function(response) {
+            return response.json();
+          }).then(function(json) {
+
+              console.log(json);
+              var adressE = json.display_name;
+              console.log(adressE);
+
+                var id = document.getElementById('id').value;
+                var newRoute = {"id":id, "route":{"name":name, "startpoint":adressS, "endpoint":adressE}};
+                console.log(newRoute);
+                var data = JSON.stringify(newRoute);
+                console.log(data);
+                JL("mylogger").info("Data of the route was sent to the database.");
+                alert("Changes of the route were saved!");
+
+                // dataType and contentType important for right sending of the json
+                $.ajax({
+                  type: 'POST',
+                  data: data,
+                  dataType: "json",
+                  contentType: 'application/json',
+                  url: "./updateRoute",
+
+                });
+          // setTimeout, because direct reloading causes the old route to yet be displayed in the search field
+          setTimeout(function(){ location.reload(true); }, 1000);
+
+          });
+        })
+  }
+}
+}
+
+/*
+* function to delete a route (only id is needed)
+*/
+function deleteRoute(){
+
+  // security question before deleting the dataset
+  var txt;
+  var r = confirm("Are you sure you want to delete the selected Route?");
+  if (r == false) {
+      alert("Route was NOT deleted!")
+  } else {
+
+      var id = document.getElementById('id').value;
+      var delRoute = {"id":id}
+
+      // id is needed to delete the dataset
+      if(delRoute.id == ""){
+
+        JL("mylogger").error("No data to send to the database.");
+        alert("Error: Please select a dataset with the search functions!")
+
+      // send the id of the selected route to the server
+      } else {
+
+        var data = JSON.stringify(delRoute);
+        console.log(data);
+        JL("mylogger").info("Data of the route was sent to server to delete the dataset.");
+        alert("The selected route was deleted!");
+
+        // dataType and contentType important for right sending of the json
+        $.ajax({
+          type: 'POST',
+          data: data,
+          dataType: "json",
+          contentType: 'application/json',
+          url: "./deleteRoute",
+
+        });
+        // setTimeout, because direct reloading causes the old institute to yet be displayed in the search field
+        setTimeout(function(){ location.reload(true); }, 1000);
+      }
+    }
 }
