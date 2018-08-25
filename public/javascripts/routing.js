@@ -237,18 +237,32 @@ function disableInputs(){
   }
 }
 
+var control2; // control vaiable for new route control in the following functions
+
+
+/*
+* function to upload a saved route from the database into the map
+*/
 $('#routename, #routestart, #routeend').on('autocompleteselect', function (e, ui) {
 
-document.getElementById("btn3").disabled = false;
-document.getElementById("btn2").disabled = false;
-document.getElementById("btn1").disabled = true;
+  // deletes a route in a map before adding a next one
+  if(control2 != undefined){
 
+    map.removeControl(control2);
+
+  }
+
+// enables and disables buttons
+document.getElementById("btn3").disabled = false; // delete
+document.getElementById("btn2").disabled = false; // update
+document.getElementById("btn1").disabled = true; // save in DB
+
+// load the route data with request to the server
 $.ajax({
   type: 'GET',
   url: "./loadRoute",
   success: function(result){
 
-    // add the institute which was selected to the map
     $.each(result.route, function (i) {
 
       // compare input (select bar) with the names in result
@@ -256,21 +270,28 @@ $.ajax({
          document.getElementById('routestart').value == result.route[i].route.startpoint ||
          document.getElementById('routeend').value == result.route[i].route.endpoint){
 
+        // the startpoint and endpoint are addresses and have to be gecode to coordinates to add the route to the map again
         var s = result.route[i].route.startpoint;
         console.log(s);
         var e = result.route[i].route.endpoint;
         var geocoder = new L.Control.Geocoder.Nominatim();
 
+        // nominatim geocoder
+        // https://stackoverflow.com/questions/30934341/leaflet-geosearch-get-lon-lat-from-address
+        // geocode startpoint
         geocoder.geocode(s, function(results) {
         var latLngS= new L.LatLng(results[0].center.lat, results[0].center.lng);
         console.log(latLngS);
 
+          // geocode endpoint
           geocoder.geocode(e, function(results) {
           var latLngE= new L.LatLng(results[0].center.lat, results[0].center.lng);
           console.log(latLngE);
 
+          // remove control from a new route (inputfields)
           map.removeControl(control);
 
+          // add a new control / the searched route to the map
           var control2 = L.Routing.control({
                   router: new L.routing.mapbox('pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA'),
                   waypoints: [
@@ -325,16 +346,33 @@ $.ajax({
 });
 
 
-var newGeojson;
+var newGeojson; // global variable to create a geojson from the openmensa data
 
+/*
+* function to get the nearest canteen to an institute and calculate the route in the map
+*/
 $('#loadinstitute').on('autocompleteselect', function (e, ui) {
 
+  // enable and disable buttons
+  document.getElementById("btn3").disabled = true; // update
+  document.getElementById("btn2").disabled = true; // delete
+  document.getElementById("btn1").disabled = false; // save
+
+  // deletes a route in a map before adding a next one
+  if(control2 != undefined){
+
+    map.removeControl(control2);
+
+  }
+
+  // get the mensa data of the mensas in Münster from openmensa
   $.ajax({
       type: 'GET',
       url: "http://openmensa.org/api/v2/canteens/?near[lat]=51.954522&near[lng]=7.614505&near[dist]=15",
       async: false,
       success: function(data){
 
+        // calls the function to create a geojson from the data
         createGeoJson(data);
       },
       error: function (data) {
@@ -342,6 +380,7 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
       }
   });
 
+  // created geojson from the function
   console.log(newGeojson);
 
   $.ajax({
@@ -349,8 +388,10 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
       url: "./loadInstitute",
       success: function(result){
 
+        // first searching for the selected institute
         $.each(result.institute, function (i) {
 
+          // for the seselcted institute
           if(document.getElementById('loadinstitute').value == result.institute[i].geojson.features[0].properties.name){
 
             var d = result.institute[i].geojson.features[0].geometry.coordinates[0][0];
@@ -358,37 +399,42 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
             console.log(lat);
             var lon = d[0];
             console.log(lon);
+
+            // leaflet knn-function
+            // finds the nearest point from multiple points in a geojson file (gj, canteendata)
+            // to one point (selected institute)
             var gj = L.geoJson(newGeojson);
             var nearest = leafletKnn(gj).nearest([lon, lat], 15);
+
+            // add the marker of the institute and the marker of the mensa into the map
             console.log(nearest);
             var latS = d[1];
             var lngS = d[0];
             var latE = nearest[0].lat;
             var lngE = nearest[0].lon;
 
-              map.removeControl(control);
+            // remove control from a new route (inputfields)
+            map.removeControl(control);
 
-              L.Routing.control({
-    createMarker: function(i, wp, nWps) {
-        return L.marker(wp.latLng)
-            .bindPopup('I\'m waypoint ' + i);
-    },
-    ...
-}
+            // adds a new control to the map (route between institute and canteen)
+            control2 = L.Routing.control({
+                    router: new L.routing.mapbox('pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA'),
+                    waypoints: [
+                     L.latLng(latS, lngS),
+                     L.latLng(latE, lngE)
+                 ],
+                    routeWhileDragging: false,
+                    geocoder: L.Control.Geocoder.nominatim()
+                })
+                .on('routeselected', function(e) {
+                    route = e.route;
+                })
+                .addTo(map);
 
-              var control2 = L.Routing.control({
-                      router: new L.routing.mapbox('pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA'),
-                      waypoints: [
-                       L.latLng(latS, lngS),
-                       L.latLng(latE, lngE)
-                   ],
-                      routeWhileDragging: false,
-                      geocoder: L.Control.Geocoder.nominatim()
-                  })
-                  .on('routeselected', function(e) {
-                      route = e.route;
-                  })
-                  .addTo(map);
+              // name of the nearest institute into the map
+              document.getElementById('canteen').innerHTML =
+              "<b><i>The nearest canteen to your institute is: </i></b><br>"
+              + nearest[0].layer.feature.properties.name;
 
         } else{
             i++;
@@ -399,26 +445,33 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
 
 });
 
+/*
+* function which is called in the function for nearest canteen
+* creates a geojson from the openmensa data to use this new geojson in the leaflet-knn function
+* @param (data)
+*/
 function createGeoJson(data){
 
   var features = [];
 
+  // puts name, id and coordinates of a canteen into the new geoJSON
   for(var i=0; i < data.length; i++){
 
     console.log(data);
     var lat = data[i].coordinates[0];
     var lon = data[i].coordinates[1];
+    var name = data[i].name;
+    var id = data[i].id;
     var latlon = [];
     latlon.push(lon);
     latlon.push(lat);
     console.log(latlon);
-    var newFeature = {"type":"Feature", "geometry":{"type":"Point", "coordinates": latlon}};
+    var newFeature = {"type":"Feature", "properties":{"id": id, "name":name}, "geometry":{"type":"Point", "coordinates": latlon}};
     features.push(newFeature);
 
   }
 
   newGeojson = {"type":"FeatureCollection", "features":features};
   console.log(newGeojson);
-  document.getElementById('canteen').innerHTML = "The nearest canteen to your institute is: " + data[0].name;
 
 }
