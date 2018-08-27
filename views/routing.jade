@@ -9,14 +9,11 @@ block content
     .container
       h1 Routing
       p.
-        Enter addresses or navigate from an institute to a cafeteria!
+        Create routes and save them in the database! You can also find the nearest canteen to your institute!
   // bootstrap container with columns (grid)
   .container-fluid
     .row
-      .col-lg-7
-        div
-          #map.map4
-      .col-lg-5
+      .col-lg-5.scroll
         h4 Enter startpoint and endpoint of your route in the fields in the map and save your created route in the database! (you must press enter in both entries to get autocomplete suggestions)
         br
         | You can also search for an institute and route automatically to the nearest canteen and save this route in the database:
@@ -24,21 +21,18 @@ block content
         br
         // jquery autocomplete search bar for institutes name
         .ui-widget
-          input#loadinstitute.form-control(type='text', placeholder='Search for institute name...', oninput='disableInputs()')
+          input#loadinstitute.form-control(type='text', placeholder='Search for institute name...')
         br
         div
           #canteen
         br
         form
+          p Fill in the fields before you save the route:
           input#name.form-control(type='text', name='name', placeholder='Enter a routename!')
           br
-          | You can add shorter adresses than they in the map to save them in the database if you want to:
+          input#start.form-control(type='text', name='name', placeholder='Enter a smaller address of startpoint!')
           br
-          br
-          input#start.form-control(type='text', name='name', placeholder='Enter startpoint!')
-          br
-          input#end.form-control(type='text', name='name', placeholder='Enter endpoint!')
-
+          input#end.form-control(type='text', name='name', placeholder='Enter a smaller address of endpoint!')
         br
         button#btn1.btn.btn-outline-success.btn-sm(onclick='insertRoute()') Save in Database!
         br
@@ -49,25 +43,28 @@ block content
         br
         // jquery autocomplete search bar to search for a route with name, startpoint or endpoint
         .ui-widget
-          input#routename.form-control(type='text', placeholder='Search for name...', oninput='disableInputs()')
+          input#routename.form-control(type='text', placeholder='Search for name...', oninput='emptyField()')
           br
-          input#routestart.form-control(type='text', placeholder='Search for startpoint...', oninput='disableInputs()')
+          input#routestart.form-control(type='text', placeholder='Search for startpoint...', oninput='emptyField()')
           br
-          input#routeend.form-control(type='text', placeholder='Search for endpoint...', oninput='disableInputs()')
+          input#routeend.form-control(type='text', placeholder='Search for endpoint...', oninput='emptyField()')
         br
         br
         form
           input#id.form-control(type='text', name='name', placeholder='id', readonly)
           br
-          input#updatename.form-control(type='text', name='name', placeholder='Update a routename!', disabled)
+          input#updatename.form-control(type='text', name='name', placeholder='Update routename!')
           br
-          input#updatestart.form-control(type='text', name='name', placeholder='Enter startpoint! (optional)', disabled)
+          input#updatestart.form-control(type='text', name='name', placeholder='Update address of startpoint!')
           br
-          input#updateend.form-control(type='text', name='name', placeholder='Enter endpoint! (optional)', disabled)
+          input#updateend.form-control(type='text', name='name', placeholder='Update address of endpoint!')
         br
         button#btn2.btn.btn-outline-success.btn-sm(onclick='updateRoute()', disabled) Update!
         | &nbsp;
         | &nbsp;
         button#btn3.btn.btn-outline-danger.btn-sm(onclick='deleteRoute()', disabled) Delete!
+      .col-lg-7
+        div
+          #map.map4
   // connection to script
   script(src='/javascripts/routing.js')

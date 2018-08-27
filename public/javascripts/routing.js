@@ -105,48 +105,8 @@ function insertRoute(){
 
         } else{
 
-          // it was necessary to use reverse geocoding, because when a marker is moved, this waypoint has no more name
-          // instead the coordinates are stored in variables and correspondingly geocoded in reverse
-          // see: view-source:http://bl.ocks.org/ThomasG77/raw/26e61508217ba86a04c19a67cbda0e99/
-
-          // startpoint
-          fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
-            return response.json();
-          }).then(function(json) {
-
-              console.log(json);
-              var adressS = json.display_name;
-              console.log(adressS);
-
-            // endpoint
-            fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon2 + '&lat=' + lat2).then(function(response) {
-              return response.json();
-            }).then(function(json) {
-
-                console.log(json);
-                var adressE = json.display_name;
-                console.log(adressE);
-
-                  var newRoute = {"name":name, "startpoint":{"name":adressS, "coordinates":[lat, lon]}, "endpoint":{"name":adressE, "coordinates":[lat2, lon2]}};
-                  console.log(newRoute);
-                  var data = JSON.stringify(newRoute);
-                  console.log(data);
-                  JL("mylogger").info("Data of the route was sent to the database.");
-                  alert("Your route was succesfully saved!");
-
-                  // dataType and contentType important for right sending of the json
-                  $.ajax({
-                    type: 'POST',
-                    data: data,
-                    dataType: "json",
-                    contentType: 'application/json',
-                    url: "./insertRoute",
-
-                  });
-            // setTimeout, because direct reloading causes the old faculty to yet be displayed in the search field
-            setTimeout(function(){ location.reload(true); }, 1000);
-          });
-          });
+          JL("mylogger").error("Data was not sent to the database.");
+          alert("Error: Enter addresses for startpoint and endpoint!");
         }
   }
 }
@@ -228,69 +188,45 @@ $.ajax({
 });
 
 /*
-* function to enable and diable the input search fields to guarantee that the user types in only one field
+* function to empty the other input search fields
 */
-function disableInputs(){
-
-  if(document.getElementById("routename").value != ""){
-
-    document.getElementById("routestart").disabled = true;
-    document.getElementById("routeend").disabled = true;
-    document.getElementById("loadinstitute").disabled = true;
-
-  } else if (document.getElementById("routestart").value != "") {
-
-      document.getElementById("routename").disabled = true;
-      document.getElementById("routeend").disabled = true;
-      document.getElementById("loadinstitute").disabled = true;
-
-  } else if (document.getElementById("routeend").value != "") {
-
-    document.getElementById("routestart").disabled = true;
-    document.getElementById("routename").disabled = true;
-    document.getElementById("loadinstitute").disabled = true;
-
-  } else if (document.getElementById("loadinstitute").value != "") {
-
-    document.getElementById("routestart").disabled = true;
-    document.getElementById("routename").disabled = true;
-    document.getElementById("routeend").disabled = true;
-
+function emptyField(){
+  if(document.getElementById('routename').value != ""){
+      document.getElementById('routestart').value = "";
+      document.getElementById('routeend').value = "";
+      document.getElementById('loadinstitute').value = "";
+  } else if(document.getElementById('routestart').value != ""){
+      document.getElementById('routeend').value = "";
+      document.getElementById('routename').value = "";
+      document.getElementById('loadinstitute').value = "";
   } else{
-
-    document.getElementById("routename").disabled = false;
-    document.getElementById("routestart").disabled = false;
-    document.getElementById("routeend").disabled = false;
-    document.getElementById("loadinstitute").disabled = false;
-    document.getElementById("name").disabled = false;
+      document.getElementById('routestart').value = "";
+      document.getElementById('routename').value = "";
+      document.getElementById('loadinstitute').value = "";
   }
 }
 
 var control2; // control vaiable for new route control in the following functions
-
 
 /*
 * function to upload a saved route from the database into the map
 */
 $('#routename, #routestart, #routeend').on('autocompleteselect', function (e, ui) {
 
+  document.getElementById('btn2').disabled = false;
+  document.getElementById('btn3').disabled = false;
   // deletes a route in a map before adding a next one
   if(control2 != undefined){
 
     map.removeControl(control2);
 
-  }
+  };
 
-// enables and disables buttons
-document.getElementById("btn3").disabled = false; // delete
-document.getElementById("btn2").disabled = false; // update
-document.getElementById("btn1").disabled = true; // save in DB
-document.getElementById("updateend").disabled = false;
-document.getElementById("updatestart").disabled = false;
-document.getElementById("updatename").disabled = false;
-document.getElementById("end").disabled = true;
-document.getElementById("start").disabled = true;
-document.getElementById("name").disabled = true;
+  if(control != undefined){
+
+    map.removeControl(control);
+
+  };
 
 // load the route data with request to the server
 $.ajax({
@@ -306,11 +242,9 @@ $.ajax({
          document.getElementById('routeend').value == result.route[i].route.endpoint.name){
 
          document.getElementById('id').value = result.route[i]._id;
-         document.getElementById('updatename').disabled = false;
-         document.getElementById('name').disabled = true;
-
-          // remove control from a new route (inputfields)
-          map.removeControl(control);
+         document.getElementById('updatename').value = result.route[i].route.name;
+         document.getElementById('updatestart').value = result.route[i].route.startpoint.name;
+         document.getElementById('updateend').value = result.route[i].route.endpoint.name;
 
           // add a new control / the searched route to the map
           control2 = L.Routing.control({
@@ -332,6 +266,10 @@ $.ajax({
         i++;
       }
       });
+      // empty all input search fields
+      document.getElementById('routestart').value = "";
+      document.getElementById('routeend').value = "";
+      document.getElementById('routename').value = "";
   }
 });
 });
@@ -371,12 +309,6 @@ var newGeojson; // global variable to create a geojson from the openmensa data
 * function to get the nearest canteen to an institute and calculate the route in the map
 */
 $('#loadinstitute').on('autocompleteselect', function (e, ui) {
-
-  // enable and disable buttons
-  document.getElementById("btn3").disabled = true; // update
-  document.getElementById("btn2").disabled = true; // delete
-  document.getElementById("btn1").disabled = false; // save
-  document.getElementById("name").disabled = false; // name
 
   // deletes a route in a map before adding a next one
   if(control2 != undefined){
@@ -455,6 +387,7 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
               document.getElementById('canteen').innerHTML =
               "<b><i>The nearest canteen to your institute is: </i></b><br>"
               + nearest[0].layer.feature.properties.name;
+              document.getElementById('end').value = nearest[0].layer.feature.properties.address;
 
         } else{
             i++;
@@ -481,12 +414,13 @@ function createGeoJson(data){
     var lat = data[i].coordinates[0];
     var lon = data[i].coordinates[1];
     var name = data[i].name;
+    var address = data[i].address;
     var id = data[i].id;
     var latlon = [];
     latlon.push(lon);
     latlon.push(lat);
     console.log(latlon);
-    var newFeature = {"type":"Feature", "properties":{"id": id, "name":name}, "geometry":{"type":"Point", "coordinates": latlon}};
+    var newFeature = {"type":"Feature", "properties":{"id": id, "name":name, "address":address}, "geometry":{"type":"Point", "coordinates": latlon}};
     features.push(newFeature);
 
   }
@@ -569,49 +503,8 @@ function updateRoute(){
 
         } else{
 
-          // it was necessary to use reverse geocoding, because when a marker is moved, this waypoint has no more name
-          // instead the coordinates are stored in variables and correspondingly geocoded in reverse
-          // see: view-source:http://bl.ocks.org/ThomasG77/raw/26e61508217ba86a04c19a67cbda0e99/
-
-          // startpoint
-          fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon + '&lat=' + lat).then(function(response) {
-            return response.json();
-          }).then(function(json) {
-
-              console.log(json);
-              var adressS = json.display_name;
-              console.log(adressS);
-
-            // endpoint
-            fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + lon2 + '&lat=' + lat2).then(function(response) {
-              return response.json();
-            }).then(function(json) {
-
-                console.log(json);
-                var adressE = json.display_name;
-                console.log(adressE);
-
-                var id = document.getElementById("id").value;
-                var newRoute = {"id":id, "route":{"name":name, "startpoint":{"name":adressS, "coordinates":[lat, lon]}, "endpoint":{"name":adressE, "coordinates":[lat2, lon2]}}};
-                  console.log(newRoute);
-                  var data = JSON.stringify(newRoute);
-                  console.log(data);
-                  JL("mylogger").info("Data of the route was sent to the database.");
-                  alert("Your route was succesfully saved!");
-
-                  // dataType and contentType important for right sending of the json
-                  $.ajax({
-                    type: 'POST',
-                    data: data,
-                    dataType: "json",
-                    contentType: 'application/json',
-                    url: "./updateRoute",
-
-                  });
-            // setTimeout, because direct reloading causes the old faculty to yet be displayed in the search field
-            setTimeout(function(){ location.reload(true); }, 1000);
-          });
-          });
+          JL("mylogger").error("Data was not sent to the database.");
+          alert("Error: Enter addresses for startpoint and endpoint!");
         }
   }
 }
