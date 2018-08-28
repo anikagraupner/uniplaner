@@ -64,7 +64,7 @@ function insertInstMap(){
       alert("Error: Please enter a picture url!");
 
     // no saving without a geometry
-  } else if(json == undefined){
+  } else if(json == undefined || json == null){
 
       JL("mylogger").error("Data of the institute was not send to database.");
       alert("Error: Please draw the geometry of the institute!");
@@ -94,6 +94,8 @@ function insertInstMap(){
         contentType: 'application/json',
         url: "./insertInstitute",
       });
+      // setTimeout, because direct reloading causes the old faculty to yet be displayed in the search field
+      setTimeout(function(){ location.reload(true); }, 1000);
     }
 }
 
@@ -168,6 +170,8 @@ function insertInstText(){
               contentType: 'application/json',
               url: "./insertInstitute",
             });
+            // setTimeout, because direct reloading causes the old faculty to yet be displayed in the search field
+            setTimeout(function(){ location.reload(true); }, 1000);
           }
 
         // alerted if json.parse does not work, so the input is all in all not json conform
@@ -266,6 +270,8 @@ function insertInstURL(){
                     contentType: 'application/json',
                     url: "./insertInstitute",
                   });
+                  // setTimeout, because direct reloading causes the old faculty to yet be displayed in the search field
+                  setTimeout(function(){ location.reload(true); }, 1000);
                 }
 
               // alerted if json.parse does not work, so the input is all in all not json conform
@@ -368,7 +374,7 @@ $('#searchinstitute').on('autocompleteselect', function (e, ui) {
 */
 function updateInstitute(){
 
-  // when the button is clicked without any content 
+  // when the button is clicked without any content
   if(document.getElementById("outputid").value == ""){
     JL("mylogger").error("Data of the institute was not send to database.");
     alert("Error: Please select an institute with the search bar!");
@@ -433,7 +439,7 @@ function updateInstitute(){
         var data = JSON.stringify(newJson);
         console.log(data);
         JL("mylogger").info("Data was sent to database.");
-        alert("New institute was sucessfully saved!");
+        alert("Changed institute was sucessfully saved!");
 
         // dataType and contentType important for right sending of the json
         $.ajax({

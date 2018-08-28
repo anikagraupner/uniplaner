@@ -216,8 +216,6 @@ router.post('/deleteInstitute', function(req, res, next) {
   });
 });
 
-
-
 router.post('/insertRoute', function(req, res, next){
 
   // save sent data in a variable

@@ -14,7 +14,7 @@ html(lang='en')
     // bootstrap stylesheet link (before all other links)
     link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css', integrity='sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO', crossorigin='anonymous')
     // jsnlog
-    script(src='/javascripts/jsnlog.min.js')
+    script(src='/javascripts/libraries/jsnlog.min.js')
     // mapbox
     script(src='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js')
     link(href='https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.css' rel='stylesheet')
@@ -25,18 +25,18 @@ html(lang='en')
     link(rel='stylesheet' href='https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css')
     script(src='https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js')
     // Leaflet knn
-    script(src='javascripts/leaflet-knn.min.js')
+    script(src='javascripts/libraries/leaflet-knn.min.js')
     // jQuery library
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
     // jQuery
-    script(src='/javascripts/jquery.js')
-    script(src='/javascripts/jquery-ui.js')
-    script(src='/javascripts/jquery-ui.min.js')
-    link(href='/stylesheets/jquery-ui.min.css', rel='stylesheet')
+    script(src='/javascripts/libraries/jquery.js')
+    script(src='/javascripts/libraries/jquery-ui.js')
+    script(src='/javascripts/libraries/jquery-ui.min.js')
+    link(href='/stylesheets/libraries/jquery-ui.min.css', rel='stylesheet')
     // jQuery easyAutocomplete
-    script(src='/javascripts/jquery.easy-autocomplete.min.js')
-    link(href='/stylesheets/easy-autocomplete.min.css', rel='stylesheet')
-    link(href='/stylesheets/easy-autocomplete.themes.min.css', rel='stylesheet')
+    script(src='/javascripts/libraries/jquery.easy-autocomplete.min.js')
+    link(href='/stylesheets/libraries/easy-autocomplete.min.css', rel='stylesheet')
+    link(href='/stylesheets/libraries/easy-autocomplete.themes.min.css', rel='stylesheet')
     // link to tylesheet
     link(href='/stylesheets/style.css', rel='stylesheet')
     // leaflet draw
@@ -48,7 +48,7 @@ html(lang='en')
     nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
       // Brand
       a.navbar-brand
-        img(src='/images/Logo_WWU_Münster.svg.png', alt='Logo WWU', style='width:90px;')
+        img(src='/images/earth.jpg', alt='Logo WWU', style='width:90px;')
       // Links
       ul.navbar-nav
         li.nav-item
@@ -76,25 +76,20 @@ html(lang='en')
               p
                 | This website was created and designed by Anika Graupner,
                 br
-                | student at the Institute of Geoinformatics.
+                | student at the Institute of Geoinformatics (WWU).
               // Rights
               p.rights
                 span &copy;&nbsp;
                 span.copyright-year 2018
                 span &nbsp;
-                span WWU - Institute for Geoinformatics - Anika Graupner
+                span Anika Graupner
                 span .&nbsp;
                 span All Rights Reserved.
           .col-md-4
             h6 Contacts
             dl.contact-list
-              dd Heisenbergstra&szlig;e 2, 41849 M&uuml;nster
-            dl.contact-list
               dd
-                a#link-footer(href='mailto:#') geoinformatik@uni-muenster.de
-            dl.contact-list
-              dd
-                a#link-footer(href='tel:#') +49 251 - 83 33 08 3
+                a#link-footer(href='mailto:#') a_grau05@wwu.de
           .col-md-4.col-xl-3
             h6 Links
             ul.list

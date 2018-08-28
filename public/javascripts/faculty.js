@@ -158,11 +158,8 @@ function updateFaculty(){
       url: "./updateFaculty",
 
     });
-
+    setTimeout(function(){ location.reload(true); }, 1000);
   }
-
-  setTimeout(function(){ location.reload(true); }, 1000);
-
 }
 
 /*

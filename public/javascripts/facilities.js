@@ -191,6 +191,10 @@ $('#institute').on('autocompleteselect', function (e, ui) {
           // compare input (select bar) with the names in result
           if(document.getElementById('institute').value == result.institute[i].geojson.features[0].properties.name){
 
+            // creating permalink for every institute
+            location.hash = result.institute[i]._id;
+
+            // some variables to add geojson to the map and create a popup
             var b = result.institute[i].geojson;
             console.log(b);
             L.geoJSON(b).addTo(map);
