@@ -6,10 +6,6 @@ var ajaxAppender=JL.createAjaxAppender('ajaxAppender');
 var consoleAppender=JL.createConsoleAppender('consoleAppender');
 JL("mylogger").setOptions({"appenders": [ajaxAppender,consoleAppender]});
 
-if (typeof exports !== 'undefined') {
-    exports.JL = JL;
-}
-
 // creating map by using mapbox
 L.mapbox.accessToken = 'pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA';
   var map = L.mapbox.map('map').setView([51.96, 7.61], 13);
@@ -132,6 +128,9 @@ $.ajax({
     url: "./loadRoute",
 
     success: function(result){
+
+      JL("mylogger").info("Route data was loaded from the database!");
+
       console.log(result);
 
         // create an array with the names of the saved institutes
@@ -143,7 +142,12 @@ $.ajax({
               $( "#routename").autocomplete({
               source: namearray});
         });
-      }
+      },
+        // error by loading routes data
+        error: function(){
+          JL("mylogger").error("Route data could not be loaded from the database!");
+          alert("No data of routes was sent from the server!");
+        }
 });
 
 
@@ -157,6 +161,9 @@ $.ajax({
     url: "./loadRoute",
 
     success: function(result){
+
+      JL("mylogger").info("Route data was loaded from the database!");
+
       console.log(result);
 
       // create an array with the names of the saved institutes
@@ -169,7 +176,12 @@ $.ajax({
       $( "#routestart").autocomplete({
       source: startarray});
 
-      }
+      },
+        // error by loading routes data
+        error: function(){
+          JL("mylogger").error("Route data could not be loaded from the database!");
+          alert("No data of routes was sent from the server!");
+        }
 });
 
 /*
@@ -182,6 +194,9 @@ $.ajax({
     url: "./loadRoute",
 
     success: function(result){
+
+      JL("mylogger").info("Route data was loaded from the database!");
+
       console.log(result);
 
       // create an array with the names of the saved institutes
@@ -194,7 +209,12 @@ $.ajax({
       $( "#routeend").autocomplete({
       source: endarray});
 
-      }
+      },
+        // error by loading routes data
+        error: function(){
+          JL("mylogger").error("Route data could not be loaded from the database!");
+          alert("No data of routes was sent from the server!");
+        }
 });
 
 /*
@@ -244,6 +264,8 @@ $.ajax({
   url: "./loadRoute",
   success: function(result){
 
+    JL("mylogger").info("Route data was loaded from the database!");
+
     $.each(result.route, function (i) {
 
       // compare input (select bar) with the names in result
@@ -280,7 +302,12 @@ $.ajax({
       document.getElementById('routestart').value = "";
       document.getElementById('routeend').value = "";
       document.getElementById('routename').value = "";
-  }
+  },
+    // error by loading routes data
+    error: function(){
+      JL("mylogger").error("Route data could not be loaded from the database!");
+      alert("No data of routes was sent from the server!");
+    }
 });
 });
 
@@ -295,6 +322,9 @@ $.ajax({
     url: "./loadInstitute",
 
     success: function(result){
+
+      JL("mylogger").info("Institute data was loaded from the database!");
+
       console.log(result);
       console.log(result.institute[0].geojson.features[0].properties.name);
 
@@ -309,7 +339,12 @@ $.ajax({
       // jquery autocomplete
       $( "#loadinstitute" ).autocomplete({
       source: namearray});
-    }
+    },
+      // error by loading institutes data
+      error: function(){
+        JL("mylogger").error("Institutes data could not be loaded from the database!");
+        alert("No data of institutes was sent from the server!");
+      }
 });
 
 
@@ -334,11 +369,15 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
       async: false,
       success: function(data){
 
+        JL("mylogger").info("Canteen data was loaded from the openmensa!");
+
         // calls the function to create a geojson from the data
         createGeoJson(data);
       },
       error: function (data) {
         handleError(data);
+        JL("mylogger").error("Canteen data could not be loaded from the openmensa!");
+        alert("Canteen data could not be loaded from the openmensa!");
       }
   });
 
@@ -349,6 +388,8 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
       type: 'GET',
       url: "./loadInstitute",
       success: function(result){
+
+        JL("mylogger").info("Institute data was loaded from the database!");
 
         // first searching for the selected institute
         $.each(result.institute, function (i) {
@@ -400,7 +441,12 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
             i++;
         }
       });
-    }
+    },
+      // error by loading institutes data
+      error: function(){
+        JL("mylogger").error("Institutes data could not be loaded from the database!");
+        alert("No data of institutes was sent from the server!");
+      }
   });
 
 });

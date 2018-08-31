@@ -1,5 +1,11 @@
 "use strict";
 
+// Debugging: all loggers log to both the server and the console
+// See: https://github.com/Effizjens/Aufgabe_7/blob/master/public/javascripts/map.js
+var ajaxAppender=JL.createAjaxAppender('ajaxAppender');
+var consoleAppender=JL.createConsoleAppender('consoleAppender');
+JL("mylogger").setOptions({"appenders": [ajaxAppender,consoleAppender]});
+
 console.log("Ich mache Permalinks!!!");
 
 /* creating map by using mapbox */
@@ -34,6 +40,7 @@ $.ajax({
 
     success: function(result){
 
+      JL("mylogger").info("Institute data was loaded from the database!");
       console.log(result);
 
       //create permalinks and add every institute to the map with marker and add corresponding faculty
@@ -74,6 +81,7 @@ $.ajax({
                 success: function(response){
 
                   console.log(response);
+                  JL("mylogger").info("Faculty data was loaded from the database!");
 
                   // find the faculty, which has the name of the selected institute in its attribute institutes
                   $.each(response.faculty, function (j) {
@@ -84,7 +92,7 @@ $.ajax({
                     console.log(res);
                     var re = new RegExp(res, 'g');
 
-                    if(str.match(re)){ // function to find string in a string, true when a same string is found 
+                    if(str.match(re)){ // function to find string in a string, true when a same string is found
 
                       document.getElementById("faculty").innerHTML =
                         "<b>Belongs to faculty:</b>" + "<br><br> " +
@@ -97,11 +105,19 @@ $.ajax({
                       j++;
                     }
               });
+            },
+              error: function(){
+                JL("mylogger").error("Faculty could not be loaded from the database!");
+                alert("No data of faculties was sent from the server!");
               }
             });
             } else {
               i++;}
         });
+      },
+      error: function(){
+        JL("mylogger").error("Institute could not be loaded from the database!");
+        alert("No data of institutes was sent from the server!");
       }
 });
 }

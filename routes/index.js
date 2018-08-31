@@ -18,41 +18,49 @@ var url = 'mongodb://localhost:27017/uniplaner'; //path database
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  JL("mylogger").info("Home page called!");
   res.render('index', { title: 'Startpage!' });
 });
 
 /* GET legal notice. */
 router.get('/imprint', function(req, res) {
+  JL("mylogger").info("Legal notice called!");
   res.render('imprint', { title: 'Legal notice!' });
 });
 
 /* GET faculty. */
 router.get('/faculty', function(req, res) {
+  JL("mylogger").info("Faculty called!");
   res.render('faculty', { title: 'Add or edit a faculty!' });
 });
 
 /* GET add_institute. */
 router.get('/add_institute', function(req, res) {
+  JL("mylogger").info("Add Institute called!");
   res.render('add_institute', { title: 'Add an institute!' });
 });
 
 /* GET edit_institute */
 router.get('/edit_institute', function(req, res) {
+  JL("mylogger").info("Edit Institute called!");
   res.render('edit_institute', { title: 'Edit an institute!' });
 });
 
 /* GET facilities. */
 router.get('/facilities', function(req, res) {
+  JL("mylogger").info("Facilities called!");
   res.render('facilities', { title: 'Facilities of the WWU!' });
 });
 
 /* GET routing. */
 router.get('/routing', function(req, res) {
+  JL("mylogger").info("Routing called!");
   res.render('routing', { title: 'Routing!' });
 });
 
 /* GET institute. (for permalink) */
 router.get('/institute', function(req, res) {
+  JL("mylogger").info("Institute called!");
   res.render('institute', { title: 'Institute!' });
 });
 
@@ -71,6 +79,7 @@ router.post('/insertFaculty', function(req, res){
     assert.equal(null, err); // check if there is an error
     db.db('uniplaner').collection('faculties').insertOne(faculty, function(err, result) { //name of the database-collection, one insert
       assert.equal(null, err); // check if there is an error
+      JL("mylogger").info("Faculty inserted!")
       db.close(); // close DB
     });
   });
@@ -86,6 +95,7 @@ router.get('/loadFaculty', function(req, res) {
   collection.find({},{},function(e,docs){ // find all elements in the collection
 
     res.send({"faculty": docs}); // send them to client side
+    JL("mylogger").info("Faculty data was sent to client side!")
   });
 });
 
@@ -113,7 +123,7 @@ router.post('/updateFaculty', function(req, res, next) {
     // name of the database-collection, update the data of the element wich has the same id
     db.db('uniplaner').collection('faculties').updateOne({"_id": objectId(id)}, {$set: changedData}, function(err, result) {
       assert.equal(null, err); // check if there is an error
-      console.log('Data was changed.');
+      JL("mylogger").info("Data was changed.");
       db.close(); // close DB
     });
   });
@@ -134,7 +144,7 @@ router.post('/deleteFaculty', function(req, res, next) {
     // name of the database-collection, delete the data of the element wich has the same id
     db.db('uniplaner').collection('faculties').deleteOne({"_id": objectId(id)}, function(err, result) {
       assert.equal(null, err); // check if there is an error
-      console.log('Faculty deleted');
+      JL("mylogger").info('Faculty was deleted');
       db.close(); // close DB
     });
   });
@@ -157,7 +167,7 @@ router.post('/insertInstitute', function(req, res, next){
   assert.equal(null, err); // check if there is an error
     db.db('uniplaner').collection('institutes').insertOne(institute, function(err, result) { //name of the database-collection, one insert
       assert.equal(null, err); // check if there is an error
-      console.log('Institute inserted');
+      JL("mylogger").info('Institute inserted');
       db.close(); // close DB
     });
   });
@@ -174,6 +184,7 @@ router.get('/loadInstitute', function(req, res) {
 
     console.log(docs);
     res.send({"institute": docs}); // send them to client side
+    JL("mylogger").info("Institute data was sent to client side!");
   });
 });
 
@@ -193,7 +204,7 @@ router.post('/updateInstitute', function(req, res, next) {
     // name of the database-collection, update the data of the element wich has the same id
     db.db('uniplaner').collection('institutes').updateOne({"_id": objectId(id)}, {$set: updateInst}, function(err, result) {
       assert.equal(null, err);
-      console.log('Institute updated');
+      JL("mylogger").info('Institute updated');
       db.close();
     });
   });
@@ -213,7 +224,7 @@ router.post('/deleteInstitute', function(req, res, next) {
     // name of the database-collection, delete the data of the element wich has the same id
     db.db('uniplaner').collection('institutes').deleteOne({"_id": objectId(id)}, function(err, result) {
       assert.equal(null, err);
-      console.log('Institute deleted');
+      JL("mylogger").info('Institute deleted');
       db.close();
     });
   });
@@ -229,7 +240,7 @@ router.post('/insertRoute', function(req, res, next){
   assert.equal(null, err); // check if there is an error
     db.db('uniplaner').collection('routes').insertOne(route, function(err, result) { //name of the database-collection, one insert
       assert.equal(null, err); // check if there is an error
-      console.log('Route inserted');
+      JL("mylogger").info('Route inserted');
       db.close(); // close DB
     });
   });
@@ -245,6 +256,7 @@ router.get('/loadRoute', function(req, res) {
   collection.find({},{},function(e,docs){ // find all elements in the collection
 
     res.send({"route": docs}); // send them to client side
+    JL("mylogger").info("Route data was sent to client side!");
   });
 });
 
@@ -265,7 +277,7 @@ router.post('/updateRoute', function(req, res, next) {
     // name of the database-collection, update the data of the element wich has the same id
     db.db('uniplaner').collection('routes').updateOne({"_id": objectId(id)}, {$set: updateroute}, function(err, result) {
       assert.equal(null, err);
-      console.log('Route updated');
+      JL("mylogger").info('Route updated');
       db.close();
     });
   });
@@ -285,7 +297,7 @@ router.post('/deleteRoute', function(req, res, next) {
     // name of the database-collection, delete the data of the element wich has the same id
     db.db('uniplaner').collection('routes').deleteOne({"_id": objectId(id)}, function(err, result) {
       assert.equal(null, err);
-      console.log('Route deleted');
+      JL("mylogger").info('Route deleted');
       db.close();
     });
   });

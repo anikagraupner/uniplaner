@@ -74,7 +74,12 @@ $.ajax({
       // jquery autocomplete
       $( "#searchfaculty" ).autocomplete({
       source: faArray});
-    }
+    },
+      // error by loading faculty data
+      error: function(){
+        JL("mylogger").error("Faculty data could not be loaded from the database!");
+        alert("No data of faculties was sent from the server!");
+      }
 });
 
 /*
@@ -88,6 +93,8 @@ $('#searchfaculty').on('autocompleteselect', function (e, ui) {
       type: 'GET',
       url: "./loadFaculty",
       success: function(response){
+
+        JL("mylogger").info("Data of the faculty was sent to client side.");
 
         console.log(response);
 
@@ -113,7 +120,12 @@ $('#searchfaculty').on('autocompleteselect', function (e, ui) {
             }
           });
         });
-      }
+      },
+        // error by loading faculty data
+        error: function(){
+          JL("mylogger").error("Faculty data could not be loaded from the database!");
+          alert("No data of faculties was sent from the server!");
+        }
     });
 });
 

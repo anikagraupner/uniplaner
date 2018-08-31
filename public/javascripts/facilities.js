@@ -1,3 +1,5 @@
+// code for facilities.jade
+
 "use strict";
 
 // Debugging: all loggers log to both the server and the console
@@ -32,6 +34,7 @@ $.ajax({
         type: "GET",
         url: "http://openmensa.org/api/v2/canteens/?near[lat]=51.954522&near[lng]=7.614505&near[dist]=15", //canteens near this coordinates with a radius of 15 km
         success: function(data){
+        JL("mylogger").info("Canteen data was loaded from openmensa!");
         console.log(data);
 
           for(var i = 0; i<=11; i++){
@@ -51,6 +54,8 @@ $.ajax({
                     url: url,
                     async: false,
                     success: function(meals){
+
+                      JL("mylogger").info("Canteen meals data was loaded from openmensa!");
 
                       // if therer is no data for a canteen, the canteen is closed
                       if(meals == ""){
@@ -127,7 +132,11 @@ $.ajax({
 
                       }
 
-                    }
+                    }, // error if no meal data was sent from openmensa
+                      error: function(){
+                        JL("mylogger").error("Canteen meals could not be loaded from openmensa!");
+                        alert("Data of the daily meals of the canteens could not be loaded!");
+                      }
             });
 
 
@@ -138,7 +147,8 @@ $.ajax({
         // error if no data sent from openmensa
         error: function(){
 
-          alert("No data found!");
+          JL("mylogger").error("Canteen data could not be loaded from openmensa!")
+          alert("No data of canteens found!");
 
         }
 });
@@ -153,6 +163,7 @@ $.ajax({
     url: "./loadInstitute",
 
     success: function(result){
+      JL("mylogger").info("Institute data was loaded from the database!");
       console.log(result);
       console.log(result.institute[0].geojson.features[0].properties.name);
 
@@ -167,7 +178,12 @@ $.ajax({
       // jquery autocomplete
       $( "#institute" ).autocomplete({
       source: namearray});
-    }
+    },
+      // error by loading institute data
+      error: function(){
+        JL("mylogger").error("Institute data could not be loaded from the database!");
+        alert("No data of institutes was sent from the server!");
+      }
 });
 
 
@@ -190,6 +206,8 @@ $('#institute').on('autocompleteselect', function (e, ui) {
       type: 'GET',
       url: "./loadInstitute",
       success: function(result){
+
+        JL("mylogger").info("Institute data was loaded from the database!");
 
         // add the institute which was selected to the map
         $.each(result.institute, function (i) {
@@ -221,6 +239,8 @@ $('#institute').on('autocompleteselect', function (e, ui) {
                 url: "./loadFaculty",
                 success: function(response){
 
+                  JL("mylogger").info("Faculty data was loaded from the database!");
+
                   console.log(response);
 
                   // find the faculty, which has the name of the selected institute in its attribute institutes
@@ -246,12 +266,20 @@ $('#institute').on('autocompleteselect', function (e, ui) {
                       j++;
                     }
               });
-            }
+            }, // error by loading faculty data from db
+              error: function(){
+                JL("mylogger").error("Faculty data could not be loaded from the database!");
+                alert("No data of faculties was sent from the server!");
+              }
         });
           } else {
             i++;
           }
         });
-      }
+      }, // error by loading institute data from db
+        error: function(){
+          JL("mylogger").error("Institute data could not be loaded from the database!");
+          alert("No data of institutes was sent from the server!");
+        }
     });
 });

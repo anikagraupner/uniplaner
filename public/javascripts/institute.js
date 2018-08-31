@@ -307,6 +307,9 @@ $.ajax({
     url: "./loadInstitute",
 
     success: function(result){
+
+      JL("mylogger").info("Data of the institute was sent to client side.");
+
       console.log(result);
       console.log(result.institute[0].geojson.features[0].properties.name);
 
@@ -321,7 +324,12 @@ $.ajax({
       // jquery autocomplete
       $( "#searchinstitute" ).autocomplete({
       source: namearray});
-    }
+    },
+      // error by loading institute data
+      error: function(){
+        JL("mylogger").error("Institute data could not be loaded from the database!");
+        alert("No data of institutes was sent from the server!");
+      }
 });
 
 
@@ -343,6 +351,8 @@ $('#searchinstitute').on('autocompleteselect', function (e, ui) {
       type: 'GET',
       url: "./loadInstitute",
       success: function(result){
+
+        JL("mylogger").info("Data of the institute was sent to client side.");
 
         $.each(result.institute, function (i) {
 
@@ -367,7 +377,12 @@ $('#searchinstitute').on('autocompleteselect', function (e, ui) {
             i++;
           }
         });
-      }
+      },
+        // error by loading institute data
+        error: function(){
+          JL("mylogger").error("Institute data could not be loaded from the database!");
+          alert("No data of institutes was sent from the server!");
+        }
     });
 });
 
