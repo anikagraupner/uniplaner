@@ -1,5 +1,15 @@
 "use strict";
 
+// Debugging: all loggers log to both the server and the console
+// See: https://github.com/Effizjens/Aufgabe_7/blob/master/public/javascripts/map.js
+var ajaxAppender=JL.createAjaxAppender('ajaxAppender');
+var consoleAppender=JL.createConsoleAppender('consoleAppender');
+JL("mylogger").setOptions({"appenders": [ajaxAppender,consoleAppender]});
+
+if (typeof exports !== 'undefined') {
+    exports.JL = JL;
+}
+
 // creating map by using mapbox
 L.mapbox.accessToken = 'pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA';
   var map = L.mapbox.map('map').setView([51.96, 7.61], 13);
@@ -352,11 +362,8 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
             var lon = d[0];
             console.log(lon);
 
-            // leaflet knn-function
-            // finds the nearest point from multiple points in a geojson file (gj, canteendata)
-            // to one point (selected institute)
             var gj = L.geoJson(newGeojson);
-            var nearest = leafletKnn(gj).nearest([lon, lat], 15);
+            var nearest = nearestCanteen(gj, lon, lat);
 
             // add the marker of the institute and the marker of the mensa into the map
             console.log(nearest);
@@ -398,6 +405,15 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
 
 });
 
+// leaflet knn-function
+// finds the nearest point from multiple points in a geojson file (gj, canteendata)
+// to one point (selected institute)
+function nearestCanteen(gj, lon, lat){
+
+  return leafletKnn(gj).nearest([lon, lat], 15);
+
+}
+
 /*
 * function which is called in the function for nearest canteen
 * creates a geojson from the openmensa data to use this new geojson in the leaflet-knn function
@@ -426,9 +442,12 @@ function createGeoJson(data){
   }
 
   newGeojson = {"type":"FeatureCollection", "features":features};
-  console.log(newGeojson);
+  return newGeojson;
 
 }
+
+if(typeof exports !== 'undefined') {
+    exports.createGeoJson = createGeoJson;}
 
 
 /*

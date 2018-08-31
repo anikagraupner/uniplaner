@@ -1,5 +1,11 @@
 "use strict";
 
+// Debugging: all loggers log to both the server and the console
+// See: https://github.com/Effizjens/Aufgabe_7/blob/master/public/javascripts/map.js
+var ajaxAppender=JL.createAjaxAppender('ajaxAppender');
+var consoleAppender=JL.createConsoleAppender('consoleAppender');
+JL("mylogger").setOptions({"appenders": [ajaxAppender,consoleAppender]});
+
 /* creating map by using mapbox */
 L.mapbox.accessToken = 'pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA';
   var map = L.mapbox.map('map').setView([51.95, 7.61], 11);

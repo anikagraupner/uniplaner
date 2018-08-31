@@ -18,6 +18,11 @@
 	height:550px;
 	width: 100%;}
 
+.map5{
+	margin: 1em auto;
+	height:450px;
+	width: 100%;}
+
 #home{
 	color: black;}
 
@@ -69,11 +74,16 @@ h4 {
 
 #searchfaculty, #searchinstitute, #institute, #loadinstitute, #routeend, #routestart, #routename{
 	border-radius: 0;
-	border-color: #F7BE81;}
+	border-color: #58ACFA;}
 
 .popupImage{
 	height: 170px;}
 
+input[type=text], input[type=url]{
+	border-color: #848484;}
+
+#text{
+	border-color: #848484;}
 
 /*footer*/
 /*see: https://bootsnipp.com/snippets/2eMK5 */

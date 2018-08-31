@@ -1,5 +1,11 @@
 "use strict";
 
+// Debugging: all loggers log to both the server and the console
+// See: https://github.com/Effizjens/Aufgabe_7/blob/master/public/javascripts/map.js
+var ajaxAppender=JL.createAjaxAppender('ajaxAppender');
+var consoleAppender=JL.createConsoleAppender('consoleAppender');
+JL("mylogger").setOptions({"appenders": [ajaxAppender,consoleAppender]});
+
 // creating map by using mapbox
 L.mapbox.accessToken = 'pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA';
   var map = L.mapbox.map('map').setView([51.96, 7.61], 13);
@@ -191,9 +197,6 @@ $('#institute').on('autocompleteselect', function (e, ui) {
           // compare input (select bar) with the names in result
           if(document.getElementById('institute').value == result.institute[i].geojson.features[0].properties.name){
 
-            // creating permalink for every institute
-            location.hash = result.institute[i]._id;
-
             // some variables to add geojson to the map and create a popup
             var b = result.institute[i].geojson;
             console.log(b);
@@ -222,7 +225,7 @@ $('#institute').on('autocompleteselect', function (e, ui) {
 
                   // find the faculty, which has the name of the selected institute in its attribute institutes
                   $.each(response.faculty, function (j) {
-;
+
                     var str = response.faculty[j].institutes;
                     var res = result.institute[i].geojson.features[0].properties.name;
                     console.log(str);
@@ -232,6 +235,7 @@ $('#institute').on('autocompleteselect', function (e, ui) {
                     if(str.match(re)){ // function to find string in a string
 
                       document.getElementById("faculty").innerHTML =
+                        "<b>Permalink of the Institute: </b><a href='http://localhost:3000/institute#"+result.institute[i]._id+"'>"+result.institute[i].geojson.features[0].properties.name+"</a><br><br>" +
                         "<b>Belongs to faculty:</b>" + "<br><br> " +
                         response.faculty[j].name + "<br><br> " +
                         response.faculty[j].shortcut + "<br><br> " +

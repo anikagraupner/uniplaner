@@ -1,5 +1,11 @@
 "use strict";
 
+// Debugging: all loggers log to both the server and the console
+// See: https://github.com/Effizjens/Aufgabe_7/blob/master/public/javascripts/map.js
+var ajaxAppender=JL.createAjaxAppender('ajaxAppender');
+var consoleAppender=JL.createConsoleAppender('consoleAppender');
+JL("mylogger").setOptions({"appenders": [ajaxAppender,consoleAppender]});
+
 /**
 * function to save a new faculty in the database (collection: faculties)
 */

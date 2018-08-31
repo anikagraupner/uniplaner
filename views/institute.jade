@@ -1,0 +1,30 @@
+// author: Anika Graupner (437401)
+// final task geosoftware I, summer 2018
+// permalink institutes added in a map
+extends layout
+
+block content
+  // jumbotron
+  .jumbotron.jumbotron-fluid
+    .container
+      h1 Institute!
+      p.
+        Permalink of a special institute!
+  .container-fluid
+    .row
+      .col-lg-12
+        div
+          // name of the institute
+          #nameinst
+    .row
+      .col-lg-7
+        div
+          // map space
+          #map.map5
+      .col-lg-5
+        div
+          // information of corresponding faculty
+          #faculty
+
+      // connection to script
+      script(src='/javascripts/link.js')

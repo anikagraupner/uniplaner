@@ -51,7 +51,10 @@ router.get('/routing', function(req, res) {
   res.render('routing', { title: 'Routing!' });
 });
 
-
+/* GET institute. (for permalink) */
+router.get('/institute', function(req, res) {
+  res.render('institute', { title: 'Institute!' });
+});
 
 /*
 * request when clicking button in 'faculty' to save data in DB
@@ -61,7 +64,7 @@ router.get('/routing', function(req, res) {
 router.post('/insertFaculty', function(req, res){
 
   // save sent data in a variable
-  var faculty = req.body
+  var faculty = req.body;
   console.log(faculty);
 
   mongo.connect(url, function(err, db) { // connect to the database
@@ -287,8 +290,6 @@ router.post('/deleteRoute', function(req, res, next) {
     });
   });
 });
-
-
 
 /* serverside logging with javascript
 * source: https://github.com/Effizjens/Aufgabe_7/blob/master/routes/index.js
