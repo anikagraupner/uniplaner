@@ -1,3 +1,5 @@
+/* code for routing.jade */
+
 "use strict";
 
 // Debugging: all loggers log to both the server and the console
@@ -451,9 +453,10 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
 
 });
 
-// leaflet knn-function
-// finds the nearest point from multiple points in a geojson file (gj, canteendata)
-// to one point (selected institute)
+/*leaflet knn-function
+*finds the nearest point from multiple points in a geojson file (gj, canteendata)
+*to one point (selected institute)
+*/
 function nearestCanteen(gj, lon, lat){
 
   return leafletKnn(gj).nearest([lon, lat], 15);
@@ -472,7 +475,6 @@ function createGeoJson(data){
   // puts name, id and coordinates of a canteen into the new geoJSON
   for(var i=0; i < data.length; i++){
 
-    console.log(data);
     var lat = data[i].coordinates[0];
     var lon = data[i].coordinates[1];
     var name = data[i].name;
@@ -481,7 +483,6 @@ function createGeoJson(data){
     var latlon = [];
     latlon.push(lon);
     latlon.push(lat);
-    console.log(latlon);
     var newFeature = {"type":"Feature", "properties":{"id": id, "name":name, "address":address}, "geometry":{"type":"Point", "coordinates": latlon}};
     features.push(newFeature);
 
@@ -552,7 +553,7 @@ function updateRoute(){
           var data = JSON.stringify(newRoute);
           console.log(data);
           JL("mylogger").info("Data of the route was sent to the database.");
-          alert("Your route was succesfully saved!");
+          alert("Changed route was succesfully saved!");
 
           // dataType and contentType important for right sending of the json
           $.ajax({

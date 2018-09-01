@@ -1,4 +1,4 @@
-// code for facilities.jade
+/*code for facilities.jade*/
 
 "use strict";
 
@@ -22,6 +22,9 @@ L.control.layers({
 
 }).addTo(map);
 
+L.Control.geocoder().addTo(map);
+var geocoder = L.Control.Geocoder.nominatim();
+
 // special icon for the canteen popup
 var canteenIcon = L.icon({
     iconUrl: '/images/canteen_icon.jpg',
@@ -41,9 +44,7 @@ $.ajax({
 
             // get the coordinates of every canteen in Muenster and add them to the map
             var lat = data[i].coordinates[0];
-            console.log(lat);
             var lon = data[i].coordinates[1];
-            console.log(lon);
             var marker = L.marker([lat, lon], {icon: canteenIcon}).addTo(map);
 
             // get the id of every canteen in Muenster to retrieve their meals again with a request to openmensa
@@ -54,8 +55,6 @@ $.ajax({
                     url: url,
                     async: false,
                     success: function(meals){
-
-                      JL("mylogger").info("Canteen meals data was loaded from openmensa!");
 
                       // if therer is no data for a canteen, the canteen is closed
                       if(meals == ""){
@@ -217,19 +216,14 @@ $('#institute').on('autocompleteselect', function (e, ui) {
 
             // some variables to add geojson to the map and create a popup
             var b = result.institute[i].geojson;
-            console.log(b);
             L.geoJSON(b).addTo(map);
             var c = result.institute[i].geojson;
-            console.log(c);
-            console.log(c.features[0].properties.name);
             var d = c.features[0].geometry.coordinates[0][0];
-            console.log(d);
             var lat = d[1];
             var lon = d[0];
             var marker = L.marker([lat, lon], {icon: instituteIcon}).addTo(map);
             var img = c.features[0].properties.img;
             var name = c.features[0].properties.name;
-            console.log(img);
             // popup with name and image of the institute
             marker.bindPopup("<b>"+ name + "<b>:<br><img src='" + img + "'" + " class=popupImage " + "/>", {maxHeight: 250, maxWidth: "auto"});
 
@@ -246,6 +240,9 @@ $('#institute').on('autocompleteselect', function (e, ui) {
                   // find the faculty, which has the name of the selected institute in its attribute institutes
                   $.each(response.faculty, function (j) {
 
+                    document.getElementById("permalink").innerHTML =
+                      "<b>Permalink of the Institute: </b><a href='http://localhost:3000/institute#"+result.institute[i]._id+"'>"+result.institute[i].geojson.features[0].properties.name+"</a>";
+
                     var str = response.faculty[j].institutes;
                     var res = result.institute[i].geojson.features[0].properties.name;
                     console.log(str);
@@ -255,7 +252,6 @@ $('#institute').on('autocompleteselect', function (e, ui) {
                     if(str.match(re)){ // function to find string in a string
 
                       document.getElementById("faculty").innerHTML =
-                        "<b>Permalink of the Institute: </b><a href='http://localhost:3000/institute#"+result.institute[i]._id+"'>"+result.institute[i].geojson.features[0].properties.name+"</a><br><br>" +
                         "<b>Belongs to faculty:</b>" + "<br><br> " +
                         response.faculty[j].name + "<br><br> " +
                         response.faculty[j].shortcut + "<br><br> " +

@@ -1,3 +1,5 @@
+/* code for faculty.jade */
+
 "use strict";
 
 // Debugging: all loggers log to both the server and the console
@@ -43,9 +45,9 @@ function saveFaculty(){
       contentType: 'application/json',
       url: "./insertFaculty",
     });
+    // setTimeout, because direct reloading causes the new faculty to not yet be displayed in the search field
+    setTimeout(function(){ location.reload(true); }, 1000);
   }
-  // setTimeout, because direct reloading causes the new faculty to not yet be displayed in the search field
-  setTimeout(function(){ location.reload(true); }, 1000);
 }
 
 /*

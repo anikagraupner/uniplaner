@@ -15,12 +15,17 @@ block content
     .row
       .col-lg-5
         div
-          h4 Select an institute with the search bar (per name) to add it to the map and 
-              to get the information about the faculty to which it belongs:
+          h4 Select an institute with the search bar (per name) to add it to the map and
+              to get the information about the faculty to which it belongs (faculty has to be already saved):
           br
           // jquery autocomplete search bar to search for an institute with name
           .ui-widget
             input#institute.form-control(type='text', placeholder='Search...')
+          br
+          // div for information of permalink
+          div
+            #permalink
+          br
           br
           // div for information of the faculty
           div

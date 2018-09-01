@@ -1,3 +1,5 @@
+/*code for add_institute.jade and edit_institute.jade*/
+
 "use strict";
 
 // Debugging: all loggers log to both the server and the console
@@ -8,7 +10,7 @@ JL("mylogger").setOptions({"appenders": [ajaxAppender,consoleAppender]});
 
 /* creating map by using mapbox */
 L.mapbox.accessToken = 'pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA';
-  var map = L.mapbox.map('map').setView([51.95, 7.61], 11);
+  var map = L.mapbox.map('map').setView([51.96, 7.62], 13);
 
 /* adding different layers to the map */
 L.control.layers({
@@ -19,6 +21,9 @@ L.control.layers({
   'Mapbox Light': L.mapbox.tileLayer('mapbox.light')
 
 }).addTo(map);
+
+L.Control.geocoder().addTo(map);
+var geocoder = L.Control.Geocoder.nominatim();
 
 /* leaflet draw plugin for mapbox */
 /* see: https://www.mapbox.com/bites/00022/ */
@@ -57,6 +62,8 @@ map.on('draw:edited', function(e) {
 */
 function insertInstMap(){
 
+  console.log(json);
+
   // no saving without a name
   if(document.getElementById("inputname").value == ""){
 
@@ -75,8 +82,8 @@ function insertInstMap(){
       JL("mylogger").error("Data of the institute was not send to database.");
       alert("Error: Please draw the geometry of the institute!");
 
-  // send new institute to the server
-  } else {
+  // send new institute to the server (if clause because sometimes while editing json becomes a feature collection)
+  } else if(json.type != "FeatureCollection") {
 
       // creating a json conform object with the data inputs and the geometry from institute.jade
       console.log(json);
@@ -86,7 +93,6 @@ function insertInstMap(){
         json
       ]};
       newInstitute.features[0].properties = {name, img};
-      console.log(newInstitute);
       var data = JSON.stringify(newInstitute);
       console.log(data);
       JL("mylogger").info("Data was sent to database.");
@@ -102,8 +108,33 @@ function insertInstMap(){
       });
       // setTimeout, because direct reloading causes the old faculty to yet be displayed in the search field
       setTimeout(function(){ location.reload(true); }, 1000);
-    }
-}
+
+    }else {
+
+        // creating a json conform object with the data inputs and the geometry from institute.jade
+        console.log(json);
+        json.features[0].properties.name = document.getElementById("inputname").value;
+        json.features[0].properties.img = document.getElementById("img").value;
+        var newJson = json;
+
+        var data = JSON.stringify(newJson);
+        console.log(data);
+        JL("mylogger").info("Data was sent to database.");
+        alert("New institute was sucessfully saved!");
+
+        // dataType and contentType important for right sending of the json
+        $.ajax({
+          type: 'POST',
+          data: data,
+          dataType: "json",
+          contentType: 'application/json',
+          url: "./insertInstitute",
+        });
+      }
+      // setTimeout, because direct reloading causes the new institute to not yet be displayed in the search field
+      setTimeout(function(){ location.reload(true); }, 1000);
+  }
+
 
 
 /*
@@ -420,7 +451,7 @@ function updateInstitute(){
         alert("Error: Please draw the geometry of the institute!");
 
       // if somebody deletes the old geometry and draws a new one (same procedure than insertInstitute())
-    } else if(json.features == undefined){
+    } else if(json.type != "FeatureCollection"){
 
       // creating a json conform object with the data input field and the geometry
       console.log(json);

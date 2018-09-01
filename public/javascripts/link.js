@@ -1,3 +1,5 @@
+/* Code for institute.jade, side for the permalinks */
+
 "use strict";
 
 // Debugging: all loggers log to both the server and the console
@@ -5,8 +7,6 @@
 var ajaxAppender=JL.createAjaxAppender('ajaxAppender');
 var consoleAppender=JL.createConsoleAppender('consoleAppender');
 JL("mylogger").setOptions({"appenders": [ajaxAppender,consoleAppender]});
-
-console.log("Ich mache Permalinks!!!");
 
 /* creating map by using mapbox */
 L.mapbox.accessToken = 'pk.eyJ1IjoiYW5pa2FnIiwiYSI6ImNqaWszMHZkYTAxcnYzcXN6OWl3NW5vdHkifQ.LeZkk6ZXp8VN1_PuToqTVA';
@@ -55,19 +55,14 @@ $.ajax({
             document.getElementById('nameinst').innerHTML = "<h2>" + result.institute[i].geojson.features[0].properties.name + "</h2>";
             // some variables to add geojson to the map and create a popup
             var b = result.institute[i].geojson;
-            console.log(b);
             L.geoJSON(b).addTo(map);
             var c = result.institute[i].geojson;
-            console.log(c);
-            console.log(c.features[0].properties.name);
             var d = c.features[0].geometry.coordinates[0][0];
-            console.log(d);
             var lat = d[1];
             var lon = d[0];
             var marker = L.marker([lat, lon], {icon: instituteIcon}).addTo(map);
             var img = c.features[0].properties.img;
             var name = c.features[0].properties.name;
-            console.log(img);
             // popup with name and image of the institute
             marker.bindPopup("<b>"+ name + "<b>:<br><img src='" + img + "'" + " class=popupImage " + "/>", {maxHeight: 250, maxWidth: "auto"});
 
