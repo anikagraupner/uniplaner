@@ -1,8 +1,8 @@
-FROM node:6
+FROM node:latest
 
 WORKDIR /c:/Abschlussaufgabe_Graupner/uniplaner
 
-COPY package.json /c:/Abschlussaufgabe_Graupner/uniplaner
+COPY package.json /c:/Abschlussaufgabe_Graupner/uniplaner/package.json
 
 RUN npm install
 
