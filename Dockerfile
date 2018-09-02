@@ -1,4 +1,4 @@
-FROM node:8
+FROM node:6
 
 WORKDIR /desktop/Abschlussaufgabe_Graupner/uniplaner
 
