@@ -1,13 +1,14 @@
-FROM node:6
+FROM node:8
 
-WORKDIR /desktop/Abschlussaufgabe_Graupner/uniplaner
+WORKDIR /app
 
-COPY package.json /desktop/Abschlussaufgabe_Graupner/uniplaner
+COPY package.json /app
 
 RUN npm install
 
-COPY . /desktop/Abschlussaufgabe_Graupner/uniplaner
+COPY . /app
+
+CMD node index.js
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
