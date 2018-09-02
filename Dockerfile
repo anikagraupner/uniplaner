@@ -1,16 +1,7 @@
 FROM node:8
-
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-
-# Install app dependencies
-COPY package.json /usr/src/app/
+WORKDIR /app
+COPY package.json /app
 RUN npm install
-
-# Bundle app source
-COPY . /usr/src/app
-
-EXPOSE 300
-CMD [ "npm", "start" ]
-
+COPY . /app
+CMD node routes/index.js
+EXPOSE 3000
