@@ -1,12 +1,12 @@
-FROM node:latest
+FROM node:8
 
-WORKDIR /c:/Abschlussaufgabe_Graupner/uniplaner
+WORKDIR /desktop/Abschlussaufgabe_Graupner/uniplaner
 
-COPY package.json /c:/Abschlussaufgabe_Graupner/uniplaner/package.json
+COPY package.json .
 
 RUN npm install
 
-COPY . /c:/Abschlussaufgabe_Graupner/uniplaner
+COPY . /desktop/Abschlussaufgabe_Graupner/uniplaner
 
 EXPOSE 3000
 
