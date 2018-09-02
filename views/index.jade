@@ -14,11 +14,10 @@ block content
   // bootstrap container with columns (grid)
   .container-fluid
     .row
-      .col-lg-12
-        p(style='font-size: 15px;')
-          span(style='font-size:20px; font-weight: bold;')  Enjoy!
-    .row
-      .col-lg-4
+      .col-lg-2
+      .col-lg-8
+        h3 Enjoy!
+        br
         p
           | This page offers you several ways to find your way around your new environment.
           | Your personal interests and concerns will be taken into account to create the best individual maps for you.
@@ -30,9 +29,11 @@ block content
           br
           br
           | Have fun discovering the different functionalities.
-      .col-lg-4
-        img.img-responsive(src='/images/schloss.jpg' alt='palace' width='100%')
-      .col-lg-4.center
+        br
+        br
+        img.img-responsive(src='/images/schloss.jpg' alt='palace' width='80%')
+        br
+        br
         p
           | Add and edit data under Datamanagement
           | .
@@ -60,3 +61,4 @@ block content
           b
             a#home(href='routing')  routing
           | , for example to the nearest canteen of your institute.
+      .col-lg-2.center

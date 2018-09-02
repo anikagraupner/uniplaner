@@ -148,7 +148,7 @@ $.ajax({
         // error by loading routes data
         error: function(){
           JL("mylogger").error("Route data could not be loaded from the database!");
-          alert("No data of routes was sent from the server!");
+
         }
 });
 
@@ -182,7 +182,7 @@ $.ajax({
         // error by loading routes data
         error: function(){
           JL("mylogger").error("Route data could not be loaded from the database!");
-          alert("No data of routes was sent from the server!");
+
         }
 });
 
@@ -215,7 +215,7 @@ $.ajax({
         // error by loading routes data
         error: function(){
           JL("mylogger").error("Route data could not be loaded from the database!");
-          alert("No data of routes was sent from the server!");
+
         }
 });
 
@@ -308,7 +308,7 @@ $.ajax({
     // error by loading routes data
     error: function(){
       JL("mylogger").error("Route data could not be loaded from the database!");
-      alert("No data of routes was sent from the server!");
+
     }
 });
 });
@@ -345,7 +345,7 @@ $.ajax({
       // error by loading institutes data
       error: function(){
         JL("mylogger").error("Institutes data could not be loaded from the database!");
-        alert("No data of institutes was sent from the server!");
+
       }
 });
 
@@ -447,7 +447,7 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
       // error by loading institutes data
       error: function(){
         JL("mylogger").error("Institutes data could not be loaded from the database!");
-        alert("No data of institutes was sent from the server!");
+        
       }
   });
 

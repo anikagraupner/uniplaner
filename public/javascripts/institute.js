@@ -359,7 +359,7 @@ $.ajax({
       // error by loading institute data
       error: function(){
         JL("mylogger").error("Institute data could not be loaded from the database!");
-        alert("No data of institutes was sent from the server!");
+
       }
 });
 
@@ -412,7 +412,7 @@ $('#searchinstitute').on('autocompleteselect', function (e, ui) {
         // error by loading institute data
         error: function(){
           JL("mylogger").error("Institute data could not be loaded from the database!");
-          alert("No data of institutes was sent from the server!");
+
         }
     });
 });

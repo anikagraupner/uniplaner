@@ -1,3 +1,9 @@
+body {
+   margin:0;
+   padding:0;
+   height:100%;
+}
+
 .map1 {
 	margin: 1em auto;
 	height:300px;
@@ -44,24 +50,25 @@
 	height: 200px;}
 
 .dropdown-item{
-	font-size: 14px;}
+	font-size: 15px;}
 
 .btnblock{
 	text-align: right;}
 
-.col-lg-4 {
+.col-lg-8 {
 	overflow: auto;
 	padding: 20px;
-	font-size: 15px;}
+	font-size: 16px;
+	text-align: center;}
 
 .col-lg-3, .col-lg-5, .col-lg-7, .col-lg-6, .col-lg-2, .col-lg-9, .col-lg-12{
 	overflow: auto;
 	padding: 20px;
-	font-size: 13px;}
+	font-size: 15px;}
 
 .scroll{
 
-	height: 480px;
+	height: 520px;
 	overflow-y: scroll;
 	padding: 20px;
 	padding-top: 30px;
@@ -70,7 +77,7 @@
 
 h4 {
 	font-weight: bold;
-	font-size: 14px;}
+	font-size: 15px;}
 
 #searchfaculty, #searchinstitute, #institute, #loadinstitute, #routeend, #routestart, #routename{
 	border-radius: 0;
@@ -80,10 +87,12 @@ h4 {
 	height: 170px;}
 
 input[type=text], input[type=url]{
-	border-color: #848484;}
+	border-color: #848484;
+	font-size: 15px;}
 
 #text{
-	border-color: #848484;}
+	border-color: #848484;
+	font-size: 15px;}
 
 /*footer*/
 /*see: https://bootsnipp.com/snippets/2eMK5 */
@@ -112,7 +121,7 @@ ul, ol {
   margin: 0;}
 
 .form-control{
-	font-size: 13px;
+	font-size: 15px;
 	height: 30px;}
 
 .social-inner {

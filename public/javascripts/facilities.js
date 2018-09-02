@@ -181,7 +181,7 @@ $.ajax({
       // error by loading institute data
       error: function(){
         JL("mylogger").error("Institute data could not be loaded from the database!");
-        alert("No data of institutes was sent from the server!");
+
       }
 });
 
@@ -265,7 +265,7 @@ $('#institute').on('autocompleteselect', function (e, ui) {
             }, // error by loading faculty data from db
               error: function(){
                 JL("mylogger").error("Faculty data could not be loaded from the database!");
-                alert("No data of faculties was sent from the server!");
+
               }
         });
           } else {
@@ -275,7 +275,7 @@ $('#institute').on('autocompleteselect', function (e, ui) {
       }, // error by loading institute data from db
         error: function(){
           JL("mylogger").error("Institute data could not be loaded from the database!");
-          alert("No data of institutes was sent from the server!");
+
         }
     });
 });

@@ -80,8 +80,7 @@ $.ajax({
       // error by loading faculty data
       error: function(){
         JL("mylogger").error("Faculty data could not be loaded from the database!");
-        alert("No data of faculties was sent from the server!");
-      }
+
 });
 
 /*
@@ -126,7 +125,7 @@ $('#searchfaculty').on('autocompleteselect', function (e, ui) {
         // error by loading faculty data
         error: function(){
           JL("mylogger").error("Faculty data could not be loaded from the database!");
-          alert("No data of faculties was sent from the server!");
+
         }
     });
 });
