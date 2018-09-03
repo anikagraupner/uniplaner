@@ -13,8 +13,7 @@ var jsnlog_nodejs = require('jsnlog-nodejs').jsnlog_nodejs; //console
 var bodyParser = require('body-parser'); //parser
 
 //var url = 'mongodb://localhost:27017/uniplaner'; //path database
-var url = 'mongodb://nodetest2/test'; //path database
-
+var url = 'mongodb://nodetest2/uniplaner'; //path database
 
 
 /* GET home page. */

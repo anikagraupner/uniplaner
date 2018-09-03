@@ -8,7 +8,7 @@ var logger = require('morgan');
 var mongo = require('mongodb');
 var monk = require('monk');
 //var db = monk('localhost:27017/uniplaner');
-var db = monk('nodetest2/test'); // change when compiling an image for docker
+var db = monk('nodetest2/uniplaner'); // change when compiling an image for docker
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
