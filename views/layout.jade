@@ -43,29 +43,31 @@ html(lang='en')
     link(href='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.css' rel='stylesheet')
     script(src='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.js')
   body
-    // navbar
-    // see: https://www.w3schools.com/bootstrap4/bootstrap_navbar.asp
-    nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
-      // Brand
-      a.navbar-brand
-        img(src='/images/earth.jpg', alt='Logo WWU', style='width:90px;')
-      // Links
-      ul.navbar-nav
-        li.nav-item
-          a.nav-link(href='/') Home
-        // Dropdown
-        li.nav-item.dropdown
-          a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Data Management!
-          .dropdown-menu
-            a.a.dropdown-item(href='faculty') Add/edit a faculty!
-            a.dropdown-item(href='add_institute') Add an institute!
-            a.dropdown-item(href='edit_institute') Edit an institute!
-        li.nav-item.dropdown
-          a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Data Visualization!
-          .dropdown-menu
-            a.a.dropdown-item(href='facilities') Facilities!
-            a.a.dropdown-item(href='routing') Routing!
-    block content
+    div
+      #demo
+      // navbar
+      // see: https://www.w3schools.com/bootstrap4/bootstrap_navbar.asp
+      nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
+        // Brand
+        a.navbar-brand
+          img(src='/images/earth.jpg', alt='Logo WWU', style='width:90px;')
+        // Links
+        ul.navbar-nav
+          li.nav-item
+            a.nav-link(href='/') Home
+          // Dropdown
+          li.nav-item.dropdown
+            a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Data Management!
+            .dropdown-menu
+              a.a.dropdown-item(href='faculty') Add/edit a faculty!
+              a.dropdown-item(href='add_institute') Add an institute!
+              a.dropdown-item(href='edit_institute') Edit an institute!
+          li.nav-item.dropdown
+            a#navbardrop.nav-link.dropdown-toggle(href='#', data-toggle='dropdown') Data Visualization!
+            .dropdown-menu
+              a.a.dropdown-item(href='facilities') Facilities!
+              a.a.dropdown-item(href='routing') Routing!
+      block content
     // footer
     // see: https://bootsnipp.com/snippets/2eMK5
     footer.section.footer-classic.context-dark.bg-image.bg-dark(style='background: #2d3246;')

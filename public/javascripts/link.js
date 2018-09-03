@@ -103,7 +103,7 @@ $.ajax({
             },
               error: function(){
                 JL("mylogger").error("Faculty could not be loaded from the database!");
-                alert("No data of faculties was sent from the server!");
+                alert("Error: No connection to database!");
               }
             });
             } else {
@@ -112,7 +112,7 @@ $.ajax({
       },
       error: function(){
         JL("mylogger").error("Institute could not be loaded from the database!");
-        alert("No data of institutes was sent from the server!");
+        alert("Error: No connection to database!");
       }
 });
 }

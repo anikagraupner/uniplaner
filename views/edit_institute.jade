@@ -32,16 +32,19 @@ block content
           input#outputname.form-control(type='text', name='name', placeholder='name')
           br
           input#outputimg.form-control(type='url', name='img', placeholder='image/url')
-        br
-        button.btn.btn-outline-success.btn-sm(onclick='updateInstitute()') Update dataset!
-        | &nbsp;
-        | &nbsp;
-        button.btn.btn-outline-danger.btn-sm(onclick='deleteInstitute()') Delete dataset!
       .col-lg-6
         div
           p.
             Edit the geometry with the edit button or draw a complete new polygon in the map!
           // map space
           #map.map2
+    .row
+      .col-lg-12
+        div
+          .right
+            button.btn.btn-outline-success.btn-sm(onclick='updateInstitute()') Update dataset!
+            | &nbsp;
+            | &nbsp;
+            button.btn.btn-outline-danger.btn-sm(onclick='deleteInstitute()') Delete dataset!
   // connection to script
   script(src='/javascripts/institute.js')
