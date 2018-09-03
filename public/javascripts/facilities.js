@@ -134,7 +134,7 @@ $.ajax({
                     }, // error if no meal data was sent from openmensa
                       error: function(){
                         JL("mylogger").error("Canteen meals could not be loaded from openmensa!");
-                        alert("Data of the daily meals of the canteens could not be loaded!");
+                        alert("Error: Data of the daily meals of the canteens could not be loaded!");
                       }
             });
 
@@ -147,7 +147,7 @@ $.ajax({
         error: function(){
 
           JL("mylogger").error("Canteen data could not be loaded from openmensa!")
-          alert("No data of canteens found!");
+          alert("Error: No data of canteens found!");
 
         }
 });
@@ -181,6 +181,7 @@ $.ajax({
       // error by loading institute data
       error: function(){
         JL("mylogger").error("Institute data could not be loaded from the database!");
+        alert("Error: No connection to database!");
 
       }
 });
@@ -265,6 +266,7 @@ $('#institute').on('autocompleteselect', function (e, ui) {
             }, // error by loading faculty data from db
               error: function(){
                 JL("mylogger").error("Faculty data could not be loaded from the database!");
+                alert("Error: No connection to database!");
 
               }
         });
@@ -275,6 +277,7 @@ $('#institute').on('autocompleteselect', function (e, ui) {
       }, // error by loading institute data from db
         error: function(){
           JL("mylogger").error("Institute data could not be loaded from the database!");
+          alert("Error: No connection to database!");
 
         }
     });

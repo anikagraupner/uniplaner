@@ -80,6 +80,8 @@ $.ajax({
       // error by loading faculty data
       error: function(){
         JL("mylogger").error("Faculty data could not be loaded from the database!");
+        alert("Error: No connection to database!");
+      }
 
 });
 
@@ -125,6 +127,7 @@ $('#searchfaculty').on('autocompleteselect', function (e, ui) {
         // error by loading faculty data
         error: function(){
           JL("mylogger").error("Faculty data could not be loaded from the database!");
+          alert("Error: No connection to database!");
 
         }
     });

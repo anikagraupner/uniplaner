@@ -63,7 +63,7 @@ function insertRoute(){
     if(name == "" || name == undefined){
 
       JL("mylogger").error("Data was not sent to the database.");
-      alert("Please enter a name in the input field!");
+      alert("Error: Please enter a name in the input field!");
 
     // no startpoint
     } else if(start == "" || start == undefined){
@@ -148,7 +148,7 @@ $.ajax({
         // error by loading routes data
         error: function(){
           JL("mylogger").error("Route data could not be loaded from the database!");
-
+          alert("Error: No connection to database!");
         }
 });
 
@@ -182,7 +182,7 @@ $.ajax({
         // error by loading routes data
         error: function(){
           JL("mylogger").error("Route data could not be loaded from the database!");
-
+          alert("Error: No connection to database!");
         }
 });
 
@@ -215,7 +215,7 @@ $.ajax({
         // error by loading routes data
         error: function(){
           JL("mylogger").error("Route data could not be loaded from the database!");
-
+          alert("Error: No connection to database!");
         }
 });
 
@@ -308,7 +308,7 @@ $.ajax({
     // error by loading routes data
     error: function(){
       JL("mylogger").error("Route data could not be loaded from the database!");
-
+      alert("Error: No connection to database!");
     }
 });
 });
@@ -345,7 +345,7 @@ $.ajax({
       // error by loading institutes data
       error: function(){
         JL("mylogger").error("Institutes data could not be loaded from the database!");
-
+        alert("Error: No connection to database!");
       }
 });
 
@@ -379,7 +379,7 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
       error: function (data) {
         handleError(data);
         JL("mylogger").error("Canteen data could not be loaded from the openmensa!");
-        alert("Canteen data could not be loaded from the openmensa!");
+        alert("Error: Canteen data could not be loaded from the openmensa!");
       }
   });
 
@@ -447,7 +447,7 @@ $('#loadinstitute').on('autocompleteselect', function (e, ui) {
       // error by loading institutes data
       error: function(){
         JL("mylogger").error("Institutes data could not be loaded from the database!");
-        
+        alert("Error: No connection to database!");
       }
   });
 
@@ -518,7 +518,7 @@ function updateRoute(){
     if(name == "" || name == undefined){
 
       JL("mylogger").error("Data was not sent to the database.");
-      alert("Please enter a name in the input field!");
+      alert("Error: Please enter a name in the input field!");
 
     // no startpoint
     } else if(start == "" || start == undefined){

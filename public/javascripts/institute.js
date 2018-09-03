@@ -148,7 +148,7 @@ function insertInstText(){
   // content of the textfield must not be empty
   if (content == ""){
 
-    alert("Your input is empty");
+    alert("Error: Your input is empty");
     JL("mylogger").error("Data of the institute was not send to database.");
 
   } else {
@@ -164,31 +164,31 @@ function insertInstText(){
         if(typeof textJSON.features[0].properties.name== "undefined"){
 
           JL("mylogger").error("Data of the institute was not send to database.");
-          alert("Enter a property name or check the title of your name property!");
+          alert("Error: Enter a property name or check the title of your name property!");
 
           // name must not be null
         } else if(textJSON.features[0].properties.name== ""){
 
           JL("mylogger").error("Data of the institute was not send to database.");
-          alert("Enter a name for your institute!");
+          alert("Error: Enter a name for your institute!");
 
           // needs a img attribute
         } else if(typeof textJSON.features[0].properties.img== "undefined"){
 
           JL("mylogger").error("Data of the institute was not send to database.");
-          alert("Enter a property 'img' (for image url) for your Institute or check the title of your url property!");
+          alert("Error: Enter a property 'img' (for image url) for your Institute or check the title of your url property!");
 
           // img must not be null
         } else if(textJSON.features[0].properties.img== ""){
 
           JL("mylogger").error("Data of the institute was not send to database.");
-          alert("Enter a image url for your Institute!");
+          alert("Error: Enter a image url for your Institute!");
 
           // geometry type must be a Polygon
         } else if(textJSON.features[0].geometry.type !== "Polygon"){
 
           JL("mylogger").error("Data of the institute was not send to database.");
-          alert("Your geometry type is wrong. Change it to Polygon!");
+          alert("Error: Your geometry type is wrong. Change it to Polygon!");
 
           // if everything is correct, data is send to database
         } else{
@@ -215,7 +215,7 @@ function insertInstText(){
       } catch (e) {
 
         JL("mylogger").error("Data of the institute was not send to database.");
-        alert("Your entry is not JSON conform! Check your syntax and (geometry)types!");
+        alert("Error: Your entry is not JSON conform! Check your syntax and (geometry)types!");
       }
   }
 }
@@ -231,7 +231,7 @@ function insertInstURL(){
   if(document.getElementById("inputURL").value == ""){
 
     JL("mylogger").error("Data of the institute was not send to database.");
-    alert("Please enter a URL!");
+    alert("Error: Please enter a URL!");
 
   } else{
     // jquery ajax function to load the content of the url
@@ -250,7 +250,7 @@ function insertInstURL(){
         if (content == ""){
 
           JL("mylogger").error("Data of the institute was not send to database.");
-          alert("Your input is empty!");
+          alert("Error: Your input is empty!");
 
         } else {
 
@@ -264,31 +264,31 @@ function insertInstURL(){
               if(typeof textJSON.features[0].properties.name== "undefined"){
 
                 JL("mylogger").error("Data of the institute was not send to database.");
-                alert("Enter a property name or check the title of your name property!");
+                alert("Error: Enter a property name or check the title of your name property!");
 
                 // name must not be null
               } else if(textJSON.features[0].properties.name== ""){
 
                 JL("mylogger").error("Data of the institute was not send to database.");
-                alert("Enter a name for your institute!");
+                alert("Error: Enter a name for your institute!");
 
                 // needs a img attribute
               } else if(typeof textJSON.features[0].properties.img== "undefined"){
 
                 JL("mylogger").error("Data of the institute was not send to database.");
-                alert("Enter a property 'img' (for image url) for your Institute or check the title of your url property!");
+                alert("Error: Enter a property 'img' (for image url) for your Institute or check the title of your url property!");
 
                 // img must not be null
               } else if(textJSON.features[0].properties.img== ""){
 
                 JL("mylogger").error("Data of the institute was not send to database.");
-                alert("Enter a image url for your Institute!");
+                alert("Error: Enter a image url for your Institute!");
 
                 // geometry type must be a Polygon
               } else if(textJSON.features[0].geometry.type !== "Polygon"){
 
                 JL("mylogger").error("Data of the institute was not send to database.");
-                alert("Your geometry type is wrong. Change it to Polygon!");
+                alert("Error: Your geometry type is wrong. Change it to Polygon!");
 
                 // if everything is correct, data is send to database
               } else{
@@ -315,7 +315,7 @@ function insertInstURL(){
             } catch (e) {
 
               JL("mylogger").error("Data of the institute was not send to database.");
-              alert("Your entry is not JSON conform! Check your syntax and (geometry)types!");
+              alert("Error: Your entry is not JSON conform! Check your syntax and (geometry)types!");
             }
         }
       },
@@ -359,7 +359,7 @@ $.ajax({
       // error by loading institute data
       error: function(){
         JL("mylogger").error("Institute data could not be loaded from the database!");
-
+        alert("Error: No connection to database!");
       }
 });
 
@@ -412,7 +412,7 @@ $('#searchinstitute').on('autocompleteselect', function (e, ui) {
         // error by loading institute data
         error: function(){
           JL("mylogger").error("Institute data could not be loaded from the database!");
-
+          alert("Error: No connection to database!");
         }
     });
 });
@@ -467,7 +467,7 @@ function updateInstitute(){
       var data = JSON.stringify(object);
       console.log(data);
       JL("mylogger").info("Data was sent to database.");
-      alert("New institute was sucessfully saved!");
+      alert("Changed institute was sucessfully saved!");
 
       // dataType and contentType important for right sending of the json
       $.ajax({
