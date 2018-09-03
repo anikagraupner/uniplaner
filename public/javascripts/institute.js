@@ -130,9 +130,9 @@ function insertInstMap(){
           contentType: 'application/json',
           url: "./insertInstitute",
         });
+        // setTimeout, because direct reloading causes the new institute to not yet be displayed in the search field
+        setTimeout(function(){ location.reload(true); }, 1000);
       }
-      // setTimeout, because direct reloading causes the new institute to not yet be displayed in the search field
-      setTimeout(function(){ location.reload(true); }, 1000);
   }
 
 
